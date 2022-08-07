@@ -6,11 +6,11 @@ import reportWebVitals from './reportWebVitals';
 import { FileContextProvider } from './contexts/fileContext';
 
 ReactDOM.render(
-	<React.StrictMode>
+	<React.Fragment>
 		<FileContextProvider>
 			<App />
 		</FileContextProvider>
-	</React.StrictMode>,
+	</React.Fragment>,
 	document.getElementById('root')
 );
 
