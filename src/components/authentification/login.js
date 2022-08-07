@@ -12,6 +12,7 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useHistory } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -29,6 +30,13 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignInSide() {
+
+  const history = useHistory();
+  const routeChange = () =>{ 
+    let path = `/home`; 
+    history.push(path);
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -102,6 +110,7 @@ export default function SignInSide() {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                onClick={routeChange}
               >
                 Sign In
               </Button>

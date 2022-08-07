@@ -12,7 +12,8 @@ const App = () => {
 		<Router>
 			<Navbar />
 			<Switch>
-				<Route path='/' component={PersistentDrawerLeft} exact />
+				<Route path='/' component={SignInSide} exact />
+				<Route path='/home' component={PersistentDrawerLeft} exact />
 				<Route path='/edit' component={EditPage} exact />
 			</Switch>
 			{/* <Footer /> */}
