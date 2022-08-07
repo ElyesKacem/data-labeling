@@ -11,7 +11,7 @@
     position: relative;
     bottom: -10px;
   }
-  .errmsg {
+  .errMsg {
     background-color: lightpink;
     color: firebrick;
     font-weight: bold;
