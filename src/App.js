@@ -14,7 +14,8 @@ const App = () => {
 			<Switch>
 				<Route path='/' component={SignInSide} exact />
 				<Route path='/home' component={PersistentDrawerLeft} exact />
-				<Route path='/edit' component={EditPage} exact />
+				<Route path='/edit' component={HomePage} exact />
+				<Route path='/register' component={Sign} exact />
 			</Switch>
 			{/* <Footer /> */}
 		</Router>
