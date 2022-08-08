@@ -29,6 +29,11 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import HorizontalLinearStepper from '../Stepper/Stepper';
+import { Navigate, Outlet } from 'react-router-dom';
+import { createContext, useState } from 'react';
+import ProjectsList from '../ProjectsList';
+
+
 
 
 const drawerWidth = 240;
@@ -101,7 +106,6 @@ export default function PersistentDrawerLeft() {
   const handleClose = () => {
     setOpenP(false);
   };
-
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -179,51 +183,45 @@ export default function PersistentDrawerLeft() {
         </DrawerHeader>
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
+          <ListItem disablePadding href='/'>
+            <ListItemButton>
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary={"organization"} />
+            </ListItemButton>
+          </ListItem><ListItem disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Projects"} />
+            </ListItemButton>
+          </ListItem>
         </List>
         <Divider />
         <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary={"settings"} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Logout"} />
+            </ListItemButton>
+          </ListItem>
         </List>
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
-        <Container>
-          <Grid container spacing={3}>
-
-            <Grid item xs={3}>
-              <MediaCard />
-            </Grid>
-            <Grid item xs={3}>
-              <MediaCard />
-            </Grid>
-            <Grid item xs={3}>
-              <MediaCard />
-            </Grid>
-            <Grid item xs={3}>
-              <MediaCard />
-            </Grid>
-
-          </Grid>
-        </Container>
+        <Outlet />
       </Main>
     </Box>
   );
