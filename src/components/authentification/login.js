@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useRef, useState, useEffect } from "react";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,7 +13,10 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useHistory } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import useAuth from '../../hooks/useAuth';
+import axios from '../../api/axios';
+import '../../pages/signUp.css';
 
 function Copyright(props) {
   return (
@@ -28,22 +32,62 @@ function Copyright(props) {
 }
 
 const theme = createTheme();
+const LOGIN_URL = "/auth"
 
-export default function SignInSide() {
+const SignInSide = () => {
+  const { setAuth } = useAuth();
 
-  const history = useHistory();
-  const routeChange = () =>{ 
-    let path = `/home`; 
-    history.push(path);
-  }
+  const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location);
+  const from = location.state?.from?.pathname || "/";
 
-  const handleSubmit = (event) => {
+  const userRef = useRef();
+  const errRef = useRef();
+
+  const [user, setUser] = useState('');
+  const [pwd, setPwd] = useState('');
+  const [errMsg, setErrMsg] = useState('');
+  const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    //userRef.current.focus();
+  }, [])
+
+  useEffect(() => {
+    setErrMsg('');
+  }, [user, pwd])
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+
+    try {
+      const response = await axios.post(LOGIN_URL,
+        JSON.stringify({ user, pwd }),
+        {
+          headers: { "content-type": "application/json" },
+          withCrendentials: true
+        }
+      );
+      console.log(JSON.stringify(response?.data));
+      const accessToken = response?.data?.accessToken;
+      const admin = response?.data?.admin;
+      setAuth({ user, pwd, admin, accessToken })
+      setUser('');
+      setPwd('');
+      navigate(from);
+    } catch (error) {
+      if (!error?.response) {
+        setErrMsg('No Server Response');
+      } else if (error.response?.status === 400) {
+        setErrMsg('Missing Username or Password');
+      } else if (error.response?.status === 401) {
+        setErrMsg('Unauthorized');
+      } else {
+        setErrMsg('Login Failed');
+      }
+      errRef.current.focus();
+    }
   };
 
   return (
@@ -81,15 +125,17 @@ export default function SignInSide() {
               Sign in
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+              <p ref={errRef} className={errMsg ? "errMsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
               <TextField
                 margin="normal"
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
+                id="username"
+                label="Username"
+                name="username"
+                autoComplete='off'
+                onChange={(e) => setUser(e.target.value)}
+                value={user}
               />
               <TextField
                 margin="normal"
@@ -99,7 +145,8 @@ export default function SignInSide() {
                 label="Password"
                 type="password"
                 id="password"
-                autoComplete="current-password"
+                onChange={(e) => setPwd(e.target.value)}
+                value={pwd}
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
@@ -110,7 +157,7 @@ export default function SignInSide() {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
-                onClick={routeChange}
+              /*onClick={routeChange}*/
               >
                 Sign In
               </Button>
@@ -134,3 +181,4 @@ export default function SignInSide() {
     </ThemeProvider>
   );
 }
+export default SignInSide;

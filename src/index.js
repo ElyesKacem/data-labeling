@@ -4,12 +4,25 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { FileContextProvider } from './contexts/fileContext';
+import { AuthProvider } from "./contexts/AuthProvider";
+import HomePage from './pages/HomePage';
+import EditPage from './pages/EditPage';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import SignInSide from './components/authentification/login';
+import PersistentDrawerLeft from './components/Drawer/Drawer';
+import SignUp from './pages/SignUp';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 ReactDOM.render(
 	<React.Fragment>
-		<FileContextProvider>
-			<App />
-		</FileContextProvider>
+		<BrowserRouter>
+			<AuthProvider>
+				<Routes>
+					<Route path='/*' element={<App />} />
+				</Routes>
+			</AuthProvider>
+		</BrowserRouter>
 	</React.Fragment>,
 	document.getElementById('root')
 );

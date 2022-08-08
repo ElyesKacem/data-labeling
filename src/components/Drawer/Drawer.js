@@ -91,7 +91,7 @@ export default function PersistentDrawerLeft() {
   };
 
   const [openP, setOpenP] = React.useState(false);
-  
+
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   const handleClickOpen = () => {
@@ -106,55 +106,49 @@ export default function PersistentDrawerLeft() {
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
-        <Toolbar style={{display:'flex',justifyContent: 'space-between'}}>
-          <span style={{display:'flex',alignItems:'center'}}>
+        <Toolbar style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <span style={{ display: 'flex', alignItems: 'center' }}>
 
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ mr: 2, ...(open && { display: 'none' }) }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Labeling project
-          </Typography> 
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{ mr: 2, ...(open && { display: 'none' }) }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" noWrap component="div">
+              Labeling project
+            </Typography>
 
           </span>
 
-          
-
-
-
-
-          <Button onClick={handleClickOpen} style={{textTransform:'none',backgroundColor:'#38a728'}} variant="contained"  startIcon={<AddOutlinedIcon />}>
-  Create new project
-</Button>
-
+          <Button onClick={handleClickOpen} style={{ textTransform: 'none', backgroundColor: '#38a728' }} variant="contained" startIcon={<AddOutlinedIcon />}>
+            Create new project
+          </Button>
 
           {/* <Button variant="outlined" onClick={handleClickOpen}>
         Open responsive dialog
       </Button> */}
-      <Dialog
-        fullScreen={fullScreen}
-        open={openP}
-        onClose={handleClose}
-        aria-labelledby="responsive-dialog-title"
-        
-      >
-        <DialogTitle id="responsive-dialog-title">
-          {"Create a new project"}
-        </DialogTitle>
-        <DialogContent >
-          {/* <DialogContentText>
+          <Dialog
+            fullScreen={fullScreen}
+            open={openP}
+            onClose={handleClose}
+            aria-labelledby="responsive-dialog-title"
+
+          >
+            <DialogTitle id="responsive-dialog-title">
+              {"Create a new project"}
+            </DialogTitle>
+            <DialogContent >
+              {/* <DialogContentText>
             Let Google help apps determine location. This means sending anonymous
             location data to Google, even when no apps are running.
           </DialogContentText> */}
-        <HorizontalLinearStepper />
-        </DialogContent>
-        {/* <DialogActions>
+              <HorizontalLinearStepper />
+            </DialogContent>
+            {/* <DialogActions>
           <Button autoFocus onClick={handleClose}>
             Disagree
           </Button>
@@ -162,17 +156,7 @@ export default function PersistentDrawerLeft() {
             Agree
           </Button>
         </DialogActions> */}
-
-
-
-        
-      </Dialog>
-
-
-          
-         
-
-
+          </Dialog>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -223,22 +207,22 @@ export default function PersistentDrawerLeft() {
       <Main open={open}>
         <DrawerHeader />
         <Container>
-<Grid container spacing={3}>
+          <Grid container spacing={3}>
 
-  <Grid item xs={3}>
-  <MediaCard />
-  </Grid>
-  <Grid item xs={3}>
-  <MediaCard />
-  </Grid>
-  <Grid item xs={3}>
-  <MediaCard />
-  </Grid>
-  <Grid item xs={3}>
-  <MediaCard />
-  </Grid>
+            <Grid item xs={3}>
+              <MediaCard />
+            </Grid>
+            <Grid item xs={3}>
+              <MediaCard />
+            </Grid>
+            <Grid item xs={3}>
+              <MediaCard />
+            </Grid>
+            <Grid item xs={3}>
+              <MediaCard />
+            </Grid>
 
-</Grid>
+          </Grid>
         </Container>
       </Main>
     </Box>

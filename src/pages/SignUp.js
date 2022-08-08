@@ -58,7 +58,7 @@ const SignUp = () => {
     const [success, setSuccess] = useState(false);
 
     useEffect(() => {
-        userRef.current.focus();
+        userRef.current.focus()
     }, []);
 
     useEffect(() => {
@@ -94,7 +94,7 @@ const SignUp = () => {
             /*the stringify object is like that because the key in the backend and the variable in the front end have the same name {user: user, pwd: pwd}*/
             const response = await axios.post(
                 REGISTER_URL,
-                JSON.stringify({user,pwd}),
+                JSON.stringify({user,admin:true,pwd}),
                 {
                     headers:{'content-type': 'application/json'},
                     withCredentials: true
@@ -169,7 +169,6 @@ const SignUp = () => {
                                             fullWidth
                                             id="firstName"
                                             label="First Name"
-                                            autoFocus
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
@@ -185,7 +184,7 @@ const SignUp = () => {
                                     <Grid item xs={12}>
                                         <p ref={errRef} className={errMsg ? "errMsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                                         <TextField
-                                            ref={userRef}
+                                            ref={ userRef }
                                             required
                                             fullWidth
                                             id="username"
