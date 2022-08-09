@@ -29,9 +29,15 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import HorizontalLinearStepper from '../Stepper/Stepper';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useNavigate } from 'react-router-dom';
 import { createContext, useState } from 'react';
 import ProjectsList from '../ProjectsList';
+import FolderIcon from '@mui/icons-material/Folder';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import SettingsIcon from '@mui/icons-material/Settings';
+import LogoutIcon from '@mui/icons-material/Logout';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import Notification from '../Notification/Notification';
 
 
 
@@ -106,6 +112,38 @@ export default function PersistentDrawerLeft() {
   const handleClose = () => {
     setOpenP(false);
   };
+
+  const navigate = useNavigate();
+  const handleNavigate = (path) => {
+    handleDrawerClose();
+    navigate(path);
+
+  }
+
+  const menuItems = [
+    {
+      title: 'Projects',
+      icon: <FolderIcon />,
+      path: '/projects'
+    },
+    {
+      title: 'Organization',
+      icon: <AccountCircleIcon />,
+      path: '/Organization'
+    },
+    {
+      title: 'Setting',
+      icon: <SettingsIcon />,
+      path: '/setting'
+    },
+    {
+      title: 'Logout',
+      icon: <LogoutIcon />,
+      path: '/login'
+    }
+
+  ]
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -128,9 +166,9 @@ export default function PersistentDrawerLeft() {
 
           </span>
 
-          <Button onClick={handleClickOpen} style={{ textTransform: 'none', backgroundColor: '#38a728' }} variant="contained" startIcon={<AddOutlinedIcon />}>
-            Create new project
-          </Button>
+          
+          <NotificationsIcon />
+          {/* <Notification icon={} /> */}
 
           {/* <Button variant="outlined" onClick={handleClickOpen}>
         Open responsive dialog
@@ -177,18 +215,30 @@ export default function PersistentDrawerLeft() {
         open={open}
       >
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton onClick={handleDrawerClose}> UserName
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </DrawerHeader>
         <Divider />
         <List>
-          <ListItem disablePadding href='/'>
+
+          {menuItems.map((item) => (
+            <ListItem disablePadding button onClick={()=>handleNavigate(item.path)} >
+              <ListItemButton>
+                <ListItemIcon>
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText primary={item.title} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+
+          {/* <ListItem disablePadding button onClick={handleNavigate} >
             <ListItemButton>
               <ListItemIcon>
                 <InboxIcon />
               </ListItemIcon>
-              <ListItemText primary={"organization"} />
+              <ListItemText primary={"Organization"} />
             </ListItemButton>
           </ListItem><ListItem disablePadding>
             <ListItemButton>
@@ -197,10 +247,10 @@ export default function PersistentDrawerLeft() {
               </ListItemIcon>
               <ListItemText primary={"Projects"} />
             </ListItemButton>
-          </ListItem>
+          </ListItem> */}
         </List>
         <Divider />
-        <List>
+        {/* <List>
           <ListItem disablePadding>
             <ListItemButton>
               <ListItemIcon>
@@ -217,7 +267,7 @@ export default function PersistentDrawerLeft() {
               <ListItemText primary={"Logout"} />
             </ListItemButton>
           </ListItem>
-        </List>
+        </List> */}
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
