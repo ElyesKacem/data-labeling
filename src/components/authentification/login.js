@@ -39,7 +39,6 @@ const SignInSide = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location);
   const from = location.state?.from?.pathname || "/";
 
   const userRef = useRef();
@@ -60,7 +59,7 @@ const SignInSide = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    axios.defaults.withCredentials = true;
     try {
       const response = await axios.post(LOGIN_URL,
         JSON.stringify({ user, pwd }),
@@ -69,7 +68,7 @@ const SignInSide = () => {
           withCrendentials: true
         }
       );
-      console.log(JSON.stringify(response?.data));
+      console.log('login response' ,JSON.stringify(response?.data));
       const accessToken = response?.data?.accessToken;
       const admin = response?.data?.admin;
       setAuth({ user, pwd, admin, accessToken })

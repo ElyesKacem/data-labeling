@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container, Grid } from '@mui/material';
 import AddButton from '../components/AddButton/AddButton';
-import DataTable from '../components/DataTable/DataTable';
+import DataTable from '../components/organization/UsersList';
 const Organization = () => {
   return (
     <Container>

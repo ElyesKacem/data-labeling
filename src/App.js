@@ -14,25 +14,20 @@ const App = () => {
 	return (
 		<Routes>
 			<Route path="/" element={<Layout />}>
-			
+
 				{/* public routes */}
 				<Route path="login" element={<SignInSide />} />
 				<Route path="register" element={<SignUp />} />
-				
+				{/* <Route path='/home' element={<PersistentDrawerLeft />} /> */}
 
+				{/* protected routes */}
+				<Route element={<RequireAuth />}>
 					<Route path='/' element={<PersistentDrawerLeft />} >
-						
 						<Route path="/projects" element={<ProjectsList />} />
 						<Route path="/Organization" element={<Organization />} />
 						<Route path="/Setting" element={<Setting />} />
 						<Route path="/Logout" element={<Logout />} />
-						
-
 					</Route>
-					{/* <Route path='/home' element={<PersistentDrawerLeft />} /> */}
-
-				{/* protected routes */}
-				<Route element={<RequireAuth />}>
 				</Route>
 			</Route>
 		</Routes>
