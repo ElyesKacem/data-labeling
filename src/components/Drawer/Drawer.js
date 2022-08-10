@@ -38,6 +38,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Notification from '../Notification/Notification';
+import useLogout from '../../hooks/useLogout';
 
 
 
@@ -90,6 +91,11 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function PersistentDrawerLeft() {
+  const logout = useLogout();
+  const logOut = async () => {
+    await logout();
+  }
+
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -117,7 +123,6 @@ export default function PersistentDrawerLeft() {
   const handleNavigate = (path) => {
     handleDrawerClose();
     navigate(path);
-
   }
 
   const menuItems = [
@@ -132,16 +137,10 @@ export default function PersistentDrawerLeft() {
       path: '/Organization'
     },
     {
-      title: 'Setting',
+      title: 'Settings',
       icon: <SettingsIcon />,
-      path: '/setting'
-    },
-    {
-      title: 'Logout',
-      icon: <LogoutIcon />,
-      path: '/login'
+      path: '/settings'
     }
-
   ]
 
   return (
@@ -166,7 +165,7 @@ export default function PersistentDrawerLeft() {
 
           </span>
 
-          
+
           <NotificationsIcon />
           {/* <Notification icon={} /> */}
 
@@ -223,7 +222,7 @@ export default function PersistentDrawerLeft() {
         <List>
 
           {menuItems.map((item) => (
-            <ListItem disablePadding button onClick={()=>handleNavigate(item.path)} >
+            <ListItem disablePadding button onClick={() => handleNavigate(item.path)} >
               <ListItemButton>
                 <ListItemIcon>
                   {item.icon}
@@ -232,7 +231,14 @@ export default function PersistentDrawerLeft() {
               </ListItemButton>
             </ListItem>
           ))}
-
+          <ListItem disablePadding button onClick={logOut} >
+            <ListItemButton>
+              <ListItemIcon>
+                <LogoutIcon />
+              </ListItemIcon>
+              <ListItemText primary="Logout" />
+            </ListItemButton>
+          </ListItem>
           {/* <ListItem disablePadding button onClick={handleNavigate} >
             <ListItemButton>
               <ListItemIcon>

@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import axios from '../../api/axios';
-import useRefreshToken from '../../hooks/useRefreshToken';
-import { Button } from '@mui/material';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
+import { useNavigate, useLocation } from 'react-router-dom';
+
 
 const columns = [
   { field: 'firstName', headerName: 'First name', width: 130 },
@@ -14,20 +14,23 @@ const USERS_URL = "/users"
 const UsersList = () => {
 
   const [users, setUsers] = React.useState();
-  const refresh = useRefreshToken();
+  const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
     const getUsers = async () => {
       try {
-        const response = await axios.get(USERS_URL, {
+        const response = await axiosPrivate.get(USERS_URL, {
           signal: controller.signal
         });
-        console.log(response.data);
+        console.log('get all users response', response.data);
         isMounted && setUsers(response.data);
       } catch (error) {
         console.error(error);
+        navigate('/login', { state: { from: location }, replace: true })
       }
     }
     getUsers();
@@ -48,12 +51,9 @@ const UsersList = () => {
             pageSize={5}
             rowsPerPageOptions={[5]}
           />
-          ):
-          (<><p>no users exists</p>
-          <Button onClick={()=>refresh()}>refresh</Button></>
-          
-          )
-    }
+        ) :
+        <p>no users exists</p>
+      }
     </div>
   );
 }

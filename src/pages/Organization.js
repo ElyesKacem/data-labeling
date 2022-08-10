@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container, Grid } from '@mui/material';
 import AddButton from '../components/AddButton/AddButton';
-import DataTable from '../components/organization/UsersList';
+import UsersList from '../components/organization/UsersList';
 const Organization = () => {
   return (
     <Container>
@@ -9,7 +9,7 @@ const Organization = () => {
         <AddButton  />
         <br />
         <br />
-        <DataTable />
+        <UsersList />
     </Container>
   )
 }

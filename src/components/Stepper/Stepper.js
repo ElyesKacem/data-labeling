@@ -12,12 +12,32 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { TextField } from '@mui/material';
+import FileUpload from "react-mui-fileuploader"
+import UploadAudio from '../UploadAudio';
+import { axiosPrivate } from '../../api/axios';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
-const steps = ['Description', 'Category', 'Roles'];
+const steps = ['Description', 'upload files', 'labels'];
+const UPLOAD_URL = '/upload';
 
 export default function HorizontalLinearStepper() {
+
+  const axiosPrivate = useAxiosPrivate();
+
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
+
+  const handleFilesChange = async (files) => {
+    console.log(files);
+    const response = await axiosPrivate.post(
+      UPLOAD_URL,
+      JSON.stringify(files),
+      {
+        headers: { 'content-type': 'application/json' },
+        withCredentials: true
+      });
+
+  }
 
   const isStepOptional = (step) => {
     return step === 1;
@@ -67,11 +87,11 @@ export default function HorizontalLinearStepper() {
         {steps.map((label, index) => {
           const stepProps = {};
           const labelProps = {};
-        //   if (isStepOptional(index)) {
-        //     labelProps.optional = (
-        //       <Typography variant="caption">Optional</Typography>
-        //     );
-        //   }
+          //   if (isStepOptional(index)) {
+          //     labelProps.optional = (
+          //       <Typography variant="caption">Optional</Typography>
+          //     );
+          //   }
           if (isStepSkipped(index)) {
             stepProps.completed = false;
           }
@@ -85,65 +105,70 @@ export default function HorizontalLinearStepper() {
 
       {activeStep === 2 && ( // here we must execute the creation of the project
         <React.Fragment>
-         <Typography sx={{ mt: 2, mb: 1 }}>Step Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat repellat assumenda possimus saepe laborum nam temporibus ad quia ex beatae aspernatur non quidem eveniet, distinctio expedita explicabo nisi iusto porro.
-           {activeStep + 1}</Typography>
-          
+          <Typography sx={{ mt: 2, mb: 1 }}>Step Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat repellat assumenda possimus saepe laborum nam temporibus ad quia ex beatae aspernatur non quidem eveniet, distinctio expedita explicabo nisi iusto porro.
+            {activeStep + 1}</Typography>
+
           <SearchBar />
 
 
         </React.Fragment>
       )}
-      
-       {activeStep === 1 && (
-        <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>Step Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat repellat assumenda possimus saepe laborum nam temporibus ad quia ex beatae aspernatur non quidem eveniet, distinctio expedita explicabo nisi iusto porro.
-           {activeStep + 1}</Typography>
-          
-        </React.Fragment>
+
+
+      {activeStep === 1 && (
+        <FormControl>
+          <FileUpload
+
+            multiFile={true}
+            disabled={false}
+            title={null}
+            header="[Drag to drop]"
+            leftLabel="or"
+            rightLabel="to select files"
+            buttonLabel="click here"
+            buttonRemoveLabel="Remove all"
+            maxFileSize={10}
+            maxUploadFiles={0}
+            maxFilesContainerHeight={357}
+            errorSizeMessage={'fill it or move it to use the default error message'}
+            allowedExtensions={['jpg', 'jpeg', 'png']}
+            onFilesChange={handleFilesChange}
+            //onError={handleFileUploadError}
+            imageSrc={'path/to/custom/image'}
+            bannerProps={{ elevation: 0, variant: "outlined" }}
+            containerProps={{ elevation: 0, variant: "outlined" }}
+          />
+          {/* <UploadAudio /> */}
+        </FormControl>
       )}
 
-{activeStep === 1 && (
-  <FormControl>
-  <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>
-  <RadioGroup
-    aria-labelledby="demo-radio-buttons-group-label"
-    defaultValue="female"
-    name="radio-buttons-group"
-  >
-    <FormControlLabel value="female" control={<Radio />} label="Female" />
-    <FormControlLabel value="male" control={<Radio />} label="Male" />
-    <FormControlLabel value="other" control={<Radio />} label="Other" />
-  </RadioGroup>
-</FormControl>
-)}
-
-{activeStep === 0 && (
-  <FormControl>
-    <Typography sx={{ mt: 2, mb: 1 }}>Step Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat repellat assumenda possimus saepe laborum nam temporibus ad quia ex beatae aspernatur non quidem eveniet, distinctio expedita explicabo nisi iusto porro.
-           {activeStep + 1}</Typography>
-    <TextField fullWidth label="Title" id="fullWidth" />
-</FormControl>
-)}
+      {activeStep === 0 && (
+        <FormControl>
+          <Typography sx={{ mt: 2, mb: 1 }}>Step Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat repellat assumenda possimus saepe laborum nam temporibus ad quia ex beatae aspernatur non quidem eveniet, distinctio expedita explicabo nisi iusto porro.
+            {activeStep + 1}</Typography>
+          <TextField fullWidth label="Title" id="fullWidth" />
+        </FormControl>
+      )}
       <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Button
-              color="inherit"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1 }}
-            >
-              Back
-            </Button>
-            <Box sx={{ flex: '1 1 auto' }} />
-            {/* {isStepOptional(activeStep) && (
+        <Button
+          color="inherit"
+          disabled={activeStep === 0}
+          onClick={handleBack}
+          sx={{ mr: 1 }}
+        >
+          Back
+        </Button>
+        <Box sx={{ flex: '1 1 auto' }} />
+        {/* {isStepOptional(activeStep) && (
               <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
                 Skip
               </Button>
             )} */}
 
-            <Button onClick={handleNext}>
-              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-            </Button>
-          </Box>
+        <Button onClick={handleNext}>
+          {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+        </Button>
+      </Box>
     </Box>
   );
 }

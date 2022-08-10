@@ -65,7 +65,7 @@ const SignInSide = () => {
         JSON.stringify({ user, pwd }),
         {
           headers: { "content-type": "application/json" },
-          withCrendentials: true
+          withCrendentials: true,
         }
       );
       console.log('login response' ,JSON.stringify(response?.data));

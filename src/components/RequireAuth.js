@@ -3,12 +3,14 @@ import useAuth from "../hooks/useAuth";
 
 const RequireAuth = ({ admin, allowedRoles }) => {
     const { auth } = useAuth();
-    console.log("requireAuth ",auth);
+    console.log("requireAuth ", auth);
     const location = useLocation();
     return (
-        auth?.admin === true 
+        auth?.admin === true
             ? <Outlet />
-            : <Navigate to="/login" state={{ from: location }} replace />
+            : auth?.accessToken
+                ? <Outlet />
+                : <Navigate to="/login" state={{ from: location }} replace />
     );
 }
 

@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const Setting = () => {
+export const Settings = () => {
   return (
     <div>Setting</div>
   )
