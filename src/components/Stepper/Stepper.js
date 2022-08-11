@@ -36,7 +36,7 @@ export default function HorizontalLinearStepper() {
         headers: { 'content-type': 'application/json' },
         withCredentials: true
       });
-
+      console.log(response);
   }
 
   const isStepOptional = (step) => {

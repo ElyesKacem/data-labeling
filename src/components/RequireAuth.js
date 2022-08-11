@@ -7,10 +7,10 @@ const RequireAuth = ({ admin, allowedRoles }) => {
     const location = useLocation();
     return (
         auth?.admin === true
-            ? <Outlet />
-            : auth?.accessToken
+            ? auth?.accessToken
                 ? <Outlet />
                 : <Navigate to="/login" state={{ from: location }} replace />
+            : <Navigate to="/login" state={{ from: location }} replace />
     );
 }
 
