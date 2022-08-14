@@ -169,7 +169,7 @@ export default function SearchBar() {
     focused,
     setAnchorEl,
   } = useAutocomplete({
-    id: 'customized-hook-demo',
+    id: 'collabs',
     defaultValue: [top100Films[1]],
     multiple: true,
     options: top100Films,
@@ -179,7 +179,7 @@ export default function SearchBar() {
   return (
     <Root>
       <div {...getRootProps()}>
-        <Label {...getInputLabelProps()}>Customized hook</Label>
+        <Label {...getInputLabelProps()}>Collabs</Label>
         <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
           {value.map((option, index) => (
             <StyledTag label={option.title} {...getTagProps({ index })} />

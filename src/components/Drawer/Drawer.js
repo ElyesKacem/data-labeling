@@ -39,6 +39,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Notification from '../Notification/Notification';
 import useLogout from '../../hooks/useLogout';
+import WorkIcon from '@mui/icons-material/Work';
 
 
 
@@ -137,6 +138,11 @@ export default function PersistentDrawerLeft() {
       path: '/Organization'
     },
     {
+      title: 'Accounts',
+      icon: <WorkIcon />,
+      path: '/Accounts'
+    },
+    {
       title: 'Settings',
       icon: <SettingsIcon />,
       path: '/settings'
@@ -222,7 +228,7 @@ export default function PersistentDrawerLeft() {
         <List>
 
           {menuItems.map((item) => (
-            <ListItem disablePadding button onClick={() => handleNavigate(item.path)} >
+            <ListItem disablePadding key={item.title} button onClick={() => handleNavigate(item.path)} >
               <ListItemButton>
                 <ListItemIcon>
                   {item.icon}
