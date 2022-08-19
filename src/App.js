@@ -21,7 +21,12 @@ const App = () => {
 				{/* public routes */}
 				<Route element={<Navbar />}>
 					<Route path="login" element={<SignInSide />} />
-					{/* <Route path="register" element={<SignUp />} /> */}
+					<Route path="register" element={<SignUp />} />
+				</Route>
+
+				{/* protected routes */}
+				<Route element={<PersistantAuth />}>
+					<Route element={<RequireAuth />}>
 						<Route path='/' element={<PersistentDrawerLeft />} >
 							<Route path="/projects" element={<ProjectsList />} />
 							<Route path="/Organization" element={<Organization />} />
@@ -29,13 +34,6 @@ const App = () => {
 							<Route path="/Settings" element={<Settings />} />
 							<Route path="/Logout" element={<Logout />} />
 						</Route>
-				</Route>
-
-				{/* <Route path='/home' element={<PersistentDrawerLeft />} /> */}
-
-				{/* protected routes */}
-				<Route element={<PersistantAuth />}>
-					<Route element={<RequireAuth />}>
 					</Route>
 				</Route>
 			</Route>
