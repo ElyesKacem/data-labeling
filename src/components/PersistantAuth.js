@@ -7,6 +7,7 @@ const PersistantAuth = () => {
     const [isLoading, setIsLoding] = useState(true);
     const refresh = useRefreshToken();
     const { auth } = useAuth();
+    console.log("auth in PersistantAuth ",auth);
 
     useEffect(() => {
         const verifyRefreshToken = async () => {

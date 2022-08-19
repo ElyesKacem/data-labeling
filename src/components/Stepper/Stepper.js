@@ -28,10 +28,11 @@ export default function HorizontalLinearStepper() {
   const [skipped, setSkipped] = React.useState(new Set());
 
   const handleFilesChange = async (files) => {
-    console.log(files);
+    console.log("files:",files);
+    console.log("json files:",JSON.stringify(files[0]?.name));
     const response = await axiosPrivate.post(
       UPLOAD_URL,
-      JSON.stringify(files),
+      JSON.stringify({name: files[0]?.name}),
       {
         headers: { 'content-type': 'application/json' },
         withCredentials: true
