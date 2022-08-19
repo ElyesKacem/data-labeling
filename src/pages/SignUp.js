@@ -21,6 +21,7 @@ import axios from '../api/axios';
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+// const SIMPLECHAR_REGEX = /^[a-zA-Z])$/;
 const REGISTER_URL = "/register";
 
 const theme = createTheme();
@@ -29,8 +30,8 @@ function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
+            <Link color="inherit" href="https://www.icompass.tn/">
+                iCompass
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -43,6 +44,9 @@ const SignUp = () => {
     const errRef = useRef();
 
     const [user, setUser] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    
     const [validName, setValidName] = useState(false);
     const [userFocus, setUserFocus] = useState(false);
 
@@ -94,7 +98,7 @@ const SignUp = () => {
             /*the stringify object is like that because the key in the backend and the variable in the front end have the same name {user: user, pwd: pwd}*/
             const response = await axios.post(
                 REGISTER_URL,
-                JSON.stringify({user,admin:true,pwd}),
+                JSON.stringify({user,admin:true,pwd,firstName,lastName}),
                 {
                     headers:{'content-type': 'application/json'},
                     withCredentials: true
@@ -153,11 +157,11 @@ const SignUp = () => {
                                 alignItems: 'center',
                             }}
                         >
-                            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                            {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                                 <LockOutlinedIcon />
-                            </Avatar>
+                            </Avatar> */}
                             <Typography component="h1" variant="h5">
-                                Sign up
+                               Add new account
                             </Typography>
                             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                                 <Grid container spacing={2}>
@@ -169,6 +173,7 @@ const SignUp = () => {
                                             fullWidth
                                             id="firstName"
                                             label="First Name"
+                                            onChange={(e)=>setFirstName(e.target.value)}
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
@@ -179,6 +184,7 @@ const SignUp = () => {
                                             label="Last Name"
                                             name="lastName"
                                             autoComplete="family-name"
+                                            onChange={(e)=>setLastName(e.target.value)}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
@@ -253,18 +259,12 @@ const SignUp = () => {
                                     variant="contained"
                                     sx={{ mt: 3, mb: 2 }}
                                 >
-                                    Sign Up
+                                    Add
                                 </Button>
-                                <Grid container justifyContent="flex-end">
-                                    <Grid item>
-                                        <Link href="/" variant="body2">
-                                            Already have an account? Sign in
-                                        </Link>
-                                    </Grid>
-                                </Grid>
+                                
                             </Box>
                         </Box>
-                        <Copyright sx={{ mt: 5 }} />
+                       
                     </Container>
                 </ThemeProvider>
             )}

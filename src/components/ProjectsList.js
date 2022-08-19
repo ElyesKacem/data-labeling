@@ -41,18 +41,17 @@ const ProjectsList = () => {
                 </DialogTitle>
                 <DialogContent >
                     <DialogContentText>
-                        Let Google help apps determine location. This means sending anonymous
-                        location data to Google, even when no apps are running.
+                    Please fill all the necessary informations to create a new project. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     </DialogContentText>
                     <HorizontalLinearStepper />
                 </DialogContent>
                 <DialogActions>
                     <Button autoFocus onClick={handleClose}>
-                        Disagree
+                        Cancel
                     </Button>
-                    <Button onClick={handleClose} autoFocus>
+                    {/* <Button onClick={handleClose} autoFocus>
                         Agree
-                    </Button>
+                    </Button> */}
                 </DialogActions>
             </Dialog>
             <Grid container spacing={3}>

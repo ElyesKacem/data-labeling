@@ -17,7 +17,7 @@ import UploadAudio from '../UploadAudio';
 import { axiosPrivate } from '../../api/axios';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
-const steps = ['Description', 'upload files', 'labels'];
+const steps = ['Description', 'Upload files', 'Collaborating'];
 const UPLOAD_URL = '/upload';
 
 export default function HorizontalLinearStepper() {
@@ -106,9 +106,8 @@ export default function HorizontalLinearStepper() {
 
       {activeStep === 2 && ( // here we must execute the creation of the project
         <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>Step Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat repellat assumenda possimus saepe laborum nam temporibus ad quia ex beatae aspernatur non quidem eveniet, distinctio expedita explicabo nisi iusto porro.
-            {activeStep + 1}</Typography>
-
+          <br />
+          <FormLabel id="Title">Choice your collaborators</FormLabel><br /><br />
           <SearchBar />
 
 
@@ -118,12 +117,17 @@ export default function HorizontalLinearStepper() {
 
       {activeStep === 1 && (
         <FormControl>
+          <br /> <div>
+            
+          </div>
+          {/* <FormLabel id="Title">Choice the file</FormLabel><br /> */}
           <FileUpload
+          
 
             multiFile={true}
             disabled={false}
-            title={null}
-            header="[Drag to drop]"
+            title={"Choice the file"}
+            header="Drag to drop"
             leftLabel="or"
             rightLabel="to select files"
             buttonLabel="click here"
@@ -132,22 +136,32 @@ export default function HorizontalLinearStepper() {
             maxUploadFiles={0}
             maxFilesContainerHeight={357}
             errorSizeMessage={'fill it or move it to use the default error message'}
-            allowedExtensions={['jpg', 'jpeg', 'png']}
+            // allowedExtensions={['jpg', 'jpeg', 'png']}
             onFilesChange={handleFilesChange}
             //onError={handleFileUploadError}
-            imageSrc={'path/to/custom/image'}
+            // imageSrc={'path/to/custom/image'}
             bannerProps={{ elevation: 0, variant: "outlined" }}
             containerProps={{ elevation: 0, variant: "outlined" }}
           />
           {/* <UploadAudio /> */}
         </FormControl>
       )}
-
+<br />
       {activeStep === 0 && (
         <FormControl>
-          <Typography sx={{ mt: 2, mb: 1 }}>Step Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat repellat assumenda possimus saepe laborum nam temporibus ad quia ex beatae aspernatur non quidem eveniet, distinctio expedita explicabo nisi iusto porro.
-            {activeStep + 1}</Typography>
-          <TextField fullWidth label="Title" id="fullWidth" />
+          
+          <FormLabel id="Title">Project title</FormLabel><br />
+          <TextField fullWidth label="Title" id="Title" required /> <br />
+          <FormLabel >Project type</FormLabel>
+  <RadioGroup
+   
+    defaultValue="TTS"
+    name="radio-buttons-group" required
+  >
+    <FormControlLabel value="TTS" control={<Radio />} label="TTS" />
+    <FormControlLabel value="STT" control={<Radio />} label="STT" />
+    <FormControlLabel value="other" control={<Radio />} label="Other" />
+  </RadioGroup>
         </FormControl>
       )}
       <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
@@ -167,7 +181,7 @@ export default function HorizontalLinearStepper() {
             )} */}
 
         <Button onClick={handleNext}>
-          {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+          {activeStep === steps.length - 1 ? 'Create' : 'Next'}
         </Button>
       </Box>
     </Box>

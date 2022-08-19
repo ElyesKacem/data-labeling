@@ -11,6 +11,7 @@ import Organization from './pages/Organization';
 import { Settings } from './pages/Settings';
 import { Logout } from './pages/Logout';
 import Navbar from './components/Navbar';
+import Accounts from './pages/Accounts';
 
 const App = () => {
 	return (
@@ -20,7 +21,14 @@ const App = () => {
 				{/* public routes */}
 				<Route element={<Navbar />}>
 					<Route path="login" element={<SignInSide />} />
-					<Route path="register" element={<SignUp />} />
+					{/* <Route path="register" element={<SignUp />} /> */}
+						<Route path='/' element={<PersistentDrawerLeft />} >
+							<Route path="/projects" element={<ProjectsList />} />
+							<Route path="/Organization" element={<Organization />} />
+							<Route path="/Accounts" element={<Accounts />} />
+							<Route path="/Settings" element={<Settings />} />
+							<Route path="/Logout" element={<Logout />} />
+						</Route>
 				</Route>
 
 				{/* <Route path='/home' element={<PersistentDrawerLeft />} /> */}
@@ -28,12 +36,6 @@ const App = () => {
 				{/* protected routes */}
 				<Route element={<PersistantAuth />}>
 					<Route element={<RequireAuth />}>
-						<Route path='/' element={<PersistentDrawerLeft />} >
-							<Route path="/projects" element={<ProjectsList />} />
-							<Route path="/Organization" element={<Organization />} />
-							<Route path="/Settings" element={<Settings />} />
-							<Route path="/Logout" element={<Logout />} />
-						</Route>
 					</Route>
 				</Route>
 			</Route>
