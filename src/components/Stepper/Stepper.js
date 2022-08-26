@@ -1,3 +1,10 @@
+//*********************************************************************/
+//
+// IMPORTANT : WE ARE WORKING WITH ARRAYS , DO NOT FORGET TO USE INDEX
+//
+//*********************************************************************/
+
+
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
@@ -47,6 +54,7 @@ export default function HorizontalLinearStepper() {
 
   const [hiddenCollab, setHiddenCollab] = React.useState([]);
 
+
   const handleFilesChange = async (files) => {
     console.log("files:", files);
 
@@ -72,9 +80,9 @@ export default function HorizontalLinearStepper() {
 
 
   const [users, setUsers] = React.useState([]);
-  
 
-  
+
+
   //getting users
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
@@ -151,20 +159,30 @@ export default function HorizontalLinearStepper() {
   };
 
   const handleDeleteCollab = (id) => {
-    
-    const visibleUser=hiddenCollab.map(((line)=>line.id===id));
-    console.log('visible User ',visibleUser);
-    console.log('hiddenCollab ',hiddenCollab);
-    users.push(visibleUser);
-    setUsers(users);
 
-    
+    const selectedUser = hiddenCollab.filter(((line) => line.id === id));
+    if(selectedUser.length!==0)
+    {
+
+      console.log('visible User ', selectedUser);
+      console.log('hiddenCollab ', hiddenCollab);
+      console.log('user to recover : ', selectedUser[0].user);
+      usersOptions.push(selectedUser[0].user);
+      setUsersOptions(usersOptions);
+      console.log('usersOptions', usersOptions);
+    }
+
+
     const newCollabList = projectUsers.filter(line => line.id !== id)
     // console.log(newCollabList);
     setProjectUsers(newCollabList);
   }
-// user Options of Auto Complete
-const [usersOptions, setUsersOptions] = React.useState([]);
+
+
+
+
+  // user Options of Auto Complete
+  const [usersOptions, setUsersOptions] = React.useState([]);
   return (
     <Box sx={{ width: '100%' }}>
       <Stepper activeStep={activeStep}>
@@ -192,7 +210,7 @@ const [usersOptions, setUsersOptions] = React.useState([]);
           <br />
           <FormLabel id="Title">Choice your collaborators</FormLabel><br /><br />
 
-          
+
           {
             projectUsers.map((data) => (
 
@@ -205,24 +223,9 @@ const [usersOptions, setUsersOptions] = React.useState([]);
 
 
 
-                <SearchBar id={data.id} key={data.id} setUsersOptions={setUsersOptions} hiddenCollab={hiddenCollab} setHiddenCollab={setHiddenCollab} options={usersOptions} width="250px"  />
+                <SearchBar projectUsers={projectUsers} setProjectUsers={setProjectUsers} id={data.id} key={data.id} setUsersOptions={setUsersOptions} hiddenCollab={hiddenCollab} setHiddenCollab={setHiddenCollab} options={usersOptions} width="250px" />
 
-                {/* <FormControl sx={{ m: 1, minWidth: 120 }}>
-    <InputLabel id="demo-simple-select-label">Age</InputLabel>
-    <Select
-      labelId="demo-simple-select-label"
-      id="demo-simple-select"
-      value={"Annotator"}
-      label="Age"
-      onChange={()=>{
-        // e.target.value
-      }}
-    >
-      <MenuItem value={10}>Ten</MenuItem>
-      <MenuItem value={20}>Twenty</MenuItem>
-      <MenuItem value={30}>Thirty</MenuItem>
-    </Select>
-  </FormControl> */}
+              
 
 
 
