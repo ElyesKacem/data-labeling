@@ -11,7 +11,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import { TextField } from '@mui/material';
+
 import FileUpload from "react-mui-fileuploader"
 import UploadAudio from '../UploadAudio';
 import { axiosPrivate } from '../../api/axios';
@@ -25,6 +25,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
 
 const steps = ['Description', 'Upload files', 'Collaborating'];
 const UPLOAD_URL = '/upload';
@@ -71,8 +73,7 @@ export default function HorizontalLinearStepper() {
 
   const [users, setUsers] = React.useState([]);
   
-  
-  
+
   
   //getting users
   const axiosPrivate = useAxiosPrivate();
@@ -90,6 +91,8 @@ export default function HorizontalLinearStepper() {
         console.log('get all users response', response.data);
         isMounted && setUsers(response.data);
         console.log('testttttttttttttttttttttttttttttttt', users);
+        setUsersOptions(response.data.map((user) => user.username));
+        console.log(usersOptions);
       } catch (error) {
         console.error(error);
         navigate('/login', { state: { from: location }, replace: true })
@@ -160,7 +163,8 @@ export default function HorizontalLinearStepper() {
     // console.log(newCollabList);
     setProjectUsers(newCollabList);
   }
-
+// user Options of Auto Complete
+const [usersOptions, setUsersOptions] = React.useState([]);
   return (
     <Box sx={{ width: '100%' }}>
       <Stepper activeStep={activeStep}>
@@ -192,8 +196,16 @@ export default function HorizontalLinearStepper() {
           {
             projectUsers.map((data) => (
 
-              <div key={data.id} style={{ display: 'flex', justifyContent: 'space-evenly', marginBottom: 10, alignItems: 'center' }}>
-                <SearchBar id={data.id} sendToParent={setUsers} hiddenCollab={hiddenCollab} setHiddenCollab={setHiddenCollab} data={users} width="250px"  />
+              <div key={data.id} id={data.id} style={{ display: 'flex', justifyContent: 'space-evenly', marginBottom: 10, alignItems: 'center' }}>
+
+
+
+
+
+
+
+
+                <SearchBar id={data.id} key={data.id} setUsersOptions={setUsersOptions} hiddenCollab={hiddenCollab} setHiddenCollab={setHiddenCollab} options={usersOptions} width="250px"  />
 
                 {/* <FormControl sx={{ m: 1, minWidth: 120 }}>
     <InputLabel id="demo-simple-select-label">Age</InputLabel>
