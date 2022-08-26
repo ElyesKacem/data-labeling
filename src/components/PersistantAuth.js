@@ -5,12 +5,13 @@ import useAuth from "../hooks/useAuth"
 import CircularProgress from '@mui/material/CircularProgress';
 
 const PersistantAuth = () => {
-    const [isLoading, setIsLoding] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
     const refresh = useRefreshToken();
     const { auth } = useAuth();
-    console.log("auth in PersistantAuth ",auth);
+    console.log("auth in PersistantAuth ", auth);
 
     useEffect(() => {
+        //let isMounted = true;
         const verifyRefreshToken = async () => {
             try {
                 await refresh();
@@ -19,22 +20,21 @@ const PersistantAuth = () => {
                 console.error(error);
             }
             finally {
-                setIsLoding(false);
+                /*isMounted &&*/ setIsLoading(false);
             }
         }
-        !auth?.accessToken ? verifyRefreshToken() : setIsLoding(false);
+        !auth?.accessToken ? verifyRefreshToken() : setIsLoading(false);
+        //return () => isMounted = false;
     }, []);
 
     useEffect(() => {
         console.log(`is loading: ${isLoading}`);
-        console.log(`acessToken Presisteanauth: ${auth?.accessToken}`);
+        console.log(`acessToken Presisteanauth: ${JSON.stringify(auth?.accessToken)}`);
     }, [isLoading]);
-    
+
     return (
-        <div  style={{display:'flex',alignItems:'center',justifyContent:'center',height:'80vh'}}>
-            
-                
-                {isLoading ?
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '80vh' }}>
+            {isLoading ?
                 <CircularProgress size={50} color="secondary" />
                 : <Outlet />
             }
@@ -42,4 +42,4 @@ const PersistantAuth = () => {
     )
 }
 
-export default PersistantAuth
+export default PersistantAuth;
