@@ -15,12 +15,32 @@ export default function SearchBar(props) {
   
   const [roleValue, setRoleValue] = React.useState('annotator');
 
+
+  const updatingUserList = (id,username) => {
+  const userToUpdate = props.projectUsers.filter((user)=>user.id===id);
+  
+  
+  const userLine = {
+    id:userToUpdate[0].id,
+    user:username,
+    role:userToUpdate[0].role,
+  }
+  //   console.log('user to add update : ',userLine);
+    const finalProjectList= props.projectUsers.filter((user)=>user.id!==id);
+  //   console.log('user before the update : ',finalProjectList);
+    finalProjectList.push(userLine);    
+  //   console.log('user after the update : ',finalProjectList);
+    props.setProjectUsers(finalProjectList);
+    console.log('finalProjectList',finalProjectList);
+  }
+
   return (
     <div  style={{ display: 'flex', justifyContent: 'space-evenly', marginBottom: 10, alignItems: 'center' }}>
 
       <Autocomplete
 
         inputValue={inputValue}
+        // value={value}
 
         disableClearable
         onInputChange={(event, newInputValue) => {
@@ -45,13 +65,13 @@ export default function SearchBar(props) {
             const newUsersOptionList = props.options.filter(user => user !== newInputValue);
 
             if (props.hiddenCollab.find(line => line.user === inputValue)) {
-              console.log('yesssssss')
+             
 
               newUsersOptionList.push(inputValue);
             }
             props.setUsersOptions(newUsersOptionList);
 
-            console.log('newUsersOptionList', props.options);
+     
 
 
 
@@ -64,10 +84,11 @@ export default function SearchBar(props) {
 
             props.setHiddenCollab(aux);
 
-            console.log(props.hiddenCollab);
+
 
 
           }
+          updatingUserList(props.id,newInputValue);
           setInputValue(newInputValue);
 
 

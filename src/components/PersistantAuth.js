@@ -33,7 +33,7 @@ const PersistantAuth = () => {
     }, [isLoading]);
 
     return (
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '80vh' }}>
+        <div >
             {isLoading ?
                 <CircularProgress size={50} color="secondary" />
                 : <Outlet />

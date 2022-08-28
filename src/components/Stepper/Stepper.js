@@ -21,7 +21,7 @@ import FormLabel from '@mui/material/FormLabel';
 
 import FileUpload from "react-mui-fileuploader"
 import UploadAudio from '../UploadAudio';
-import { axiosPrivate } from '../../api/axios';
+import axios, { axiosPrivate } from '../../api/axios';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -34,6 +34,9 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
+
+import Alert from '@mui/material/Alert';
+import useAuth from '../../hooks/useAuth';
 
 const steps = ['Description', 'Upload files', 'Collaborating'];
 const UPLOAD_URL = '/upload';
@@ -55,8 +58,13 @@ export default function HorizontalLinearStepper() {
   const [hiddenCollab, setHiddenCollab] = React.useState([]);
 
 
+  const [formErrorMessage, setFormErrorMessage] = React.useState();
+  const [formErrorMessageState, setFormErrorMessageState] = React.useState(false);
+
+  // const {auth}=useAuth();
+
   const handleFilesChange = async (files) => {
-    console.log("files:", files);
+  
 
     setProjectFiles(files);
     // console.log("json files:",JSON.stringify(files));
@@ -96,11 +104,11 @@ export default function HorizontalLinearStepper() {
         const response = await axiosPrivate.get(USERS_URL, {
           signal: controller.signal
         });
-        console.log('get all users response', response.data);
+ 
         isMounted && setUsers(response.data);
-        console.log('testttttttttttttttttttttttttttttttt', users);
+       
         setUsersOptions(response.data.map((user) => user.username));
-        console.log(usersOptions);
+        
       } catch (error) {
         console.error(error);
         navigate('/login', { state: { from: location }, replace: true })
@@ -124,15 +132,44 @@ export default function HorizontalLinearStepper() {
     return skipped.has(step);
   };
 
-  const handleNext = () => {
-    let newSkipped = skipped;
-    if (isStepSkipped(activeStep)) {
-      newSkipped = new Set(newSkipped.values());
-      newSkipped.delete(activeStep);
+  const handleSubmit = async (data) =>{
+    try{
+      console.log(data)
+    //save data
+    const response = await axios.post('project',
+    JSON.stringify(data),
+    {
+      headers: { "content-type": "application/json" },
+      withCrendentials: true,
     }
+  );
+    }catch(error)
+    {
+      console.log(error);
+    }
+  }
 
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
+  const handleNext = (e) => {
+    if(e.target.innerText!=='Next'){
+      const data= preparingFormData();
+      if(data){
+        handleSubmit(data);
+      
+
+
+      }
+    }
+    else{
+      
+      let newSkipped = skipped;
+      if (isStepSkipped(activeStep)) {
+        newSkipped = new Set(newSkipped.values());
+        newSkipped.delete(activeStep);
+      }
+  
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      setSkipped(newSkipped);
+    }
   };
 
   const handleBack = () => {
@@ -178,6 +215,25 @@ export default function HorizontalLinearStepper() {
     setProjectUsers(newCollabList);
   }
 
+
+  const preparingFormData = () =>{
+    if(projectTitle!==''){
+
+      const data={
+        projectTitle:projectTitle,
+        projectType:projectType,
+        projectFiles:projectFiles,
+        projectUsers:projectUsers.filter((user)=>user.user!=='')
+      }
+      return data;
+    }
+    else{
+      setFormErrorMessage('Please choice a title for your project.');
+      setFormErrorMessageState(true);
+      return undefined;
+    }
+    
+  }
 
 
 
@@ -253,7 +309,7 @@ export default function HorizontalLinearStepper() {
               const data = {
                 id: userCounter,
                 user: '',
-                role: ''
+                role: 'annotator'
               };
               projectUsers.push(data)
               // console.log(projectUsers);
@@ -305,7 +361,7 @@ export default function HorizontalLinearStepper() {
         <FormControl>
 
           <FormLabel id="Title">Project title</FormLabel><br />
-          <TextField fullWidth label="Title" id="Title" required onChange={(e) => {
+          <TextField value={projectTitle} fullWidth label="Title" id="Title" required onChange={(e) => {
 
             setProjectTitle(e.target.value);
           }
@@ -318,6 +374,7 @@ export default function HorizontalLinearStepper() {
             onChange={(e, value) => {
 
               setProjectType(value);
+              
             }
             }
           >
@@ -332,6 +389,8 @@ export default function HorizontalLinearStepper() {
           color="inherit"
           disabled={activeStep === 0}
           onClick={handleBack}
+          variant="contained"
+          style={{textTransform:'none'}}
           sx={{ mr: 1 }}
         >
           Back
@@ -343,10 +402,13 @@ export default function HorizontalLinearStepper() {
               </Button>
             )} */}
 
-        <Button onClick={handleNext}>
+        <Button variant="contained" style={{textTransform:'none'}} onClick={(e)=>handleNext(e)}>
           {activeStep === steps.length - 1 ? 'Create' : 'Next'}
         </Button>
       </Box>
+      <br />
+       {formErrorMessageState && <Alert severity="error" onClose={() => {setFormErrorMessageState(false)}}>{formErrorMessage}</Alert>}
+       
     </Box>
   );
 }
