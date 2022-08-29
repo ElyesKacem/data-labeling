@@ -4,6 +4,7 @@ import { SpectrumVisualizer, SpectrumVisualizerTheme } from 'react-audio-visuali
 import { useEffect } from 'react';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { useNavigate, useLocation } from 'react-router-dom';
+import ReactPlayer from 'react-player';
 //import MyCustomPlugin from 'my-custom-plugin-path';
 
 const GETFILES_URL = "/file/getFiles"
@@ -41,16 +42,19 @@ const AudioPlayer = () => {
 
 
    return (
-      <SpectrumVisualizer
-         audio="https://your.domain.com/yourAudioFile.mp3"
-         theme={SpectrumVisualizerTheme.radialSquaredBars}
-         colors={['#009688', '#26a69a']}
-         iconsColor="#26a69a"
-         backgroundColor="white"
-         showMainActionIcon
-         showLoaderIcon
-         highFrequency={8000}
-      />
+      <>
+         {/* <SpectrumVisualizer
+            audio="https://api.twilio.com//2010-04-01/Accounts/AC25aa00521bfac6d667f13fec086072df/Recordings/RE6d44bc34911342ce03d6ad290b66580c.mp3"
+            theme={SpectrumVisualizerTheme.line}
+            colors={['#009688', '#26a69a']}
+            iconsColor="#26a69a"
+            backgroundColor="white"
+            showMainActionIcon
+            showLoaderIcon
+            highFrequency={8000}
+         /> */}
+         <ReactPlayer className='react-player' controls="true" url="https://api.twilio.com//2010-04-01/Accounts/AC25aa00521bfac6d667f13fec086072df/Recordings/RE6d44bc34911342ce03d6ad290b66580c.mp3" />
+      </>
    )
 }
 
