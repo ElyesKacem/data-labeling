@@ -35,7 +35,7 @@ const theme = createTheme();
 const LOGIN_URL = "/auth"
 
 const SignInSide = () => {
-  const { setAuth } = useAuth();
+  const { auth, setAuth } = useAuth();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -68,13 +68,13 @@ const SignInSide = () => {
           withCrendentials: true,
         }
       );
-      console.log('login response' ,JSON.stringify(response?.data));
+      console.log('login response', JSON.stringify(response?.data));
       const accessToken = response?.data?.accessToken;
       const admin = response?.data?.admin;
-      setAuth({ user, pwd, admin, accessToken })
+      setAuth({ user, pwd, admin, accessToken });
       sessionStorage.setItem("activeUser", JSON.stringify({ user, pwd, admin, accessToken }));
       var activeUser = sessionStorage.getItem("activeUser");
-      console.log("Active user",activeUser);
+      console.log("Active user", activeUser);
       setUser('');
       setPwd('');
       navigate(from);

@@ -9,13 +9,13 @@ const PersistantAuth = () => {
     const refresh = useRefreshToken();
     const { auth, setAuth } = useAuth();
     console.log("auth in PersistantAuth ", auth);
-
+    console.log("active user in persistauth", sessionStorage.getItem("activeUser"));
     useEffect(() => {
         //let isMounted = true;
         const verifyRefreshToken = async () => {
-            console.log("active user in persistauth",sessionStorage.getItem("activeUser"));
-            setAuth(JSON.parse(sessionStorage.getItem("activeUser")));
             try {
+                console.log("active user in persistauth 2", sessionStorage.getItem("activeUser"));
+                setAuth(JSON.parse(sessionStorage.getItem("activeUser")));
                 await refresh();
             }
             catch (error) {
