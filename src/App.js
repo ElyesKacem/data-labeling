@@ -12,6 +12,7 @@ import { Settings } from './pages/Settings';
 import { Logout } from './pages/Logout';
 import Navbar from './components/Navbar';
 import Accounts from './pages/Accounts';
+import AudioPlayer from './components/AudioPlayer/AudioPlayer';
 
 const App = () => {
 	return (
@@ -22,8 +23,9 @@ const App = () => {
 				<Route element={<Navbar />}>
 					<Route path="login" element={<SignInSide />} />
 					<Route path="register" element={<SignUp />} />
+					<Route path="/audio" element={<AudioPlayer />} />
 				</Route>
-
+				
 				{/* protected routes */}
 				<Route element={<PersistantAuth />}>
 					<Route element={<RequireAuth />}>

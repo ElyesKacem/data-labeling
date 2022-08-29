@@ -7,12 +7,14 @@ import CircularProgress from '@mui/material/CircularProgress';
 const PersistantAuth = () => {
     const [isLoading, setIsLoading] = useState(true);
     const refresh = useRefreshToken();
-    const { auth } = useAuth();
+    const { auth, setAuth } = useAuth();
     console.log("auth in PersistantAuth ", auth);
 
     useEffect(() => {
         //let isMounted = true;
         const verifyRefreshToken = async () => {
+            console.log("active user in persistauth",sessionStorage.getItem("activeUser"));
+            setAuth(JSON.parse(sessionStorage.getItem("activeUser")));
             try {
                 await refresh();
             }

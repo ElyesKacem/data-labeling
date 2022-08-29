@@ -72,6 +72,9 @@ const SignInSide = () => {
       const accessToken = response?.data?.accessToken;
       const admin = response?.data?.admin;
       setAuth({ user, pwd, admin, accessToken })
+      sessionStorage.setItem("activeUser", JSON.stringify({ user, pwd, admin, accessToken }));
+      var activeUser = sessionStorage.getItem("activeUser");
+      console.log("Active user",activeUser);
       setUser('');
       setPwd('');
       navigate(from);
