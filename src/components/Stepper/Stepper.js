@@ -1,6 +1,6 @@
 //*********************************************************************/
 //
-// IMPORTANT : WE ARE WORKING WITH ARRAYS , DO NOT FORGET TO USE INDEX
+// IMPORTANT : IF YOU ARE WORKING WITH ARRAYS , DO NOT FORGET TO USE INDEX
 //
 //*********************************************************************/
 
@@ -30,6 +30,8 @@ const USERS_URL = "/users";
 export default function HorizontalLinearStepper() {
   // const [isParentData, setIsParentData] = React.useState("true");
 
+  const { auth } = useAuth();
+
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
@@ -49,7 +51,7 @@ export default function HorizontalLinearStepper() {
   const [formErrorMessageState, setFormErrorMessageState] = React.useState(false);
 
   // const {auth}=useAuth();
-
+  console.log("auth in stepepr",auth.user);
   const handleFilesChange = async (files) => {
 
 

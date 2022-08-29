@@ -13,6 +13,7 @@ const useLogout = () => {
         } catch (error) {
             console.error(error);
         }
+        sessionStorage.removeItem('activeUser');
     }
     return logout;
 }
