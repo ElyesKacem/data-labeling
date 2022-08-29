@@ -11,32 +11,17 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import SearchBar from '../searchBar/searchBar';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-
 import FileUpload from "react-mui-fileuploader"
-import UploadAudio from '../UploadAudio';
-import axios, { axiosPrivate } from '../../api/axios';
-import useAxiosPrivate from '../../hooks/useAxiosPrivate';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-import AddIcon from '@mui/icons-material/Add';
-import { useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
+import axios from '../../api/axios';
 import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
-
 import Alert from '@mui/material/Alert';
 import useAuth from '../../hooks/useAuth';
+import UserLine from '../UserLine/UserLine';
 
 const steps = ['Description', 'Upload files', 'Collaborating'];
 const UPLOAD_URL = '/upload';
@@ -52,10 +37,12 @@ export default function HorizontalLinearStepper() {
   const [projectTitle, setProjectTitle] = React.useState("");
   const [projectType, setProjectType] = React.useState("TTS");
   const [projectFiles, setProjectFiles] = React.useState([]);
-  const [projectUsers, setProjectUsers] = React.useState([]);
-  const [userCounter, setUserCounter] = React.useState(0);
 
-  const [hiddenCollab, setHiddenCollab] = React.useState([]);
+  // user Options of Auto Complete
+  const [selectedUsers, setSelectedUsers] = React.useState([{ id: '', username: '', role: 'Annotator' }]);
+
+
+  // const [hiddenCollab, setHiddenCollab] = React.useState([]);
 
 
   const [formErrorMessage, setFormErrorMessage] = React.useState();
@@ -64,7 +51,7 @@ export default function HorizontalLinearStepper() {
   // const {auth}=useAuth();
 
   const handleFilesChange = async (files) => {
-  
+
 
     setProjectFiles(files);
     // console.log("json files:",JSON.stringify(files));
@@ -85,45 +72,6 @@ export default function HorizontalLinearStepper() {
     //   console.log(response);
   }
 
-
-
-  const [users, setUsers] = React.useState([]);
-
-
-
-  //getting users
-  const axiosPrivate = useAxiosPrivate();
-  const navigate = useNavigate();
-
-  const location = useLocation();
-  useEffect(() => {
-    let isMounted = true;
-    const controller = new AbortController();
-    const getUsers = async () => {
-      try {
-        const response = await axiosPrivate.get(USERS_URL, {
-          signal: controller.signal
-        });
- 
-        isMounted && setUsers(response.data);
-       
-        setUsersOptions(response.data.map((user) => user.username));
-        
-      } catch (error) {
-        console.error(error);
-        navigate('/login', { state: { from: location }, replace: true })
-      }
-    }
-    getUsers();
-
-    return () => {
-      isMounted = false;
-      controller.abort();
-    }
-  }, [])
-
-
-
   const isStepOptional = (step) => {
     return step === 1;
   };
@@ -132,41 +80,40 @@ export default function HorizontalLinearStepper() {
     return skipped.has(step);
   };
 
-  const handleSubmit = async (data) =>{
-    try{
+  const handleSubmit = async (data) => {
+    try {
       console.log(data)
-    //save data
-    const response = await axios.post('project',
-    JSON.stringify(data),
-    {
-      headers: { "content-type": "application/json" },
-      withCrendentials: true,
-    }
-  );
-    }catch(error)
-    {
+      //save data
+      const response = await axios.post('project',
+        JSON.stringify(data),
+        {
+          headers: { "content-type": "application/json" },
+          withCrendentials: true,
+        }
+      );
+    } catch (error) {
       console.log(error);
     }
   }
 
   const handleNext = (e) => {
-    if(e.target.innerText!=='Next'){
-      const data= preparingFormData();
-      if(data){
+    if (e.target.innerText !== 'Next') {
+      const data = preparingFormData();
+      if (data) {
         handleSubmit(data);
-      
+
 
 
       }
     }
-    else{
-      
+    else {
+
       let newSkipped = skipped;
       if (isStepSkipped(activeStep)) {
         newSkipped = new Set(newSkipped.values());
         newSkipped.delete(activeStep);
       }
-  
+
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
       setSkipped(newSkipped);
     }
@@ -195,61 +142,37 @@ export default function HorizontalLinearStepper() {
     setActiveStep(0);
   };
 
-  const handleDeleteCollab = (id) => {
-
-    const selectedUser = hiddenCollab.filter(((line) => line.id === id));
-    if(selectedUser.length!==0)
-    {
-
-      console.log('visible User ', selectedUser);
-      console.log('hiddenCollab ', hiddenCollab);
-      console.log('user to recover : ', selectedUser[0].user);
-      usersOptions.push(selectedUser[0].user);
-      setUsersOptions(usersOptions);
-      console.log('usersOptions', usersOptions);
-    }
 
 
-    const newCollabList = projectUsers.filter(line => line.id !== id)
-    // console.log(newCollabList);
-    setProjectUsers(newCollabList);
-  }
+  const preparingFormData = () => {
+    if (projectTitle !== '') {
 
-
-  const preparingFormData = () =>{
-    if(projectTitle!==''){
-
-      const data={
-        projectTitle:projectTitle,
-        projectType:projectType,
-        projectFiles:projectFiles,
-        projectUsers:projectUsers.filter((user)=>user.user!=='')
+      const data = {
+        owner:'changeMe',
+        title: projectTitle,
+        type: projectType,
+        files: projectFiles,
+        collabs : selectedUsers
       }
       return data;
     }
-    else{
+    else {
       setFormErrorMessage('Please choice a title for your project.');
       setFormErrorMessageState(true);
       return undefined;
     }
-    
+
   }
 
 
 
-  // user Options of Auto Complete
-  const [usersOptions, setUsersOptions] = React.useState([]);
+
   return (
     <Box sx={{ width: '100%' }}>
       <Stepper activeStep={activeStep}>
         {steps.map((label, index) => {
           const stepProps = {};
           const labelProps = {};
-          //   if (isStepOptional(index)) {
-          //     labelProps.optional = (
-          //       <Typography variant="caption">Optional</Typography>
-          //     );
-          //   }
           if (isStepSkipped(index)) {
             stepProps.completed = false;
           }
@@ -267,57 +190,10 @@ export default function HorizontalLinearStepper() {
           <FormLabel id="Title">Choice your collaborators</FormLabel><br /><br />
 
 
-          {
-            projectUsers.map((data) => (
-
-              <div key={data.id} id={data.id} style={{ display: 'flex', justifyContent: 'space-evenly', marginBottom: 10, alignItems: 'center' }}>
 
 
+          <UserLine selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers} />
 
-
-
-
-
-
-                <SearchBar projectUsers={projectUsers} setProjectUsers={setProjectUsers} id={data.id} key={data.id} setUsersOptions={setUsersOptions} hiddenCollab={hiddenCollab} setHiddenCollab={setHiddenCollab} options={usersOptions} width="250px" />
-
-              
-
-
-
-                <IconButton aria-label="delete" color="primary" onClick={(e) => {
-                  // console.log('user to add : ',e.target.value);
-                  // const newUserList=users;
-                  // newUserList.push(e.target.value);
-                  // setUsers(newUserList);
-                  handleDeleteCollab(data.id);
-                }}>
-                  <DeleteIcon />
-                </IconButton>
-
-              </div>
-
-            ))
-          }
-
-
-          <Button style={{ textTransform: 'none', marginTop: 30 }} variant="outlined" startIcon={<AddIcon />}
-
-            onClick={(e) => {
-              setUserCounter(userCounter + 1);
-              // console.log(userCounter);
-              const data = {
-                id: userCounter,
-                user: '',
-                role: 'annotator'
-              };
-              projectUsers.push(data)
-              // console.log(projectUsers);
-              setProjectUsers(projectUsers);
-            }}
-          >
-            Add new collab
-          </Button>
 
 
 
@@ -374,7 +250,7 @@ export default function HorizontalLinearStepper() {
             onChange={(e, value) => {
 
               setProjectType(value);
-              
+
             }
             }
           >
@@ -390,7 +266,7 @@ export default function HorizontalLinearStepper() {
           disabled={activeStep === 0}
           onClick={handleBack}
           variant="contained"
-          style={{textTransform:'none'}}
+          style={{ textTransform: 'none' }}
           sx={{ mr: 1 }}
         >
           Back
@@ -402,13 +278,13 @@ export default function HorizontalLinearStepper() {
               </Button>
             )} */}
 
-        <Button variant="contained" style={{textTransform:'none'}} onClick={(e)=>handleNext(e)}>
+        <Button variant="contained" style={{ textTransform: 'none' }} onClick={(e) => handleNext(e)}>
           {activeStep === steps.length - 1 ? 'Create' : 'Next'}
         </Button>
       </Box>
       <br />
-       {formErrorMessageState && <Alert severity="error" onClose={() => {setFormErrorMessageState(false)}}>{formErrorMessage}</Alert>}
-       
+      {formErrorMessageState && <Alert severity="error" onClose={() => { setFormErrorMessageState(false) }}>{formErrorMessage}</Alert>}
+
     </Box>
   );
 }
