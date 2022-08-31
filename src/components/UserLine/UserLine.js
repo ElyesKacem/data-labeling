@@ -98,6 +98,7 @@ export default function UserLine(props) {
         //   console.log(...users);
         let newList=users.map((user) => user.username);
         setOptions(newList.sort());
+        console.log('users',users);
     }, [users]);
 
 
