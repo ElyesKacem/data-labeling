@@ -51,6 +51,7 @@ export default function HorizontalLinearStepper() {
   const [formErrorMessageState, setFormErrorMessageState] = React.useState(false);
 
   // const {auth}=useAuth();
+  console.log(auth);
   console.log("auth in stepepr",auth.user);
   const handleFilesChange = async (files) => {
 
@@ -103,9 +104,6 @@ export default function HorizontalLinearStepper() {
       const data = preparingFormData();
       if (data) {
         handleSubmit(data);
-
-
-
       }
     }
     else {
@@ -150,12 +148,13 @@ export default function HorizontalLinearStepper() {
     if (projectTitle !== '') {
 
       const data = {
-        owner:'changeMe',
+        owner:auth.user,
         title: projectTitle,
         type: projectType,
         files: projectFiles,
-        collabs : selectedUsers
+        collabs : selectedUsers.filter((line)=>line.username!=='')
       }
+      console.log('data : ',data);
       return data;
     }
     else {
@@ -211,7 +210,7 @@ export default function HorizontalLinearStepper() {
           {/* <FormLabel id="Title">Choice the file</FormLabel><br /> */}
           <FileUpload
 
-
+            // defaultFiles={projectFiles}
             multiFile={true}
             disabled={false}
             title={"Choice the file"}
@@ -247,7 +246,7 @@ export default function HorizontalLinearStepper() {
           <FormLabel >Project type</FormLabel>
           <RadioGroup
 
-            defaultValue="TTS"
+            value={projectType}
             name="radio-buttons-group" required
             onChange={(e, value) => {
 
