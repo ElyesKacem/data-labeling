@@ -148,7 +148,7 @@ export default function HorizontalLinearStepper() {
     if (projectTitle !== '') {
 
       const data = {
-        owner:auth.user,
+        owner:auth.id,
         title: projectTitle,
         type: projectType,
         files: projectFiles,

@@ -11,10 +11,12 @@ import { Navigate, useLocation } from 'react-router-dom';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
+import useAuth from '../../hooks/useAuth';
 
 
 
 export default function UserLine(props) {
+    const {auth}=useAuth();
     const [users, setUsers] = React.useState([]);
 
     const [role, setRole] = React.useState('Annotator');
@@ -97,7 +99,11 @@ export default function UserLine(props) {
     React.useEffect(() => {
         //   console.log(...users);
         let newList=users.map((user) => user.username);
-        setOptions(newList.sort());
+        console.log('auth.username',auth.user);
+        console.log('newList',newList);
+        console.log('auth',auth);
+        ;
+        setOptions(newList.filter((username)=>username!==auth.user).sort());
         console.log('users',users);
     }, [users]);
 
