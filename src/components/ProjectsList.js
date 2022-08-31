@@ -93,7 +93,8 @@ const ProjectsList = () => {
                     ? (
                         projects.map((data) => (
                             <Grid item xs={3}>
-                                <MediaCard projecttitle={data.title} />
+                                {data._id}
+                                <MediaCard projecttitle={data.title} projectid={data._id} />
                             </Grid>
                         ))
                     ) :

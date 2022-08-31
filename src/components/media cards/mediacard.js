@@ -27,7 +27,7 @@ export default function MediaCard(props) {
       </CardContent>
       <CardActions>
         <Button size="small">Share</Button>
-        <Link to="/project/:id">
+        <Link to={"/project/"+props.projectid }>
           <Button size="small" >Enter Project</Button>
         </Link>
       </CardActions>
