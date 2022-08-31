@@ -13,6 +13,7 @@ import { Logout } from './pages/Logout';
 import Navbar from './components/Navbar';
 import Accounts from './pages/Accounts';
 import AudioPlayer from './components/AudioPlayer/AudioPlayer';
+import Stt from './components/ProjectPages/Stt';
 
 const App = () => {
 	return (
@@ -35,6 +36,7 @@ const App = () => {
 							<Route path="/Accounts" element={<Accounts />} />
 							<Route path="/Settings" element={<Settings />} />
 							<Route path="/Logout" element={<Logout />} />
+							<Route path="/about" element={<Stt />} />
 						</Route>
 					</Route>
 				</Route>
