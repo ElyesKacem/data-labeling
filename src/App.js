@@ -36,7 +36,7 @@ const App = () => {
 							<Route path="/Accounts" element={<Accounts />} />
 							<Route path="/Settings" element={<Settings />} />
 							<Route path="/Logout" element={<Logout />} />
-							<Route path="/about" element={<Stt />} />
+							<Route path="/project/:id" element={<Stt />} />
 						</Route>
 					</Route>
 				</Route>
