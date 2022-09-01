@@ -17,11 +17,12 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import FileUpload from "react-mui-fileuploader"
-import axios from '../../api/axios';
 import TextField from '@mui/material/TextField';
 import Alert from '@mui/material/Alert';
 import useAuth from '../../hooks/useAuth';
 import UserLine from '../UserLine/UserLine';
+import { Navigate, location, useNavigate, useLocation } from 'react-router-dom';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
 const steps = ['Description', 'Upload files', 'Collaborating'];
 const UPLOAD_URL = '/upload';
@@ -52,7 +53,7 @@ export default function HorizontalLinearStepper() {
 
   // const {auth}=useAuth();
   console.log(auth);
-  console.log("auth in stepepr",auth.user);
+  console.log("auth in stepepr", auth.user);
   const handleFilesChange = async (files) => {
 
 
@@ -83,20 +84,26 @@ export default function HorizontalLinearStepper() {
     return skipped.has(step);
   };
 
+  const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const handleSubmit = async (data) => {
-    try {
       console.log(data)
       //save data
-      const response = await axios.post('project',
-        JSON.stringify(data),
-        {
-          headers: { "content-type": "application/json" },
-          withCrendentials: true,
-        }
-      );
-    } catch (error) {
-      console.log(error);
-    }
+      const controller = new AbortController();
+      try {
+        const response = await axiosPrivate.post('project',
+          JSON.stringify(data),
+          {
+            headers: { "content-type": "application/json" },
+            withCrendentials: true,
+            signal: controller.signal
+          });
+      } catch (error) {
+        console.error(error);
+        Navigate('/login', { state: { from: location }, replace: true })
+      }
   }
 
   const handleNext = (e) => {
@@ -105,6 +112,7 @@ export default function HorizontalLinearStepper() {
       if (data) {
         handleSubmit(data);
       }
+
     }
     else {
 
@@ -148,13 +156,13 @@ export default function HorizontalLinearStepper() {
     if (projectTitle !== '') {
 
       const data = {
-        owner:auth.id,
+        owner: auth.id,
         title: projectTitle,
         type: projectType,
         files: projectFiles,
-        collabs : selectedUsers.filter((line)=>line.username!=='')
+        collabs: selectedUsers.filter((line) => line.username !== '')
       }
-      console.log('data : ',data);
+      console.log('data : ', data);
       return data;
     }
     else {

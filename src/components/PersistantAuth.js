@@ -14,8 +14,6 @@ const PersistantAuth = () => {
         //let isMounted = true;
         const verifyRefreshToken = async () => {
             try {
-                console.log("active user in persistauth 2", sessionStorage.getItem("activeUser"));
-                setAuth(JSON.parse(sessionStorage.getItem("activeUser")));
                 await refresh();
             }
             catch (error) {
