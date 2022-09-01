@@ -6,7 +6,7 @@ import AddAccountButton from '../components/AddAccountButton/AddAccountButton'
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 
 const Accounts = () => {
-  
+
   const [users, setUsers] = React.useState([]);
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
@@ -38,17 +38,17 @@ const Accounts = () => {
 
   return (
     <div>
-        <h2>Accounts</h2>
-        <p>All accounts :</p>
-        <AddAccountButton />
+      <h2>Accounts</h2>
+      <p>All accounts :</p>
+      <AddAccountButton />
 
 
-        <br />
+      <br />
 
-{users.map((data) => (
+      {users.map((data) => (
 
-        <AccountsCard data={data}/>
-))}
+        <AccountsCard data={data} />
+      ))}
     </div>
   )
 }

@@ -7,6 +7,9 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import SignUp from '../../pages/SignUp';
 
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+
 export default function AddAccountButton() {
   const [open, setOpen] = React.useState(false);
 
@@ -29,8 +32,6 @@ export default function AddAccountButton() {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-       
-
         <SignUp />
       </Dialog>
     </div>
