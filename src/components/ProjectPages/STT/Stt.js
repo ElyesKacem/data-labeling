@@ -8,6 +8,7 @@ import Waveform from "./Waveform";
 import SoundPrint from './soundPrint';
 import BasicTable from './table';import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
 
 
 
@@ -60,16 +61,33 @@ const Stt = () => {
 <Grid container spacing={4}>
 
   <Grid item xs={6}>
-  <BasicTable data={files}/>
+  <BasicTable selectedFile={selectedFile} setSelectedFile={setSelectedFile}  data={files}/>
   </Grid>
   <Grid item xs={6}>
-<h3>Audio :</h3>
-<SoundPrint url="https://api.twilio.com//2010-04-01/Accounts/AC25aa00521bfac6d667f13fec086072df/Recordings/RE6d44bc34911342ce03d6ad290b66580c.mp3"></SoundPrint>
+  <Paper style={{padding:20,paddingTop:1}}>
+
+
+    {selectedFile && <>
+    
+<h3>Audio :</h3> {selectedFile.name}
+<SoundPrint url={selectedFile.path}></SoundPrint>
 <h3>Write the topic :</h3>
-<TextField id="outlined-basic" label="Topic" variant="outlined" />
+<TextField fullWidth multiline id="outlined-basic" label="Topic" variant="outlined" />
 <br />
 <br />
-<Button variant="contained">Submit</Button>
+<Button variant="contained" onClick={
+  ()=>{
+    const date=new Date();
+    console.log(new date.getDay);}
+}>Submit</Button>
+    </>}
+    {!selectedFile && <>
+    
+    <div>
+      <h1>Please select the audio file to work in</h1>
+    </div>
+    </>}
+  </Paper>
   </Grid>
 
 </Grid>
