@@ -41,6 +41,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import Notification from '../Notification/Notification';
 import useLogout from '../../hooks/useLogout';
 import WorkIcon from '@mui/icons-material/Work';
+import useAuth from '../../hooks/useAuth';
 
 
 
@@ -93,6 +94,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function PersistentDrawerLeft() {
+  const { auth } = useAuth();
+
   const logout = useLogout();
   const logOut = async () => {
     await logout();
@@ -128,11 +131,11 @@ export default function PersistentDrawerLeft() {
   }
 
   const menuItems = [
-    {
+    /*{
       title: 'Projects',
       icon: <FolderIcon />,
       path: '/projects'
-    },
+    },*/
     {
       title: 'Organization',
       icon: <AccountCircleIcon />,
@@ -229,7 +232,17 @@ export default function PersistentDrawerLeft() {
         </DrawerHeader>
         <Divider />
         <List>
-
+          {
+            auth.supervisor && 
+            <ListItem disablePadding key="Projects" button onClick={() => handleNavigate("/projects")} >
+            <ListItemButton>
+              <ListItemIcon>
+              <FolderIcon />
+              </ListItemIcon>
+              <ListItemText primary="Projects" />
+            </ListItemButton>
+          </ListItem>
+          }
           {menuItems.map((item) => (
             <ListItem disablePadding key={item.title} button onClick={() => handleNavigate(item.path)} >
               <ListItemButton>

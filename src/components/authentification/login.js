@@ -71,10 +71,11 @@ const SignInSide = () => {
       console.log('login response', JSON.stringify(response?.data));
       const accessToken = response?.data?.accessToken;
       const admin = response?.data?.admin;
+      const supervisor = response?.data?.supervisor;
       const id=response?.data?.userId;
       console.log('id : ',id);
-      setAuth({ user,id, pwd, admin, accessToken });
-      sessionStorage.setItem("activeUser", JSON.stringify({ user, id ,pwd, admin, accessToken }));
+      setAuth({ user, id, supervisor, admin, accessToken });
+      sessionStorage.setItem("activeUser", JSON.stringify({ user, id, supervisor, admin, accessToken }));
       var activeUser = sessionStorage.getItem("activeUser");
       console.log("Active user", activeUser);
       setUser('');
