@@ -13,7 +13,8 @@ import { Logout } from './pages/Logout';
 import Navbar from './components/Navbar';
 import Accounts from './pages/Accounts';
 import AudioPlayer from './components/AudioPlayer/AudioPlayer';
-import Stt from './components/ProjectPages/Stt';
+import Stt from './components/ProjectPages/STT/Stt';
+// import Stt from './components/ProjectPages/STT/Stt';
 
 const App = () => {
 	return (
