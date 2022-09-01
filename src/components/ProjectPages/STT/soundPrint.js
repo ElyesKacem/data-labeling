@@ -20,7 +20,7 @@ const SoundPrint = ({ url }) => {
         cursorColor: "#567FFF",
       });
       // Load audio from a remote url.
-      waveform.current.load(url);
+      // waveform.current.load(url);
       /* To load a local audio file
 		    1. Read the audio file as a array buffer.
 			2. Create a blob from the array buffer
@@ -28,6 +28,14 @@ const SoundPrint = ({ url }) => {
 	 */
     }
   }, []);
+  useEffect(() => {
+    waveform.current.load(url)
+  
+    return () => {
+      
+    }
+  }, [url])
+  
 
   const playAudio = () => {
     // Check if the audio is already playing
@@ -41,7 +49,10 @@ const SoundPrint = ({ url }) => {
   return (
     <div style={{display:'flex',flexDirection:'column',width:'100%'}}>
       <div id="waveform" />
-      <div style={{display:'flex',flexDirection:'row',justifyContent:'center'}} divDirection="row" justifyContent="center">
+      <div style={{display:'flex',flexDirection:'row',justifyContent:'center'}} 
+      // divDirection="row"
+      //  justifyContent="center"
+       >
         <button m="4" onClick={playAudio}>
           Play / Pause
         </button>

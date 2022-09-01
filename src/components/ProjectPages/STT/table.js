@@ -24,6 +24,9 @@ const rows = [
 
 export default function BasicTable(props) {
     const [rows, setRows] = React.useState([]);
+
+    
+
     React.useEffect(() => {
         var data = [];
         props.data.map((line) => {
@@ -67,7 +70,8 @@ export default function BasicTable(props) {
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             className="clicked-row"
                             onClick={()=>{
-                                console.log("clicked");
+                                props.setSelectedFile(line);
+                                console.log('selected line : ',line);
                             }}
                         >
 
@@ -77,7 +81,11 @@ export default function BasicTable(props) {
                             <TableCell align="center">{line.annotated}</TableCell>
 
                             <TableCell align="center">
-                                <IconButton aria-label="delete">
+                                <IconButton aria-label="delete" onClick={
+                                    ()=>{
+                                        props.setSelectedFile(line);
+                                    }
+                                }>
                                     <PlayCircleIcon />
                                 </IconButton></TableCell>
 

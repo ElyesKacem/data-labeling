@@ -37,6 +37,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+
 import Notification from '../Notification/Notification';
 import useLogout from '../../hooks/useLogout';
 import WorkIcon from '@mui/icons-material/Work';
@@ -174,8 +175,10 @@ export default function PersistentDrawerLeft() {
 
           </span>
 
-
-          <NotificationsIcon />
+          <IconButton >
+          <NotificationsIcon style={{color:'white'}}/>
+</IconButton>
+          
           {/* <Notification icon={} /> */}
 
           {/* <Button variant="outlined" onClick={handleClickOpen}>
