@@ -223,14 +223,14 @@ export default function PersistentDrawerLeft() {
         open={open}
       >
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}> UserName
+          <IconButton onClick={handleDrawerClose}> {auth.user}
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </DrawerHeader>
         <Divider />
         <List>
           {
-            auth.supervisor && 
+            (auth.supervisor || auth.hasProjects ) &&
             <ListItem disablePadding key="Projects" button onClick={() => handleNavigate("/projects")} >
             <ListItemButton>
               <ListItemIcon>

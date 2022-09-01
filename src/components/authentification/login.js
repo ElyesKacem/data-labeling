@@ -73,9 +73,10 @@ const SignInSide = () => {
       const admin = response?.data?.admin;
       const supervisor = response?.data?.supervisor;
       const id=response?.data?.userId;
+      const hasProjects=response?.data?.hasProjects;
       console.log('id : ',id);
-      setAuth({ user, id, supervisor, admin, accessToken });
-      sessionStorage.setItem("activeUser", JSON.stringify({ user, id, supervisor, admin, accessToken }));
+      setAuth({ user, id, hasProjects, supervisor, admin, accessToken });
+      sessionStorage.setItem("activeUser", JSON.stringify({ user, id, hasProjects, supervisor, admin, accessToken }));
       var activeUser = sessionStorage.getItem("activeUser");
       console.log("Active user", activeUser);
       setUser('');

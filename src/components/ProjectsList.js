@@ -14,13 +14,19 @@ import { styled, useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { useNavigate, useLocation } from 'react-router-dom';
-
-const PROJECTS_URL = "/project"
+import useAuth from '../hooks/useAuth';
 
 const ProjectsList = () => {
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
     const [openP, setOpenP] = React.useState(false);
+    const { auth } = useAuth();
+    console.log("auth in projectslist",auth);
+    const id=auth.id
+    console.log("id",id);
+
+    const PROJECTS_URL =  `users/${id}/projects`;
+    console.log("PROJECTS_URL",PROJECTS_URL);
 
     const [projects, setProjects] = React.useState();
     const axiosPrivate = useAxiosPrivate();
