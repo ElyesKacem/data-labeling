@@ -8,7 +8,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 const columns = [
   { field: 'firstName', headerName: 'First name', width: 130 },
   { field: 'lastName', headerName: 'Last name', width: 130 },
-  { field: 'username', headerName: 'Username', width: 90, },
+  { field: 'username', headerName: 'Username', width: 90 },
+  { field: 'projects', headerName: 'Projects', width: 700 }
 ];
 const USERS_URL = "/users"
 const UsersList = () => {
@@ -43,7 +44,7 @@ const UsersList = () => {
   return (
     <div style={{ height: 400, width: '100%' }}>
       {users?.length
-        ? (
+        ? (<>
           <DataGrid
             rows={users}
             columns={columns}
@@ -51,6 +52,7 @@ const UsersList = () => {
             pageSize={5}
             rowsPerPageOptions={[5]}
           />
+        </>
         ) :
         <p>no users exists</p>
       }
