@@ -19,6 +19,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import axios from '../api/axios';
 
+
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 // const SIMPLECHAR_REGEX = /^[a-zA-Z])$/;
@@ -39,7 +40,7 @@ function Copyright(props) {
   );
 }
 
-const SignUp = () => {
+const SignUp = (props) => {
   const userRef = useRef();
   const errRef = useRef();
 
@@ -58,8 +59,12 @@ const SignUp = () => {
   const [validMatch, setValidMatch] = useState(false);
   const [matchFocus, setMatchFocus] = useState(false);
 
+  const [adminRole, setAdminRole] = useState(false);
+  const [supervisorRole, setSupervisorRole] = useState(false);
+
   const [errMsg, setErrMsg] = useState('');
   const [success, setSuccess] = useState(false);
+
 
   useEffect(() => {
     userRef.current.focus()
@@ -98,7 +103,7 @@ const SignUp = () => {
       /*the stringify object is like that because the key in the backend and the variable in the front end have the same name {user: user, pwd: pwd}*/
       const response = await axios.post(
         REGISTER_URL,
-        JSON.stringify({ user, admin: true, pwd, firstName, lastName }),
+        JSON.stringify({ user, admin: adminRole, pwd, firstName, lastName, supervisorRole }),
         {
           headers: { 'content-type': 'application/json' },
           withCredentials: true
@@ -106,8 +111,11 @@ const SignUp = () => {
       )
       console.log(response.data);
       console.log(response.accessToken);
-      console.log(JSON.stringify(response));
-      setSuccess(true);
+
+      // console.log(JSON.stringify(response));
+      console.log(props.success)
+      props.setSuccess(true);
+      props.setOpen(false);
     } catch (error) {
       if (!error?.response) {
         setErrMsg('no server response');
@@ -123,142 +131,145 @@ const SignUp = () => {
   };
   return (
     <>
-      {success ? (
-        <ThemeProvider theme={theme}>
-          <Container component="main" maxWidth="xs">
-            <CssBaseline />
-            <Box
-              sx={{
-                marginTop: 8,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-              }}
-            >
-              <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                <LockOpenOutlinedIcon />
-              </Avatar>
-              <Typography component="h1" variant="h5">
-                Success!
-              </Typography>
-            </Box>
-            <Copyright sx={{ mt: 5 }} />
-          </Container>
-        </ThemeProvider>
-      ) : (
-        <ThemeProvider theme={theme}>
-          <Container component="main" maxWidth="xs">
-            <CssBaseline />
-            <Box
-              sx={{
-                marginTop: 8,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-              }}
-            >
-              <Typography component="h1" variant="h5">
-                Add new account
-              </Typography>
-              <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      autoComplete="given-name"
-                      name="firstName"
-                      required
-                      fullWidth
-                      id="firstName"
-                      label="First Name"
-                      onChange={(e) => setFirstName(e.target.value)}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      required
-                      fullWidth
-                      id="lastName"
-                      label="Last Name"
-                      name="lastName"
-                      autoComplete="family-name"
-                      onChange={(e) => setLastName(e.target.value)}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <p ref={errRef} className={errMsg ? "errMsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-                    <TextField
-                      ref={userRef}
-                      required
-                      fullWidth
-                      id="username"
-                      label={["Username", <FontAwesomeIcon icon={faCheck} className={validName ? "valid" : "hide"} />, <FontAwesomeIcon icon={faTimes} className={validName || !user ? "hide" : "invalid"} />]}
-                      name="username"
-                      autoComplete="off"
-                      aria-invalid={validName ? "false" : "true"}
-                      aria-describedby='uidnote'
-                      onChange={(e) => setUser(e.target.value)}
-                      onFocus={() => setUserFocus(true)}
-                      onBlur={() => setUserFocus(false)}
-                    />
-                    <p id='uidnote' className={userFocus && user && !validName ? "instructions" : "offscreen"} aria-live="assertive">
-                      4 to 24 characters. <br />
-                      must begin with a letter. <br />
-                      only letters, nulbers, hyphens, underscores allowed.
-                    </p>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      label={["Password", <FontAwesomeIcon icon={faCheck} className={validPwd ? "valid" : "hide"} />, <FontAwesomeIcon icon={faTimes} className={validPwd || !pwd ? "hide" : "invalid"} />]}
-                      type="password"
-                      id="password"
-                      onChange={(e) => setPwd(e.target.value)}
-                      onFocus={() => setPwdFocus(true)}
-                      onBlur={() => setPwdFocus(false)}
-                      aria-invalid={validPwd ? "false" : "true"}
-                      aria-describedby='pwdnote'
-                    />
-                    <p id='pwdnote' className={pwdFocus && !validPwd ? "instructions" : "offscreen"} aria-live="assertive">
-                      8 to 24 characters.<br />
-                      Must include uppercase and lowercase letters, a number and a special character.<br />
-                      Allowed special characters: <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
-                    </p>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      label={["Confirm Password ", <FontAwesomeIcon icon={faCheck} className={validMatch && matchPwd ? "valid" : "hide"} />, <FontAwesomeIcon icon={faTimes} className={validMatch || !matchPwd ? "hide" : "invalid"} />]}
-                      type="password"
-                      id="confirm_pwd"
-                      onChange={(e) => setMatchPwd(e.target.value)}
-                      onFocus={() => setMatchFocus(true)}
-                      onBlur={() => setMatchFocus(false)}
-                      aria-invalid={validPwd ? "false" : "true"}
-                      aria-describedby='confirmnote'
-                    />
-                    <p id="confirmnote" className={matchFocus && !validMatch ? "instructions" : "offscreen"}>
-                      Must match the first password input field.
-                    </p>
-                  </Grid>
-                </Grid>
-                <Button
-                  disabled={!validName || !validPwd || !validMatch ? true : false}
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                >
-                  Add
-                </Button>
+     
+     <ThemeProvider theme={theme}>
+            <Container component="main" maxWidth="xs">
+              <CssBaseline />
+              <Box
+                sx={{
+                  marginTop: 8,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                }}
+              >
+                <Typography component="h1" variant="h5">
+                  Add new account
+                </Typography>
+                <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12} sm={6}>
+                      <TextField
+                        autoComplete="given-name"
+                        name="firstName"
+                        required
+                        fullWidth
+                        id="firstName"
+                        label="First Name"
+                        onChange={(e) => setFirstName(e.target.value)}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <TextField
+                        required
+                        fullWidth
+                        id="lastName"
+                        label="Last Name"
+                        name="lastName"
+                        autoComplete="family-name"
+                        onChange={(e) => setLastName(e.target.value)}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <p ref={errRef} className={errMsg ? "errMsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+                      <TextField
+                        ref={userRef}
+                        required
+                        fullWidth
+                        id="username"
+                        label={["Username", <FontAwesomeIcon icon={faCheck} className={validName ? "valid" : "hide"} />, <FontAwesomeIcon icon={faTimes} className={validName || !user ? "hide" : "invalid"} />]}
+                        name="username"
+                        autoComplete="off"
+                        aria-invalid={validName ? "false" : "true"}
+                        aria-describedby='uidnote'
+                        onChange={(e) => setUser(e.target.value)}
+                        onFocus={() => setUserFocus(true)}
+                        onBlur={() => setUserFocus(false)}
+                      />
+                      <p id='uidnote' className={userFocus && user && !validName ? "instructions" : "offscreen"} aria-live="assertive">
+                        4 to 24 characters. <br />
+                        must begin with a letter. <br />
+                        only letters, nulbers, hyphens, underscores allowed.
+                      </p>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        required
+                        fullWidth
+                        label={["Password", <FontAwesomeIcon icon={faCheck} className={validPwd ? "valid" : "hide"} />, <FontAwesomeIcon icon={faTimes} className={validPwd || !pwd ? "hide" : "invalid"} />]}
+                        type="password"
+                        id="password"
+                        onChange={(e) => setPwd(e.target.value)}
+                        onFocus={() => setPwdFocus(true)}
+                        onBlur={() => setPwdFocus(false)}
+                        aria-invalid={validPwd ? "false" : "true"}
+                        aria-describedby='pwdnote'
+                      />
+                      <p id='pwdnote' className={pwdFocus && !validPwd ? "instructions" : "offscreen"} aria-live="assertive">
+                        8 to 24 characters.<br />
+                        Must include uppercase and lowercase letters, a number and a special character.<br />
+                        Allowed special characters: <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
+                      </p>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        required
+                        fullWidth
+                        label={["Confirm Password ", <FontAwesomeIcon icon={faCheck} className={validMatch && matchPwd ? "valid" : "hide"} />, <FontAwesomeIcon icon={faTimes} className={validMatch || !matchPwd ? "hide" : "invalid"} />]}
+                        type="password"
+                        id="confirm_pwd"
+                        onChange={(e) => setMatchPwd(e.target.value)}
+                        onFocus={() => setMatchFocus(true)}
+                        onBlur={() => setMatchFocus(false)}
+                        aria-invalid={validPwd ? "false" : "true"}
+                        aria-describedby='confirmnote'
+                      />
+                      <p id="confirmnote" className={matchFocus && !validMatch ? "instructions" : "offscreen"}>
+                        Must match the first password input field.
+                      </p>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <FormControlLabel
+                        control={
+                          <Checkbox checked={adminRole} onClick={() => {
 
+                            setAdminRole(!adminRole);
+                          }} />
+                        }
+                        label="Admin Role"
+                      />
+
+                    </Grid>
+                    <Grid item xs={6}>
+                      <FormControlLabel
+                        control={
+                          <Checkbox checked={supervisorRole} onClick={() => {
+
+                            setSupervisorRole(!supervisorRole);
+                          }} />
+                        }
+                        label="Supervisor Role"
+                      />
+
+                    </Grid>
+
+                  </Grid>
+                  <Button
+                    disabled={!validName || !validPwd || !validMatch ? true : false}
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                  >
+                    Add
+                  </Button>
+
+                </Box>
               </Box>
-            </Box>
 
-          </Container>
-        </ThemeProvider>
-      )}
+            </Container>
+
+          </ThemeProvider>
     </>
   )
 }

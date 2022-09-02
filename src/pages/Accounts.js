@@ -4,6 +4,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import AccountsCard from '../components/AccountsCard/AccountsCard'
 import AddAccountButton from '../components/AddAccountButton/AddAccountButton'
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
+import Grid from '@mui/material/Grid';
+
+
 
 const Accounts = () => {
 
@@ -39,16 +42,22 @@ const Accounts = () => {
   return (
     <div>
       <h2>Accounts</h2>
-      <p>All accounts :</p>
+   
       <AddAccountButton />
 
 
       <br />
+<Grid container justifyContent="center" spacing={3}>
 
-      {users.map((data) => (
+      {users.map((data,index) => (
+        <Grid item>
 
-        <AccountsCard data={data} />
+          <AccountsCard key={index} data={data} />
+        </Grid>
+
       ))}
+
+</Grid>
     </div>
   )
 }

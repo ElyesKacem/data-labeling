@@ -9,9 +9,16 @@ import SignUp from '../../pages/SignUp';
 
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 export default function AddAccountButton() {
   const [open, setOpen] = React.useState(false);
+  const [success, setSuccess] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -21,18 +28,33 @@ export default function AddAccountButton() {
     setOpen(false);
   };
 
+  const handeCloseAlert = () =>{
+setSuccess(false);
+  }
+
   return (
     <div>
       <Button variant="outlined" onClick={handleClickOpen}>
         + Create new account
       </Button>
+      {/* <Button variant="outlined" onClick={handleClickOpen}>
+        Open success snackbar
+      </Button> */}
+      <Snackbar open={success} autoHideDuration={5000} onClose={handeCloseAlert}>
+        <Alert onClose={handeCloseAlert} severity="success" sx={{ width: '100%' }}>
+          Success !
+        </Alert>
+      </Snackbar>
       <Dialog
         open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
+        
       >
-        <SignUp />
+        <SignUp success={success}
+        setSuccess={setSuccess}
+        setOpen={setOpen} />
       </Dialog>
     </div>
   );
