@@ -17,17 +17,17 @@ function createData(name, calories, fat, carbs, protein) {
 export default function BasicTable(props) {
     const [rows, setRows] = React.useState([]);
 
-    
+
 
     React.useEffect(() => {
         var data = [];
         props.data.map((line) => {
             // console.log('line : ',line)
             data.push({ ...line, 'completed': '-', 'annotated': 'felten' });
-            const {_id,name}=line;
+            const { _id, name } = line;
             console.log(_id);
             console.log(name);
-            console.log({_id,name});
+            console.log({ _id, name });
 
         });
 
@@ -45,10 +45,12 @@ export default function BasicTable(props) {
                 <TableHead>
                     <TableRow>
                         <TableCell align="left"><b>Id</b></TableCell>
-                        <TableCell align="left"><b>Name</b></TableCell>
-                        <TableCell align="center"><b>Completed</b></TableCell>
-                        <TableCell align="center"><b>Annotator</b></TableCell>
-                        <TableCell align="center"><b>Element</b></TableCell>
+                        <TableCell align="left"><b>File Name</b></TableCell>
+                        <TableCell align="center"><b>Annotated by</b></TableCell>
+                        <TableCell align="center"><b>Annotated on</b></TableCell>
+                        <TableCell align="center"><b>validated by</b></TableCell>
+                        <TableCell align="center"><b>validated on</b></TableCell>
+                        <TableCell align="center"><b></b></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -57,20 +59,22 @@ export default function BasicTable(props) {
                             key={index}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             className="clicked-row"
-                            onClick={()=>{
+                            onClick={() => {
                                 props.setSelectedFile(line);
-                                console.log('selected line : ',line);
+                                console.log('selected line : ', line);
                             }}
                         >
 
-                            <TableCell align="left">{index+1}</TableCell>
+                            <TableCell align="left">{index + 1}</TableCell>
                             <TableCell align="left">{line.name}</TableCell>
-                            <TableCell align="center">{line.completed}</TableCell>
-                            <TableCell align="center">{line.annotated}</TableCell>
+                            <TableCell align="center">{line.annotatedBy}</TableCell>
+                            <TableCell align="center">{line.annotatedOn}</TableCell>
+                            <TableCell align="center">{line.validatedBy}</TableCell>
+                            <TableCell align="center">{line.validatedOn}</TableCell>
 
                             <TableCell align="center">
                                 <IconButton aria-label="delete" onClick={
-                                    ()=>{
+                                    () => {
                                         props.setSelectedFile(line);
                                     }
                                 }>
