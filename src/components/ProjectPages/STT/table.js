@@ -14,14 +14,6 @@ function createData(name, calories, fat, carbs, protein) {
     return { name, calories, fat, carbs, protein };
 }
 
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-
 export default function BasicTable(props) {
     const [rows, setRows] = React.useState([]);
 
@@ -32,19 +24,15 @@ export default function BasicTable(props) {
         props.data.map((line) => {
             // console.log('line : ',line)
             data.push({ ...line, 'completed': '-', 'annotated': 'felten' });
-            const {id,name}=line;
-            console.log(id);
+            const {_id,name}=line;
+            console.log(_id);
             console.log(name);
-            console.log({id,name});
-            // console.log(data)
-            // console.log(typeof line);
+            console.log({_id,name});
+
         });
-        // const data=[...props.data ,'Completed','Annotated'];
-        // console.log(...props.data )
+
         console.log(data);
         setRows(data);
-
-        //   console.log('data props : ',props.data);
 
         return () => {
 
