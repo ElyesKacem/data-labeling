@@ -99,8 +99,7 @@ const ProjectsList = () => {
                     ? (
                         projects.map((data,index) => (
                             <Grid key={index} item xs={3}>
-                                {data._id}
-                                <MediaCard projecttitle={data.title} projectid={data._id} />
+                                <MediaCard projecttitle={data.project.title} role={data.role} projectid={data.project._id} />
                             </Grid>
                         ))
                     ) :
