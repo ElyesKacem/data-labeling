@@ -59,8 +59,8 @@ const SignUp = (props) => {
   const [validMatch, setValidMatch] = useState(false);
   const [matchFocus, setMatchFocus] = useState(false);
 
-  const [adminRole, setAdminRole] = useState(false);
-  const [supervisorRole, setSupervisorRole] = useState(false);
+  const [admin, setAdmin] = useState(false);
+  const [supervisor, setSupervisor] = useState(false);
 
   const [errMsg, setErrMsg] = useState('');
   const [success, setSuccess] = useState(false);
@@ -103,7 +103,7 @@ const SignUp = (props) => {
       /*the stringify object is like that because the key in the backend and the variable in the front end have the same name {user: user, pwd: pwd}*/
       const response = await axios.post(
         REGISTER_URL,
-        JSON.stringify({ user, admin: adminRole, pwd, firstName, lastName, supervisorRole }),
+        JSON.stringify({ user, admin, pwd, firstName, lastName, supervisor }),
         {
           headers: { 'content-type': 'application/json' },
           withCredentials: true
@@ -117,6 +117,7 @@ const SignUp = (props) => {
       props.setSuccess(true);
       props.setOpen(false);
     } catch (error) {
+      console.log("error",error);
       if (!error?.response) {
         setErrMsg('no server response');
       } else if (error.response?.status === 409) {
@@ -231,9 +232,9 @@ const SignUp = (props) => {
                     <Grid item xs={6}>
                       <FormControlLabel
                         control={
-                          <Checkbox checked={adminRole} onClick={() => {
+                          <Checkbox checked={admin} onClick={() => {
 
-                            setAdminRole(!adminRole);
+                            setAdmin(!admin);
                           }} />
                         }
                         label="Admin Role"
@@ -243,9 +244,9 @@ const SignUp = (props) => {
                     <Grid item xs={6}>
                       <FormControlLabel
                         control={
-                          <Checkbox checked={supervisorRole} onClick={() => {
+                          <Checkbox checked={supervisor} onClick={() => {
 
-                            setSupervisorRole(!supervisorRole);
+                            setSupervisor(!supervisor);
                           }} />
                         }
                         label="Supervisor Role"
