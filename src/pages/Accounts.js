@@ -50,7 +50,7 @@ const Accounts = () => {
 <Grid container justifyContent="center" spacing={3}>
 
       {users.map((data,index) => (
-        <Grid item>
+        <Grid key={index} item>
 
           <AccountsCard key={index} data={data} />
         </Grid>
