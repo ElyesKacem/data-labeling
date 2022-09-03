@@ -9,6 +9,8 @@ import SoundPrint from './soundPrint';
 import BasicTable from './table'; import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
+import Alert from '@mui/material/Alert';
+import useAuth from '../../../hooks/useAuth';
 
 
 
@@ -18,6 +20,13 @@ const Stt = () => {
   const { projectId } = useParams();
 
   const [files, setfiles] = useState([]);
+  
+  // alert settings
+  const [open, setOpen] = React.useState(false);
+
+  const {auth} = useAuth();
+
+  const [annotationValue, setAnnotationValue] = useState("");
   const [selectedFile, setSelectedFile] = useState();
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
@@ -72,26 +81,42 @@ const Stt = () => {
             <h3>Audio :</h3> {selectedFile.name}
             <SoundPrint url={selectedFile.path}></SoundPrint>
             <h3>Write the topic :</h3>
-            <TextField fullWidth multiline id="outlined-basic" label="Topic" variant="outlined" />
+            <TextField fullWidth multiline id="outlined-basic" label="Topic" variant="outlined" onChange={(e)=>{setAnnotationValue(e.target.value)}}/>
             <br />
+            <br />
+           {open && <Alert severity="error" onClose={() => {setOpen(false)}}>Please write the topic !</Alert>} 
             <br />
             <Button variant="contained" onClick={() => {
-              const controller = new AbortController();
-              const updatefiles = async () => {
-                try {
-                  const response = await axiosPrivate.put("/project",
-                    JSON.stringify({ projectId, fileId: selectedFile._id, annotation: "standard" }),
-                    {
-                      signal: controller.signal
-                    });
-                  console.log(response);
-                } catch (error) {
-                  console.error(error);
-                  navigate('/login', { state: { from: location }, replace: true })
-                }
-
+              console.log(auth);
+              if(annotationValue==="")
+              {
+                setOpen(true);
               }
-              updatefiles();
+              else{
+                setOpen(false);
+
+                const controller = new AbortController();
+                const updatefiles = async () => {
+                  try {
+                    const response = await axiosPrivate.put("/project",
+                      JSON.stringify({
+                         projectId,
+                          fileId: selectedFile._id,
+                          annotation: annotationValue,
+                          annotator:auth.user
+                         }),
+                      {
+                        signal: controller.signal
+                      });
+                    console.log(response);
+                  } catch (error) {
+                    console.error(error);
+                    navigate('/login', { state: { from: location }, replace: true })
+                  }
+  
+                }
+                updatefiles();
+              }
             }}
             >Submit</Button>
           </>}
