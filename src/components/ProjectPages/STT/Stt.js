@@ -14,17 +14,18 @@ import useAuth from '../../../hooks/useAuth';
 
 
 
+
 const PROJECT_URL = "/project"
 
 const Stt = () => {
   const { projectId } = useParams();
 
   const [files, setfiles] = useState([]);
-  
+
   // alert settings
   const [open, setOpen] = React.useState(false);
 
-  const {auth} = useAuth();
+  const { auth } = useAuth();
 
   const [annotationValue, setAnnotationValue] = useState("");
   const [selectedFile, setSelectedFile] = useState();
@@ -77,56 +78,71 @@ const Stt = () => {
 
 
           {selectedFile && <>
-
             <h3>Audio :</h3> {selectedFile.name}
             <SoundPrint url={selectedFile.path}></SoundPrint>
-            <h3>Write the topic :</h3>
-            <TextField fullWidth multiline id="outlined-basic" label="Topic" variant="outlined" onChange={(e)=>{setAnnotationValue(e.target.value)}}/>
-            <br />
-            <br />
-           {open && <Alert severity="error" onClose={() => {setOpen(false)}}>Please write the topic !</Alert>} 
-            <br />
-            <Button variant="contained" onClick={() => {
-              console.log(auth);
-              if(annotationValue==="")
-              {
-                setOpen(true);
-              }
-              else{
-                setOpen(false);
+           {!selectedFile.annotation && <h3>Write the topic :</h3>}
+           {selectedFile.annotation && <React.Fragment>
+            <h3>The topic : </h3>
+            <p> {selectedFile.annotation}</p>
+            
+  
 
-                const controller = new AbortController();
-                const updatefiles = async () => {
-                  try {
-                    const response = await axiosPrivate.put("/project",
-                      JSON.stringify({
-                         projectId,
+            </React.Fragment> }
+            {!selectedFile && <React.Fragment>
+            <TextField fullWidth multiline id="outlined-basic" label="Topic" variant="outlined" onChange={(e) => { setAnnotationValue(e.target.value) }} />
+            <br />
+            <br />
+            {open && <Alert severity="error" onClose={() => { setOpen(false) }}>Please write the topic !</Alert>}
+            <br />
+           
+           
+              <Button variant="contained" onClick={() => {
+                console.log(auth);
+                if (annotationValue === "") {
+                  setOpen(true);
+                }
+                else {
+                  setOpen(false);
+
+                  const controller = new AbortController();
+                  const updatefiles = async () => {
+                    try {
+                      const response = await axiosPrivate.put("/project",
+                        JSON.stringify({
+                          projectId,
                           fileId: selectedFile._id,
                           annotation: annotationValue,
-                          annotator:auth.user
-                         }),
-                      {
-                        signal: controller.signal
-                      });
-                    console.log(response);
-                  } catch (error) {
-                    console.error(error);
-                    navigate('/login', { state: { from: location }, replace: true })
-                  }
-  
-                }
-                updatefiles();
-              }
-            }}
-            >Submit</Button>
-          </>}
-          {!selectedFile && <>
+                          annotator: auth.user,
+                          selectedFileId: selectedFile.id
+                        }),
+                        {
+                          signal: controller.signal
+                        });
+                      console.log(response);
+                    } catch (error) {
+                      console.error(error);
+                      navigate('/login', { state: { from: location }, replace: true })
+                    }
 
-            <div>
-              <h1>Please select the audio file to work in</h1>
-            </div>
-          </>}
-        </Paper>
+                  }
+                  updatefiles();
+                }
+              }}
+              >Submit</Button> 
+              eeee
+             
+              </React.Fragment>
+              
+            
+              }
+            </>}
+            {!selectedFile && <>
+
+              <div>
+                <h1>Please select the audio file to work in</h1>
+              </div>
+            </>}
+          </Paper>
       </Grid>
 
     </Grid>

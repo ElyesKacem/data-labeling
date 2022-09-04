@@ -48,8 +48,8 @@ export default function BasicTable(props) {
                         <TableCell align="left"><b>File Name</b></TableCell>
                         <TableCell align="center"><b>Annotated by</b></TableCell>
                         <TableCell align="center"><b>Annotated on</b></TableCell>
-                        <TableCell align="center"><b>validated by</b></TableCell>
-                        <TableCell align="center"><b>validated on</b></TableCell>
+                        <TableCell align="center"><b>Validated by</b></TableCell>
+                        <TableCell align="center"><b>Validated on</b></TableCell>
                         <TableCell align="center"><b></b></TableCell>
                     </TableRow>
                 </TableHead>
@@ -67,10 +67,10 @@ export default function BasicTable(props) {
 
                             <TableCell align="left">{index + 1}</TableCell>
                             <TableCell align="left">{line.name}</TableCell>
-                            <TableCell align="center">{line.annotatedBy}</TableCell>
-                            <TableCell align="center">{line.annotatedOn}</TableCell>
-                            <TableCell align="center">{line.validatedBy}</TableCell>
-                            <TableCell align="center">{line.validatedOn}</TableCell>
+                            <TableCell align="center">{line.annotatedBy || '-'}</TableCell>
+                            <TableCell align="center">{line.annotatedOn || '-'}</TableCell>
+                            <TableCell align="center">{line.validatedBy || '-'}</TableCell>
+                            <TableCell align="center">{line.validatedOn || '-'}</TableCell>
 
                             <TableCell align="center">
                                 <IconButton aria-label="delete" onClick={
