@@ -15,11 +15,15 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { useNavigate, useLocation } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
+import CircularProgress from '@mui/material/CircularProgress';
+import ProjectCard from './ProjectCard/ProjectCard';
+import { Link } from 'react-router-dom';
 
 const ProjectsList = () => {
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
     const [openP, setOpenP] = React.useState(false);
+    const [loading, setLoading] = React.useState(true);
     const { auth } = useAuth();
     console.log("auth in projectslist",auth);
     const id=auth.id
@@ -50,6 +54,7 @@ const ProjectsList = () => {
                 });
                 console.log('get all projects response', response.data);
                 isMounted && setProjects(response.data);
+                setLoading(false);
             } catch (error) {
                 console.error(error);
                 navigate('/login', { state: { from: location }, replace: true })
@@ -63,7 +68,7 @@ const ProjectsList = () => {
         }
     }, [])
     return (
-        <Container>
+        <>
             <Button
                 onClick={handleClickOpen}
                 style={{ textTransform: 'none', backgroundColor: '#38a728' }} variant="contained" startIcon={<AddOutlinedIcon />}>
@@ -95,18 +100,48 @@ const ProjectsList = () => {
                 </DialogActions>
             </Dialog>
             <Grid container spacing={3}>
-                {projects?.length
+                {loading && <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:"100%",marginTop:100}}>
+                        <CircularProgress />
+                    </div>}
+                {/* {projects?.length
                     ? (
                         projects.map((data,index) => (
-                            <Grid key={index} item xs={3}>
+                            <Grid key={index} item >
                                 <MediaCard projecttitle={data.project.title} role={data.role} projectid={data.project._id} />
                             </Grid>
                         ))
                     ) :
-                    <p>no users exists</p>
+                    <div>
+                       {!loading && <div>
+                        <br />
+                        <br />
+                        <p>There are no projects.</p>
+                    </div>}
+                    </div>
+                } */}
+                {projects?.length
+                                ? (
+                                    projects.map((data,index) => (
+                                        <Grid key={index} item >
+                                {/* <Link to={"/project/"+data.project.projectid +"/"+data.project.role}> */}
+                                <ProjectCard data={data} project={data.project} projectTitle={data.project.title} role={data.role} projectId={data.project._id}  />
+                            {/* </Link> */}
+                            </Grid>
+                        ))
+                    ) :
+                    <div>
+                       {!loading && <div>
+                        <br />
+                        <br />
+                        <p>There are no projects.</p>
+                    </div>}
+                    </div>
                 }
+                {/* <ProjectCard /> */}
+
+                
             </Grid>
-        </Container>
+        </>
     )
 }
 export default ProjectsList;
