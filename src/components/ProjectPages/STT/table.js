@@ -25,9 +25,9 @@ export default function BasicTable(props) {
             // console.log('line : ',line)
             data.push({ ...line, 'completed': '-', 'annotated': 'felten' });
             const { _id, name } = line;
-            console.log(_id);
-            console.log(name);
-            console.log({ _id, name });
+            // console.log(_id);
+            // console.log(name);
+            // console.log({ _id, name });
 
         });
 
