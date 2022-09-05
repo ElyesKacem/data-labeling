@@ -59,8 +59,14 @@ export default function BasicTable(props) {
                             key={index}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             className="clicked-row"
-                            onClick={() => {
+                            onClick={async () => {
                                 props.setSelectedFile(line);
+                                const reader = new FileReader();
+                                console.log(line);
+                                reader.readAsText(line);
+                                console.log(reader);
+                                console.log(reader.result);
+                                props.setText(reader.result);
                                 console.log('selected line : ', line);
                             }}
                         >

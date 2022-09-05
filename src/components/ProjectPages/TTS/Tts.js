@@ -222,13 +222,14 @@ const Tts = () => {
         setAudioDetails(reset);
     }
     console.log(audioDetails);
+    const [text,setText] = useState();
     return (
         <div>this is tts page (work in progress)
             <Grid container spacing={4}>
 
 
                 <Grid item xs={6}>
-                    <BasicTable selectedFile={selectedFile} setSelectedFile={setSelectedFile} data={files} />
+                    <BasicTable text={text} setText={setText} selectedFile={selectedFile} setSelectedFile={setSelectedFile} data={files} />
                 </Grid>
                 <Grid item xs={6}>
                     <Paper style={{ padding: 20, paddingTop: 1 }}>
@@ -241,11 +242,13 @@ const Tts = () => {
 
                         {selectedFile && <>
                             <h3>Audio :</h3> {selectedFile.name}
-                            {/*                             <SoundPrint url={selectedFile.path}></SoundPrint>
- */}                            {(!selectedFile.annotation && (userRole === "supervisor" || userRole === "annotator")) && <h3>Write the topic :</h3>}
+                            <div>
+                                {selectedFile.path}
+                            </div>
+                            {(!selectedFile.annotation && (userRole === "supervisor" || userRole === "annotator")) && <h3>Write the topic :</h3>}
                             {selectedFile.annotation && <React.Fragment>
                                 <h3>The topic : </h3>
-                                <p> {selectedFile.annotation}</p>
+                                <p> {atob(selectedFile.annotation)}</p>
 
 
 
