@@ -242,13 +242,10 @@ const Tts = () => {
 
                         {selectedFile && <>
                             <h3>Audio :</h3> {selectedFile.name}
-                            <div>
-                                {selectedFile.path}
-                            </div>
                             {(!selectedFile.annotation && (userRole === "supervisor" || userRole === "annotator")) && <h3>Write the topic :</h3>}
                             {selectedFile.annotation && <React.Fragment>
                                 <h3>The topic : </h3>
-                                <p> {atob(selectedFile.annotation)}</p>
+                                <p> {selectedFile.annotation}</p>
 
 
 
