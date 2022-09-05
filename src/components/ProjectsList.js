@@ -25,12 +25,12 @@ const ProjectsList = () => {
     const [openP, setOpenP] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
     const { auth } = useAuth();
-    console.log("auth in projectslist",auth);
-    const id=auth.id
-    console.log("id",id);
+    console.log("auth in projectslist", auth);
+    const id = auth.id
+    console.log("id", id);
 
-    const PROJECTS_URL =  `users/${id}/projects`;
-    console.log("PROJECTS_URL",PROJECTS_URL);
+    const PROJECTS_URL = `users/${id}/projects`;
+    console.log("PROJECTS_URL", PROJECTS_URL);
 
     const [projects, setProjects] = React.useState();
     const axiosPrivate = useAxiosPrivate();
@@ -100,9 +100,9 @@ const ProjectsList = () => {
                 </DialogActions>
             </Dialog>
             <Grid container spacing={3}>
-                {loading && <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:"100%",marginTop:100}}>
-                        <CircularProgress />
-                    </div>}
+                {loading && <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: "100%", marginTop: 100 }}>
+                    <CircularProgress />
+                </div>}
                 {/* {projects?.length
                     ? (
                         projects.map((data,index) => (
@@ -120,26 +120,26 @@ const ProjectsList = () => {
                     </div>
                 } */}
                 {projects?.length
-                                ? (
-                                    projects.map((data,index) => (
-                                        <Grid key={index} item >
+                    ? (
+                        projects.map((data, index) => (
+                            <Grid key={index} item >
                                 {/* <Link to={"/project/"+data.project.projectid +"/"+data.project.role}> */}
-                                <ProjectCard data={data} project={data.project} projectTitle={data.project.title} role={data.role} projectId={data.project._id}  />
-                            {/* </Link> */}
+                                <ProjectCard data={data} project={data.project} projectTitle={data.project.title} role={data.role} projectId={data.project._id} />
+                                {/* </Link> */}
                             </Grid>
                         ))
                     ) :
                     <div>
-                       {!loading && <div>
-                        <br />
-                        <br />
-                        <p>There are no projects.</p>
-                    </div>}
+                        {!loading && <div>
+                            <br />
+                            <br />
+                            <p>There are no projects.</p>
+                        </div>}
                     </div>
                 }
                 {/* <ProjectCard /> */}
 
-                
+
             </Grid>
         </>
     )

@@ -14,6 +14,7 @@ import Navbar from './components/Navbar';
 import Accounts from './pages/Accounts';
 import AudioPlayer from './components/AudioPlayer/AudioPlayer';
 import Stt from './components/ProjectPages/STT/Stt';
+import ProjectTypeContext from './components/ProjectTypeContext';
 // import Stt from './components/ProjectPages/STT/Stt';
 
 const App = () => {
@@ -37,8 +38,9 @@ const App = () => {
 							<Route path="/Accounts" element={<Accounts />} />
 							<Route path="/Settings" element={<Settings />} />
 							<Route path="/Logout" element={<Logout />} />
-							<Route path="/project/:projectId" element={<Stt />} />
-							<Route path="/project/:projectId/:userRole" element={<Stt />} />
+							{/* <Route path="/project/:projectId" element={<Stt />} />
+							<Route path="/project/:projectId/:userRole" element={<Stt />} /> */}
+							<Route path="/project/:projectId/:userRole" element={<ProjectTypeContext />} />
 						</Route>
 					</Route>
 				</Route>
