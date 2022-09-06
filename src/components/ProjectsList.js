@@ -69,65 +69,46 @@ const ProjectsList = () => {
     }, [])
     return (
         <>
-           {(auth.supervisor || auth.admin) &&  <div>
-            <Button
-                onClick={handleClickOpen}
-                style={{ textTransform: 'none', backgroundColor: '#38a728' }} variant="contained" startIcon={<AddOutlinedIcon />}>
-                Create new project
-            </Button> <br /> <br />
-            <Dialog
-                fullScreen={fullScreen}
-                open={openP}
-                onClose={handleClose}
-                aria-labelledby="responsive-dialog-title"
-
-            >
-                <DialogTitle id="responsive-dialog-title">
-                    {"Create a new project"}
-                </DialogTitle>
-                <DialogContent >
-                    <DialogContentText>
-                        Please fill all the necessary informations to create a new project. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    </DialogContentText>
-                    <HorizontalLinearStepper />
-                </DialogContent>
-                <DialogActions>
-                    <Button autoFocus onClick={handleClose}>
-                        Cancel
-                    </Button>
-                    {/* <Button onClick={handleClose} autoFocus>
+            {(auth.supervisor || auth.admin) && <div>
+                <Button
+                    onClick={handleClickOpen}
+                    style={{ textTransform: 'none', backgroundColor: '#38a728' }} variant="contained" startIcon={<AddOutlinedIcon />}>
+                    Create new project
+                </Button> <br /> <br />
+                <Dialog
+                    fullScreen={fullScreen}
+                    open={openP}
+                    onClose={handleClose}
+                    aria-labelledby="responsive-dialog-title"
+                >
+                    <DialogTitle id="responsive-dialog-title">
+                        {"Create a new project"}
+                    </DialogTitle>
+                    <DialogContent >
+                        <DialogContentText>
+                            Please fill all the necessary informations to create a new project. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </DialogContentText>
+                        <HorizontalLinearStepper />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button autoFocus onClick={handleClose}>
+                            Cancel
+                        </Button>
+                        {/* <Button onClick={handleClose} autoFocus>
                         Agree
                     </Button> */}
-                </DialogActions>
-            </Dialog>
+                    </DialogActions>
+                </Dialog>
             </div>}
             <Grid container spacing={3}>
                 {loading && <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: "100%", marginTop: 100 }}>
                     <CircularProgress />
                 </div>}
-                {/* {projects?.length
-                    ? (
-                        projects.map((data,index) => (
-                            <Grid key={index} item >
-                                <MediaCard projecttitle={data.project.title} role={data.role} projectid={data.project._id} />
-                            </Grid>
-                        ))
-                    ) :
-                    <div>
-                       {!loading && <div>
-                        <br />
-                        <br />
-                        <p>There are no projects.</p>
-                    </div>}
-                    </div>
-                } */}
                 {projects?.length
                     ? (
                         projects.map((data, index) => (
                             <Grid key={index} item >
-                                {/* <Link to={"/project/"+data.project.projectid +"/"+data.project.role}> */}
                                 <ProjectCard data={data} project={data.project} projectTitle={data.project.title} role={data.role} projectId={data.project._id} />
-                                {/* </Link> */}
                             </Grid>
                         ))
                     ) :
@@ -139,9 +120,6 @@ const ProjectsList = () => {
                         </div>}
                     </div>
                 }
-                {/* <ProjectCard /> */}
-
-
             </Grid>
         </>
     )

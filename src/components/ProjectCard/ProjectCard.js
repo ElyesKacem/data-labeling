@@ -11,7 +11,8 @@ import AvatarGroup from '@mui/material/AvatarGroup';
 import DoneIcon from '@mui/icons-material/Done';
 import EditIcon from '@mui/icons-material/Edit';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
 const bull = (
     <Box
@@ -24,13 +25,16 @@ const bull = (
 
 export default function ProjectCard(props) {
     
-    
-    return (
-        <Link style={{ textDecoration: 'none' }} to={"/project/"+props.data.project._id +"/"+props.data.role}>
-        
-        <Card sx={{ minWidth: 275 }}>
-            <CardContent>
+        return () => {
+            isMounted = false;
+            controller.abort();
+        }
+    }, [])
 
+    return (
+        <Link style={{ textDecoration: 'none' }} to={"/project/" + props.data.project._id + "/" + props.data.role}>
+
+<<<<<<< HEAD
                 <Typography variant="h5" sx={{ mb: 1 }} component="div">
                     {props.data.project.title}
                 </Typography>
@@ -52,9 +56,43 @@ export default function ProjectCard(props) {
                         <Typography variant="body2"  component="div">
                     {props.data.project.files.length}
                 </Typography>&nbsp; <InsertDriveFileIcon style={{width:20,height:20,color:'#005ce5'}}  />
+=======
+            <Card sx={{ minWidth: 275 }}>
+                <CardContent>
+                    <Typography variant="h5" sx={{ mb: 1 }} component="div">
+                        {props.data.project.title}
+                    </Typography>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div>
+                            <Typography color="text.secondary">
+                                {props.data.project.type}
+                            </Typography>
+                        </div>
+                        <div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', }}>
+                                <Typography variant="body2" component="div">
+                                    0
+                                </Typography>&nbsp; <DoneIcon style={{ width: 20, height: 20, color: 'green' }} />
+                                <Divider orientation="vertical" flexItem sx={{
+                                    mx: 'auto',
+                                    mr: 1,
+                                    ml: 1
+                                }} />
+                                <Typography variant="body2" component="div">
+                                    0
+                                </Typography>&nbsp; <EditIcon style={{ width: 20, height: 20, color: '#d95d5d' }} />
+                                <Divider orientation="vertical" flexItem sx={{
+                                    mx: 'auto',
+                                    mr: 1,
+                                    ml: 1
+                                }} />
+                                <Typography variant="body2" component="div">
+                                    {props.data.project.files.length}
+                                </Typography>&nbsp; <InsertDriveFileIcon style={{ width: 20, height: 20, color: '#005ce5' }} />
+                            </div>
+>>>>>>> dd73485acb66670273133f9f12bedb14c4566cf9
                         </div>
                     </div>
-                </div>
                 {/* <Typography variant="body2">
           well meaning and kindly.
           <br />
