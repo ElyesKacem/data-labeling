@@ -54,10 +54,14 @@ export default function HorizontalLinearStepper() {
   // const {auth}=useAuth();
   console.log(auth);
   console.log("auth in stepepr", auth.user);
+
+  const [defaultf, setDefaultf] = React.useState();
   const handleFilesChange = async (files) => {
-
-
+    setDefaultf(prevState => {
+      return { ...prevState, files }
+    })
     setProjectFiles(files);
+    console.log("tesssssssssssssssst", defaultf);
     // console.log("json files:",JSON.stringify(files));
     // const response = await axiosPrivate.post(
     //   UPLOAD_URL,
@@ -89,21 +93,22 @@ export default function HorizontalLinearStepper() {
   const location = useLocation();
 
   const handleSubmit = async (data) => {
-      console.log(data)
-      //save data
-      const controller = new AbortController();
-      try {
-        const response = await axiosPrivate.post('project',
-          JSON.stringify(data),
-          {
-            headers: { "content-type": "application/json" },
-            withCrendentials: true,
-            signal: controller.signal
-          });
-      } catch (error) {
-        console.error(error);
-        Navigate('/login', { state: { from: location }, replace: true })
-      }
+    console.log(data)
+    //save data
+    const controller = new AbortController();
+    try {
+      const response = await axiosPrivate.post('project',
+        JSON.stringify(data),
+        {
+          headers: { "content-type": "application/json" },
+          withCrendentials: true,
+          signal: controller.signal
+        });
+      navigate('/project/' + response.data + "/supervisor", { state: { from: location }, replace: true })
+    } catch (error) {
+      console.error(error);
+      navigate('/login', { state: { from: location }, replace: true })
+    }
   }
 
   const handleNext = (e) => {
@@ -149,8 +154,6 @@ export default function HorizontalLinearStepper() {
   const handleReset = () => {
     setActiveStep(0);
   };
-
-
 
   const preparingFormData = () => {
     if (projectTitle !== '') {
@@ -217,8 +220,6 @@ export default function HorizontalLinearStepper() {
           </div>
           {/* <FormLabel id="Title">Choice the file</FormLabel><br /> */}
           <FileUpload
-
-            // defaultFiles={projectFiles}
             multiFile={true}
             disabled={false}
             title={"Choice the file"}
@@ -227,6 +228,7 @@ export default function HorizontalLinearStepper() {
             rightLabel="to select files"
             buttonLabel="click here"
             buttonRemoveLabel="Remove all"
+            defaultFiles={defaultf}
             // maxFileSize={50}
             maxUploadFiles={0}
             // maxFilesContainerHeight={357}
