@@ -23,7 +23,7 @@ const bull = (
 );
 
 export default function ProjectCard(props) {
-    console.log(props.project)
+    
     
     return (
         <Link style={{ textDecoration: 'none' }} to={"/project/"+props.data.project._id +"/"+props.data.role}>

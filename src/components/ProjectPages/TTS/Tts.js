@@ -223,6 +223,21 @@ const Tts = () => {
     }
     console.log(audioDetails);
     const [text,setText] = useState();
+
+    const getText = (path) =>{
+        var formatPath=path.split(',')[1];
+        var textValue= atob(formatPath);
+        return textValue
+    }
+
+    useEffect(() => {
+      console.log(selectedFile);
+    if(selectedFile){
+
+        setText(getText(selectedFile.path))
+    }
+    }, [selectedFile])
+    
     return (
         <div>this is tts page (work in progress)
             <Grid container spacing={4}>
@@ -236,15 +251,19 @@ const Tts = () => {
                         {!selectedFile && <>
 
                             <div>
-                                <h1>Please select the audio file to work in</h1>
+                                <h1>Please select the text file to work in</h1>
+                                
                             </div>
                         </>}
 
                         {selectedFile && <>
-                            <h3>Audio :</h3> {selectedFile.name}
+                            <h3>File name :</h3> {selectedFile.name}  <br />
+                            <h3>Text :</h3> {text} <br />
+                            
                             {(!selectedFile.annotation && (userRole === "supervisor" || userRole === "annotator")) && <h3>Write the topic :</h3>}
                             {selectedFile.annotation && <React.Fragment>
                                 <h3>The topic : </h3>
+                                
                                 <p> {selectedFile.annotation}</p>
 
 

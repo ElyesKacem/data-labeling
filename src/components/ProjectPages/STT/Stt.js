@@ -188,10 +188,7 @@ const Stt = () => {
     }
   }, [])
 
-  useEffect(() => {
-    console.log('files', files);
-
-  }, [files]);
+  
 
   return (
 

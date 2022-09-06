@@ -232,9 +232,7 @@ export default function HorizontalLinearStepper() {
             // maxFilesContainerHeight={357}
             errorSizeMessage={'fill it or move it to use the default error message'}
             // allowedExtensions={['jpg', 'jpeg', 'png']}
-            onFilesChange={()=>{
-              handleFilesChange();
-            }}
+            onFilesChange={handleFilesChange}
             //onError={handleFileUploadError}
             // imageSrc={'path/to/custom/image'}
             bannerProps={{ elevation: 0, variant: "outlined" }}
