@@ -69,6 +69,7 @@ const ProjectsList = () => {
     }, [])
     return (
         <>
+           {(auth.supervisor || auth.admin) &&  <div>
             <Button
                 onClick={handleClickOpen}
                 style={{ textTransform: 'none', backgroundColor: '#38a728' }} variant="contained" startIcon={<AddOutlinedIcon />}>
@@ -99,6 +100,7 @@ const ProjectsList = () => {
                     </Button> */}
                 </DialogActions>
             </Dialog>
+            </div>}
             <Grid container spacing={3}>
                 {loading && <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: "100%", marginTop: 100 }}>
                     <CircularProgress />

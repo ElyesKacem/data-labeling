@@ -214,7 +214,7 @@ const Stt = () => {
           {selectedFile && <>
             <h3>Audio :</h3> {selectedFile.name}
             <SoundPrint url={selectedFile.path}></SoundPrint>
-            {(!selectedFile.annotation && (userRole==="supervisor" ||  userRole==="annotator")) &&<h3>Write the topic :</h3>}
+            {(!selectedFile.annotation && (userRole==="supervisor" ||  userRole==="Annotator")) &&<h3>Write the topic :</h3>}
             {selectedFile.annotation && <React.Fragment>
               <h3>The topic : </h3>
               <p> {selectedFile.annotation}</p>
@@ -222,7 +222,7 @@ const Stt = () => {
 
 
             </React.Fragment>}
-            {(!selectedFile.annotation && (userRole==="supervisor" ||  userRole==="annotator")) &&  <React.Fragment>
+            {(!selectedFile.annotation && (userRole==="supervisor" ||  userRole==="Annotator")) &&  <React.Fragment>
               <TextField fullWidth multiline id="outlined-basic" label="Topic" variant="outlined" onChange={(e) => { setAnnotationValue(e.target.value) }} />
               <br />
               <br />
@@ -239,7 +239,7 @@ const Stt = () => {
             }
           </>}
           
-          {( selectedFile?.annotation && !selectedFile?.validation && (userRole==="supervisor" ||  userRole==="validator")) && <div>
+          {( selectedFile?.annotation && !selectedFile?.validation && (userRole==="supervisor" ||  userRole==="Validator")) && <div>
           <TextField fullWidth multiline label="Correct if it's false" variant="outlined" onChange={(e) => { setCorrectingAnnotation(e.target.value) }} /> <br /> <br />
           <Button variant="contained" color="success" onClick={()=>{
             validateProject();

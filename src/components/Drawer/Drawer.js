@@ -232,8 +232,8 @@ export default function PersistentDrawerLeft() {
         </DrawerHeader>
         <Divider />
         <List>
-          {
-            (auth.supervisor || auth.hasProjects ) &&
+          
+            {/* (auth.supervisor || auth.hasProjects ) && */}
             <ListItem disablePadding key="Projects" button onClick={() => handleNavigate("/projects")} >
             <ListItemButton>
               <ListItemIcon>
@@ -242,7 +242,7 @@ export default function PersistentDrawerLeft() {
               <ListItemText primary="Projects" />
             </ListItemButton>
           </ListItem>
-          }
+          
           {menuItems.map((item) => (
             <ListItem disablePadding key={item.title} button onClick={() => handleNavigate(item.path)} >
               <ListItemButton>
