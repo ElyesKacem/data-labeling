@@ -10,6 +10,9 @@ import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Alert from '@mui/material/Alert';
 import useAuth from '../../../hooks/useAuth';
+import DocViewer, { DocViewerRenderers } from "react-doc-viewer";
+import FileViewer from "react-file-viewer";
+
 
 
 
@@ -232,11 +235,15 @@ const Tts = () => {
 
     useEffect(() => {
       console.log(selectedFile);
-    if(selectedFile){
+    if(selectedFile?.contentType==='text/plain'){
 
-        setText(getText(selectedFile.path))
+        var content=selectedFile.path.split(',')[1];
+        // console.log(atob(content))
+        setText(atob(content));
     }
     }, [selectedFile])
+
+    const [test, setTest] = useState({uri:''})
     
     return (
         <div>this is tts page (work in progress)
@@ -245,6 +252,7 @@ const Tts = () => {
 
                 <Grid item xs={6}>
                     <BasicTable text={text} setText={setText} selectedFile={selectedFile} setSelectedFile={setSelectedFile} data={files} />
+                    
                 </Grid>
                 <Grid item xs={6}>
                     <Paper style={{ padding: 20, paddingTop: 1 }}>
@@ -258,7 +266,12 @@ const Tts = () => {
 
                         {selectedFile && <>
                             <h3>File name :</h3> {selectedFile.name}  <br />
-                            <h3>Text :</h3> {text} <br />
+                            <h3>Content :</h3>  
+                           {selectedFile.contentType!=="text/plain" && <FileViewer fileType={selectedFile.contentType} filePath={selectedFile.path}  />}
+                           {selectedFile.contentType==="text/plain" && <p>{text}</p> }
+                            {/* <DocViewer pluginRenderers={()=>{
+                                DocViewerRenderers()
+                            }} documents={[{uri:require('./Document.docx')}]} /> */}
                             
                             {(!selectedFile.annotation && (userRole === "supervisor" || userRole === "annotator")) && <h3>Write the topic :</h3>}
                             {selectedFile.annotation && <React.Fragment>

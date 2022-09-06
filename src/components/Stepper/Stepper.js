@@ -212,9 +212,9 @@ export default function HorizontalLinearStepper() {
 
       {activeStep === 1 && (
         <FormControl>
-          <br /> <div>
+          <br /> <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
 
-          </div>
+          
           {/* <FormLabel id="Title">Choice the file</FormLabel><br /> */}
           <FileUpload
 
@@ -238,6 +238,7 @@ export default function HorizontalLinearStepper() {
             bannerProps={{ elevation: 0, variant: "outlined" }}
             containerProps={{ elevation: 0, variant: "outlined" }}
           />
+          </div>
           {/* <UploadAudio /> */}
         </FormControl>
       )}

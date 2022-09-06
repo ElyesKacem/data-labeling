@@ -44,10 +44,10 @@ export default function ProjectCard(props) {
                     <div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', }}>
                 <Typography variant="body2"  component="div">
-                    0
+                {props.data.project.nv}
                 </Typography>&nbsp; <DoneIcon style={{width:20,height:20,color:'green'}} />
                 <Typography variant="body2"  component="div">
-                    0
+                {props.data.project.na}
                 </Typography>&nbsp; <EditIcon style={{width:20,height:20,color:'#d95d5d'}} />
                         <Typography variant="body2"  component="div">
                     {props.data.project.files.length}
