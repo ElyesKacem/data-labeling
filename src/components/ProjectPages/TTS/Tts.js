@@ -30,7 +30,7 @@ const Tts = () => {
 
     const { auth } = useAuth();
 
-    const [annotationValue, setAnnotationValue] = useState("");
+    const [annotationVocal, setAnnotationVocal] = useState();
     const [correctingAnnotation, setCorrectingAnnotation] = useState('');
 
     const [selectedFile, setSelectedFile] = useState();
@@ -40,7 +40,7 @@ const Tts = () => {
 
 
     const annotateProject = () => {
-        if (annotationValue === "") {
+        if (annotationVocal) {
             setOpen(true);
         }
         else {
@@ -53,7 +53,7 @@ const Tts = () => {
                         JSON.stringify({
                             projectId,
                             fileId: selectedFile._id,
-                            annotation: annotationValue,
+                            annotation: annotationVocal,
                             annotatedBy: auth.user,
                             selectedFileId: selectedFile.id
                         }),
@@ -66,7 +66,7 @@ const Tts = () => {
 
 
                         setSelectedFile({
-                            ...selectedFile, annotation: annotationValue,
+                            ...selectedFile, annotation: annotationVocal,
                             annotatedBy: auth.user,
                             annotatedOn: (new Date()).toLocaleDateString() + " at " + (new Date()).toLocaleTimeString()
                         })
@@ -83,7 +83,7 @@ const Tts = () => {
                         });
 
                         const obj = {
-                            ...selectedFile, annotation: annotationValue,
+                            ...selectedFile, annotation: annotationVocal,
                             annotatedBy: auth.user,
                             annotatedOn: (new Date()).toLocaleDateString() + " at " + (new Date()).toLocaleTimeString()
                         }
@@ -143,7 +143,7 @@ const Tts = () => {
                     });
 
                     const obj = {
-                        ...selectedFile, annotation: annotationValue,
+                        ...selectedFile, annotation: annotationVocal,
                         validatedBy: auth.user,
                         validatedOn: (new Date()).toLocaleDateString() + " at " + (new Date()).toLocaleTimeString()
                     }
@@ -200,6 +200,7 @@ const Tts = () => {
     const handleAudioStop = async (data) => {
         console.log(data)
         setAudioDetails(data);
+        setAnnotationVocal(data.url);
     }
 
     const handleAudioUpload = (file) => {
@@ -207,7 +208,7 @@ const Tts = () => {
     }
 
     const handleCountDown = (data) => {
-        console.log(data);
+        // console.log(data);
     }
 
     const handleReset = () => {
@@ -223,7 +224,7 @@ const Tts = () => {
         };
         setAudioDetails(reset);
     }
-    console.log(audioDetails);
+    // console.log(audioDetails);
     const [text,setText] = useState();
 
     const getText = (path) =>{
@@ -242,7 +243,27 @@ const Tts = () => {
     }
     }, [selectedFile])
 
-    const [test, setTest] = useState({uri:''})
+   const getBase64 = (file) => {
+    console.log('file',file);
+        return new Promise(resolve => {
+          
+          // Make new FileReader
+          let reader = new FileReader();
+    
+          // Convert the file to base64 text
+          reader.readAsDataURL(file);
+    
+          // on reader load somthing...
+          reader.onload = () => {
+            // Make a fileInfo Object
+            console.log("Called", reader);
+            let baseURL = reader.result;
+            console.log('baseURL',baseURL);
+            resolve(baseURL);
+          };
+      
+        });
+      };
     
     return (
         <div>this is tts page (work in progress)
@@ -265,6 +286,12 @@ const Tts = () => {
 
                         {selectedFile && <>
                             <h3>File name :</h3> {selectedFile.name}  <br />
+                            <button onClick={()=>{
+                                console.log("annotationVocal",annotationVocal)
+                               getBase64(annotationVocal).then(result =>{
+                                console.log(result);
+                               })
+                            }}>click me</button>
                             <h3>Content :</h3>  
                            {selectedFile.contentType!=="text/plain" && <FileViewer fileType={selectedFile.contentType} filePath={selectedFile.path}  />}
                            {selectedFile.contentType==="text/plain" && <p>{text}</p> }
@@ -294,7 +321,7 @@ const Tts = () => {
                                     mimeTypeToUseWhenRecording={`audio/webm`} // For specific mimetype.
                                 />                                <br />
                                 <br />
-                                {open && <Alert severity="error" onClose={() => { setOpen(false) }}>Please write the topic !</Alert>}
+                                {open && <Alert severity="error" onClose={() => { setOpen(false) }}>You didn't record the !</Alert>}
                                 <br />
 
 
