@@ -35,7 +35,7 @@ export default function ProjectCard(props) {
         const controller = new AbortController();
         const getProjects = async () => {
             try {
-                const response = await axiosPrivate.get(PROJECT_USERS_URL, {
+                const response = await axiosPrivate.get("/project/users", {
                     params: { projecID: props.projectId },
                     signal: controller.signal
                 });
@@ -73,7 +73,7 @@ export default function ProjectCard(props) {
                         <div>
                             <div style={{ display: 'flex', justifyContent: 'space-between', }}>
                                 <Typography variant="body2" component="div">
-                                    0
+                                    {props.data.project.nv}
                                 </Typography>&nbsp; <DoneIcon style={{ width: 20, height: 20, color: 'green' }} />
                                 <Divider orientation="vertical" flexItem sx={{
                                     mx: 'auto',
@@ -81,7 +81,7 @@ export default function ProjectCard(props) {
                                     ml: 1
                                 }} />
                                 <Typography variant="body2" component="div">
-                                    0
+                                {props.data.project.na}
                                 </Typography>&nbsp; <EditIcon style={{ width: 20, height: 20, color: '#d95d5d' }} />
                                 <Divider orientation="vertical" flexItem sx={{
                                     mx: 'auto',
