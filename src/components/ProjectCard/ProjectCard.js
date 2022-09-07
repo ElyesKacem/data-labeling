@@ -53,15 +53,30 @@ export default function ProjectCard(props) {
             isMounted = false;
             controller.abort();
         }
-    }, [])
-
+    }, []);
+    const exportfiles = () => {
+        const exportProject = async () => {
+            const controller = new AbortController();
+            try {
+                const response = await axiosPrivate.get("/project/export", {
+                    params: { projecID: props.projectId },
+                    signal: controller.signal
+                });
+                console.log('get all projects response testtttttttttttttttttttttttt', response.data);
+                setLoading(false);
+            } catch (error) {
+                console.error(error);
+                navigate('/login', { state: { from: location }, replace: true })
+            }
+        }
+        exportProject();
+    }
 
     return (
         <Link style={{ textDecoration: 'none' }} to={"/project/" + props.data.project._id + "/" + props.data.role}>
-
             <Card sx={{ minWidth: 275 }}>
                 <CardContent>
-                    <Typography variant="h5" sx={{ mb: 1 }} component="div">
+                    <Typography variant="h7" sx={{ mb: 1, mr: 1, ml: 1 }} component="span">
                         {props.data.project.title}
                     </Typography>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -81,7 +96,7 @@ export default function ProjectCard(props) {
                                     ml: 1
                                 }} />
                                 <Typography variant="body2" component="div">
-                                {props.data.project.na}
+                                    {props.data.project.na}
                                 </Typography>&nbsp; <EditIcon style={{ width: 20, height: 20, color: '#d95d5d' }} />
                                 <Divider orientation="vertical" flexItem sx={{
                                     mx: 'auto',
