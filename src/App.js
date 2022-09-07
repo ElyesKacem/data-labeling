@@ -21,8 +21,6 @@ const App = () => {
 	return (
 		<Routes>
 			<Route path="/" element={<Layout />}>
-			
-				<Route path="/audio" element={<AudioPlayer />} />
 				{/* public routes */}
 				<Route element={<Navbar />}>
 					<Route path="login" element={<SignInSide />} />
@@ -38,8 +36,6 @@ const App = () => {
 							<Route path="/Accounts" element={<Accounts />} />
 							<Route path="/Settings" element={<Settings />} />
 							<Route path="/Logout" element={<Logout />} />
-							{/* <Route path="/project/:projectId" element={<Stt />} />
-							<Route path="/project/:projectId/:userRole" element={<Stt />} /> */}
 							<Route path="/project/:projectId/:userRole" element={<ProjectTypeContext />} />
 						</Route>
 					</Route>
