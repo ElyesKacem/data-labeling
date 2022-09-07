@@ -76,7 +76,7 @@ export default function ProjectCard(props) {
         <Link style={{ textDecoration: 'none' }} to={"/project/" + props.data.project._id + "/" + props.data.role}>
             <Card sx={{ minWidth: 275 }}>
                 <CardContent>
-                    <Typography variant="h7" sx={{ mb: 1, mr: 1, ml: 1 }} component="span">
+                    <Typography variant="h5" sx={{ mb: 1 }} component="span">
                         {props.data.project.title}
                     </Typography>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
