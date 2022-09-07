@@ -39,7 +39,7 @@ const SignInSide = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/projects";
+  const from = /*location.state?.from?.pathname || */"/projects";
 
   const userRef = useRef();
   const errRef = useRef();
