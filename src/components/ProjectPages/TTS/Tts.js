@@ -200,7 +200,7 @@ const Tts = () => {
     const handleAudioStop = async (data) => {
         console.log(data)
         setAudioDetails(data);
-        setAnnotationVocal(data.url);
+        setAnnotationVocal(data.blob);
     }
 
     const handleAudioUpload = (file) => {
