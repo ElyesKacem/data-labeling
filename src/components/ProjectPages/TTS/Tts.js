@@ -11,6 +11,7 @@ import Paper from '@mui/material/Paper';
 import Alert from '@mui/material/Alert';
 import useAuth from '../../../hooks/useAuth';
 import FileViewer from "react-file-viewer";
+import SoundPrint from '../STT/soundPrint';
 
 
 
@@ -31,7 +32,8 @@ const Tts = () => {
     const { auth } = useAuth();
 
     const [annotationVocal, setAnnotationVocal] = useState();
-    const [correctingAnnotation, setCorrectingAnnotation] = useState('');
+    
+    const [correctingAnnotationVocal, setCorrectingAnnotationVocal] = useState();
 
     const [selectedFile, setSelectedFile] = useState();
     const axiosPrivate = useAxiosPrivate();
@@ -40,11 +42,13 @@ const Tts = () => {
 
 
     const annotateProject = () => {
-        if (annotationVocal) {
+        // console.log('annotationVocal hereeeeeeeeeeeeee',annotationVocal);
+        if (!annotationVocal) {
             setOpen(true);
         }
         else {
             setOpen(false);
+            // console.log('annotationVocal',annotationVocal);
 
             const controller = new AbortController();
             const annotateFile = async () => {
@@ -53,20 +57,20 @@ const Tts = () => {
                         JSON.stringify({
                             projectId,
                             fileId: selectedFile._id,
-                            annotation: annotationVocal,
+                            annotationVocal: annotationVocal,
                             annotatedBy: auth.user,
                             selectedFileId: selectedFile.id
                         }),
                         {
                             signal: controller.signal
                         });
-                    console.log(response.data);
+                    console.log('response.data',response.data);
                     console.log(response.data.state);
                     if (response.data.state === 'success') {
 
 
                         setSelectedFile({
-                            ...selectedFile, annotation: annotationVocal,
+                            ...selectedFile, annotationVocal: annotationVocal,
                             annotatedBy: auth.user,
                             annotatedOn: (new Date()).toLocaleDateString() + " at " + (new Date()).toLocaleTimeString()
                         })
@@ -83,7 +87,7 @@ const Tts = () => {
                         });
 
                         const obj = {
-                            ...selectedFile, annotation: annotationVocal,
+                            ...selectedFile, annotationVocal: annotationVocal,
                             annotatedBy: auth.user,
                             annotatedOn: (new Date()).toLocaleDateString() + " at " + (new Date()).toLocaleTimeString()
                         }
@@ -109,10 +113,15 @@ const Tts = () => {
         const controller = new AbortController();
         const validateFile = async () => {
             try {
+                let validationVocalCorrection=correctingAnnotationVocal;
+                if(!correctingAnnotationVocal){
+                    validationVocalCorrection=selectedFile.annotationVocal;
+
+                }
                 let obj = {
                     projectId,
                     fileId: selectedFile._id,
-                    validation: correctingAnnotation,
+                    validationVocal: validationVocalCorrection,
                     validatedBy: auth.user,
                     selectedFileId: selectedFile.id
                 }
@@ -126,7 +135,7 @@ const Tts = () => {
 
 
                     setSelectedFile({
-                        ...selectedFile, validation: correctingAnnotation,
+                        ...selectedFile, validationVocal: validationVocalCorrection,
                         validatedBy: auth.user,
                         validatedOn: (new Date()).toLocaleDateString() + " at " + (new Date()).toLocaleTimeString()
                     })
@@ -198,9 +207,21 @@ const Tts = () => {
     })
 
     const handleAudioStop = async (data) => {
-        console.log(data)
+        console.log('data',data)
         setAudioDetails(data);
-        setAnnotationVocal(data.blob);
+        getBase64(data.blob).then(result =>{
+            // console.log('result',result);
+            setAnnotationVocal(result);
+           })
+    }
+    
+    const handleAudioStopCorrection = async (data) => {
+        console.log('data',data)
+        setAudioDetails(data);
+        getBase64(data.blob).then(result =>{
+            // console.log('result',result);
+            setCorrectingAnnotationVocal(result);
+           })
     }
 
     const handleAudioUpload = (file) => {
@@ -256,9 +277,9 @@ const Tts = () => {
           // on reader load somthing...
           reader.onload = () => {
             // Make a fileInfo Object
-            console.log("Called", reader);
+            // console.log("Called", reader);
             let baseURL = reader.result;
-            console.log('baseURL',baseURL);
+            // console.log('baseURL',baseURL);
             resolve(baseURL);
           };
       
@@ -286,12 +307,12 @@ const Tts = () => {
 
                         {selectedFile && <>
                             <h3>File name :</h3> {selectedFile.name}  <br />
-                            <button onClick={()=>{
+                            {/* <button onClick={()=>{
                                 console.log("annotationVocal",annotationVocal)
                                getBase64(annotationVocal).then(result =>{
-                                console.log(result);
+                                console.log('result',result);
                                })
-                            }}>click me</button>
+                            }}>click me</button> */}
                             <h3>Content :</h3>  
                            {selectedFile.contentType!=="text/plain" && <FileViewer fileType={selectedFile.contentType} filePath={selectedFile.path}  />}
                            {selectedFile.contentType==="text/plain" && <p>{text}</p> }
@@ -299,16 +320,17 @@ const Tts = () => {
                                 DocViewerRenderers()
                             }} documents={[{uri:require('./Document.docx')}]} /> */}
                             
-                            {(!selectedFile.annotation && (userRole === "supervisor" || userRole === "annotator")) && <h3>Write the topic :</h3>}
-                            {selectedFile.annotation && <React.Fragment>
+                            {(!selectedFile.annotationVocal && (userRole === "supervisor" || userRole === "annotator")) && <h3>Record the topic :</h3>}
+                            {selectedFile.annotationVocal && <React.Fragment>
                                 <h3>The topic : </h3>
                                 
-                                <p> {selectedFile.annotation}</p>
+                                {/* to show the record */}
+                                <SoundPrint url={selectedFile.annotationVocal}></SoundPrint>
 
 
 
                             </React.Fragment>}
-                            {(!selectedFile.annotation && (userRole === "supervisor" || userRole === "annotator")) && <React.Fragment>
+                            {(!selectedFile.annotationVocal && (userRole === "supervisor" || userRole === "annotator")) && <React.Fragment>
                                 <Recorder
                                     record={true}
                                     title={"New recording"}
@@ -321,7 +343,7 @@ const Tts = () => {
                                     mimeTypeToUseWhenRecording={`audio/webm`} // For specific mimetype.
                                 />                                <br />
                                 <br />
-                                {open && <Alert severity="error" onClose={() => { setOpen(false) }}>You didn't record the !</Alert>}
+                                {open && <Alert severity="error" onClose={() => { setOpen(false) }}> <b>You didn't record the topic !</b> </Alert>}
                                 <br />
 
 
@@ -334,15 +356,35 @@ const Tts = () => {
                             }
                         </>}
 
-                        {(selectedFile?.annotation && !selectedFile?.validation && (userRole === "supervisor" || userRole === "validator")) && <div>
-                            <TextField fullWidth multiline label="Correct if it's false" variant="outlined" onChange={(e) => { setCorrectingAnnotation(e.target.value) }} /> <br /> <br />
+                        {(selectedFile?.annotationVocal && !selectedFile?.validationVocal && (userRole === "supervisor" || userRole === "validator")) && <div>
+
+                            {/* record again for correction */}
+
+
+                            <Recorder
+                                    record={true}
+                                    title={"New recording"}
+                                    audioURL={audioDetails.url}
+                                    showUIAudio
+                                    handleAudioStop={data => handleAudioStopCorrection(data)}
+                                    handleAudioUpload={data => handleAudioUpload(data)}
+                                    handleCountDown={data => handleCountDown(data)}
+                                    handleReset={() => handleReset()}
+                                    mimeTypeToUseWhenRecording={`audio/webm`} // For specific mimetype.
+                                />
+                            {/* <TextField fullWidth multiline label="Correct if it's false" variant="outlined" onChange={(e) => { setCorrectingAnnotationVocal(e.target.value) }} /> <br /> <br /> */}
+
+
+
                             <Button variant="contained" color="success" onClick={() => {
                                 validateProject();
                             }}>Validate</Button>
                         </div>}
 
-                        {selectedFile?.validation !== "" && selectedFile?.annotation && <div>
-                            <b style={{ color: 'green' }}>Correction : </b> {selectedFile?.validation}
+                        {selectedFile?.validationVocal !== "" && selectedFile?.annotationVocal && <div>
+                            <b style={{ color: 'green' }}>Correction : </b> 
+                            <SoundPrint url={selectedFile.validationVocal}></SoundPrint>
+                            
                         </div>}
                     </Paper>
                 </Grid>

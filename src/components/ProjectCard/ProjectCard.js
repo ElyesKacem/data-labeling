@@ -39,7 +39,7 @@ export default function ProjectCard(props) {
                     params: { projecID: props.projectId },
                     signal: controller.signal
                 });
-                console.log('get all projects response testtttttttttttttttttttttttt', response.data.collabs);
+                // console.log('get all projects response testtttttttttttttttttttttttt', response.data.collabs);
                 isMounted && setUsers(response.data.collabs);
                 setLoading(false);
             } catch (error) {
@@ -126,7 +126,7 @@ export default function ProjectCard(props) {
                     }}>
                         {users?.length
                             ? (
-                                users.map(user => <Avatar sx={{ width: 28, height: 28, fontSize: 15, backgroundColor: '#f5f5f5', color: '#a7a7a7', fontWeight: 'bold' }}>{user.user.firstName[0].toUpperCase()}{user.user.lastName[0].toUpperCase()}</Avatar>)
+                                users.map((user,index) => <Avatar key={index} sx={{ width: 28, height: 28, fontSize: 15, backgroundColor: '#f5f5f5', color: '#a7a7a7', fontWeight: 'bold' }}>{user.user.firstName[0].toUpperCase()}{user.user.lastName[0].toUpperCase()}</Avatar>)
                             ) :
                             <p>There are users.</p>
                         }
