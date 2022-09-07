@@ -10,7 +10,6 @@ import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Alert from '@mui/material/Alert';
 import useAuth from '../../../hooks/useAuth';
-import DocViewer, { DocViewerRenderers } from "react-doc-viewer";
 import FileViewer from "react-file-viewer";
 
 
