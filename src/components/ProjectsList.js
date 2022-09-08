@@ -52,7 +52,7 @@ const ProjectsList = () => {
                 const response = await axiosPrivate.get(PROJECTS_URL, {
                     signal: controller.signal
                 });
-                // console.log('get all projects response', response.data);
+                console.log('get all projects response', response.data);
                 isMounted && setProjects(response.data);
                 setLoading(false);
             } catch (error) {

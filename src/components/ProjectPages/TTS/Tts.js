@@ -12,6 +12,8 @@ import Alert from '@mui/material/Alert';
 import useAuth from '../../../hooks/useAuth';
 import FileViewer from "react-file-viewer";
 import SoundPrint from '../STT/soundPrint';
+import { green } from '@mui/material/colors';
+import { Fab } from '@mui/material';
 
 
 
@@ -32,7 +34,7 @@ const Tts = () => {
     const { auth } = useAuth();
 
     const [annotationVocal, setAnnotationVocal] = useState();
-    
+
     const [correctingAnnotationVocal, setCorrectingAnnotationVocal] = useState();
 
     const [selectedFile, setSelectedFile] = useState();
@@ -53,7 +55,7 @@ const Tts = () => {
             const controller = new AbortController();
             const annotateFile = async () => {
                 try {
-                    const response = await axiosPrivate.put("/project",
+                    const response = await axiosPrivate.put("/project/annotate/tts",
                         JSON.stringify({
                             projectId,
                             fileId: selectedFile._id,
@@ -64,11 +66,9 @@ const Tts = () => {
                         {
                             signal: controller.signal
                         });
-                    console.log('response.data',response.data);
+                    console.log('response.data', response.data);
                     console.log(response.data.state);
                     if (response.data.state === 'success') {
-
-
                         setSelectedFile({
                             ...selectedFile, annotationVocal: annotationVocal,
                             annotatedBy: auth.user,
@@ -85,7 +85,7 @@ const Tts = () => {
                             }
 
                         });
-
+                        console.log("annotationVocal //////////////////////////", annotationVocal);
                         const obj = {
                             ...selectedFile, annotationVocal: annotationVocal,
                             annotatedBy: auth.user,
@@ -113,9 +113,9 @@ const Tts = () => {
         const controller = new AbortController();
         const validateFile = async () => {
             try {
-                let validationVocalCorrection=correctingAnnotationVocal;
-                if(!correctingAnnotationVocal){
-                    validationVocalCorrection=selectedFile.annotationVocal;
+                let validationVocalCorrection = correctingAnnotationVocal;
+                if (!correctingAnnotationVocal) {
+                    validationVocalCorrection = selectedFile.annotationVocal;
 
                 }
                 let obj = {
@@ -126,7 +126,7 @@ const Tts = () => {
                     selectedFileId: selectedFile.id
                 }
 
-                const response = await axiosPrivate.put("/project",
+                const response = await axiosPrivate.put("/project/annotate/tts",
                     JSON.stringify(obj),
                     {
                         signal: controller.signal
@@ -207,21 +207,21 @@ const Tts = () => {
     })
 
     const handleAudioStop = async (data) => {
-        console.log('data',data)
+        console.log('data', data)
         setAudioDetails(data);
-        getBase64(data.blob).then(result =>{
+        getBase64(data.blob).then(result => {
             // console.log('result',result);
             setAnnotationVocal(result);
-           })
+        })
     }
-    
+
     const handleAudioStopCorrection = async (data) => {
-        console.log('data',data)
+        console.log('data', data)
         setAudioDetails(data);
-        getBase64(data.blob).then(result =>{
+        getBase64(data.blob).then(result => {
             // console.log('result',result);
             setCorrectingAnnotationVocal(result);
-           })
+        })
     }
 
     const handleAudioUpload = (file) => {
@@ -246,54 +246,94 @@ const Tts = () => {
         setAudioDetails(reset);
     }
     // console.log(audioDetails);
-    const [text,setText] = useState();
+    const [text, setText] = useState();
 
-    const getText = (path) =>{
-        var formatPath=path.split(',')[1];
-        var textValue= atob(formatPath);
+    const getText = (path) => {
+        var formatPath = path.split(',')[1];
+        var textValue = atob(formatPath);
         return textValue
     }
 
     useEffect(() => {
-      console.log(selectedFile);
-    if(selectedFile?.contentType==='text/plain'){
+        console.log(selectedFile);
+        if (selectedFile?.contentType === 'text/plain') {
 
-        var content=selectedFile.path.split(',')[1];
-        // console.log(atob(content))
-        setText(atob(content));
-    }
+            var content = selectedFile.path.split(',')[1];
+            // console.log(atob(content))
+            setText(atob(content));
+        }
     }, [selectedFile])
 
-   const getBase64 = (file) => {
-    console.log('file',file);
+    const getBase64 = (file) => {
+        console.log('file', file);
         return new Promise(resolve => {
-          
-          // Make new FileReader
-          let reader = new FileReader();
-    
-          // Convert the file to base64 text
-          reader.readAsDataURL(file);
-    
-          // on reader load somthing...
-          reader.onload = () => {
-            // Make a fileInfo Object
-            // console.log("Called", reader);
-            let baseURL = reader.result;
-            // console.log('baseURL',baseURL);
-            resolve(baseURL);
-          };
-      
+
+            // Make new FileReader
+            let reader = new FileReader();
+
+            // Convert the file to base64 text
+            reader.readAsDataURL(file);
+
+            // on reader load somthing...
+            reader.onload = () => {
+                // Make a fileInfo Object
+                // console.log("Called", reader);
+                let baseURL = reader.result;
+                // console.log('baseURL',baseURL);
+                resolve(baseURL);
+            };
+
         });
-      };
-    
+    };
+
+    ///////////////////////file export
+    const exportFiles = async () => {
+        const exportProject = async () => {
+            const controller = new AbortController();
+            try {
+                const response = await axiosPrivate.get("/project/export", {
+                    params: { projecID: projectId },
+                    signal: controller.signal
+                });
+                console.log('get all projects response testtttttttttttttttttttttttt', response.data);
+                return response.data;
+            } catch (error) {
+                console.error(error);
+                navigate('/login', { state: { from: location }, replace: true })
+                return null;
+            }
+        }
+        const data = await exportProject();
+        const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+            JSON.stringify(data)
+        )}`;
+        const link = document.createElement("a");
+        link.href = jsonString;
+        link.download = "project.json";
+        document.body.appendChild(link);
+        link.click();
+
+        // clean up "a" element & remove ObjectURL
+        document.body.removeChild(link);
+    }
     return (
         <div>this is tts page (work in progress)
             <Grid container spacing={4}>
-
-
+                <Fab onClick={exportFiles} variant="extended" sx={{
+                    position: 'absolute',
+                    top: 100,
+                    right: 16,
+                    color: 'common.white',
+                    bgcolor: green[500],
+                    '&:hover': {
+                        bgcolor: green[600],
+                    }
+                }}>
+                    Export
+                </Fab>
                 <Grid item xs={6}>
                     <BasicTable text={text} setText={setText} selectedFile={selectedFile} setSelectedFile={setSelectedFile} data={files} />
-                    
+
                 </Grid>
                 <Grid item xs={6}>
                     <Paper style={{ padding: 20, paddingTop: 1 }}>
@@ -301,7 +341,7 @@ const Tts = () => {
 
                             <div>
                                 <h1>Please select the text file to work in</h1>
-                                
+
                             </div>
                         </>}
 
@@ -313,17 +353,17 @@ const Tts = () => {
                                 console.log('result',result);
                                })
                             }}>click me</button> */}
-                            <h3>Content :</h3>  
-                           {selectedFile.contentType!=="text/plain" && <FileViewer fileType={selectedFile.contentType} filePath={selectedFile.path}  />}
-                           {selectedFile.contentType==="text/plain" && <p>{text}</p> }
+                            <h3>Content :</h3>
+                            {selectedFile.contentType !== "text/plain" && <FileViewer fileType={selectedFile.contentType} filePath={selectedFile.path} />}
+                            {selectedFile.contentType === "text/plain" && <p>{text}</p>}
                             {/* <DocViewer pluginRenderers={()=>{
                                 DocViewerRenderers()
                             }} documents={[{uri:require('./Document.docx')}]} /> */}
-                            
+
                             {(!selectedFile.annotationVocal && (userRole === "supervisor" || userRole === "annotator")) && <h3>Record the topic :</h3>}
                             {selectedFile.annotationVocal && <React.Fragment>
                                 <h3>The topic : </h3>
-                                
+                                {console.log(selectedFile.annotationVocal)}
                                 {/* to show the record */}
                                 <SoundPrint url={selectedFile.annotationVocal}></SoundPrint>
 
@@ -362,16 +402,16 @@ const Tts = () => {
 
 
                             <Recorder
-                                    record={true}
-                                    title={"New recording"}
-                                    audioURL={audioDetails.url}
-                                    showUIAudio
-                                    handleAudioStop={data => handleAudioStopCorrection(data)}
-                                    handleAudioUpload={data => handleAudioUpload(data)}
-                                    handleCountDown={data => handleCountDown(data)}
-                                    handleReset={() => handleReset()}
-                                    mimeTypeToUseWhenRecording={`audio/webm`} // For specific mimetype.
-                                />
+                                record={true}
+                                title={"New recording"}
+                                audioURL={audioDetails.url}
+                                showUIAudio
+                                handleAudioStop={data => handleAudioStopCorrection(data)}
+                                handleAudioUpload={data => handleAudioUpload(data)}
+                                handleCountDown={data => handleCountDown(data)}
+                                handleReset={() => handleReset()}
+                                mimeTypeToUseWhenRecording={`audio/webm`} // For specific mimetype.
+                            />
                             {/* <TextField fullWidth multiline label="Correct if it's false" variant="outlined" onChange={(e) => { setCorrectingAnnotationVocal(e.target.value) }} /> <br /> <br /> */}
 
 
@@ -381,10 +421,10 @@ const Tts = () => {
                             }}>Validate</Button>
                         </div>}
 
-                        {selectedFile?.validationVocal !== "" && selectedFile?.annotationVocal && <div>
-                            <b style={{ color: 'green' }}>Correction : </b> 
+                        {selectedFile?.validationVocal && selectedFile?.annotationVocal && <div>
+                            <b style={{ color: 'green' }}>Correction : </b>
                             <SoundPrint url={selectedFile.validationVocal}></SoundPrint>
-                            
+
                         </div>}
                     </Paper>
                 </Grid>

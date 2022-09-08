@@ -52,7 +52,7 @@ const Stt = () => {
       const controller = new AbortController();
       const annotateFile = async () => {
         try {
-          const response = await axiosPrivate.put("/project",
+          const response = await axiosPrivate.put("/project/annotate/stt",
             JSON.stringify({
               projectId,
               fileId: selectedFile._id,
@@ -120,7 +120,7 @@ const Stt = () => {
           selectedFileId: selectedFile.id
         }
 
-        const response = await axiosPrivate.put("/project",
+        const response = await axiosPrivate.put("/project/annotate/stt",
           JSON.stringify(obj),
           {
             signal: controller.signal
