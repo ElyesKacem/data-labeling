@@ -42,22 +42,22 @@ const Accounts = () => {
   return (
     <div>
       <h2>Accounts</h2>
-   
+
       <AddAccountButton />
 
 
       <br />
-<Grid container justifyContent="center" spacing={3}>
+      <Grid container justifyContent="center" spacing={3}>
 
-      {users.map((data,index) => (
-        <Grid key={index} item>
+        {users.map((data, index) => (
+          <Grid key={index} item>
 
-          <AccountsCard key={index} data={data} />
-        </Grid>
+            <AccountsCard key={index} data={data} />
+          </Grid>
 
-      ))}
+        ))}
 
-</Grid>
+      </Grid>
     </div>
   )
 }

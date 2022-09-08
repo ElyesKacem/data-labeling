@@ -136,7 +136,7 @@ export default function PersistentDrawerLeft() {
       icon: <FolderIcon />,
       path: '/projects'
     },*/
-    {
+    /*{
       title: 'Organization',
       icon: <AccountCircleIcon />,
       path: '/Organization'
@@ -145,9 +145,9 @@ export default function PersistentDrawerLeft() {
       title: 'Accounts',
       icon: <WorkIcon />,
       path: '/Accounts'
-    },
+    },*/
     {
-      title: 'Settings',
+      title: 'Settings (work in progress)',
       icon: <SettingsIcon />,
       path: '/settings'
     }
@@ -176,9 +176,9 @@ export default function PersistentDrawerLeft() {
           </span>
 
           <IconButton >
-          <NotificationsIcon style={{color:'white'}}/>
-</IconButton>
-          
+            <NotificationsIcon style={{ color: 'white' }} />
+          </IconButton>
+
           {/* <Notification icon={} /> */}
 
           {/* <Button variant="outlined" onClick={handleClickOpen}>
@@ -232,17 +232,27 @@ export default function PersistentDrawerLeft() {
         </DrawerHeader>
         <Divider />
         <List>
-          
-            {/* (auth.supervisor || auth.hasProjects ) && */}
-            <ListItem disablePadding key="Projects" button onClick={() => handleNavigate("/projects")} >
+
+          {/* (auth.supervisor || auth.hasProjects ) && */}
+          {auth.supervisor &&
+          <ListItem disablePadding key="Accounts" button onClick={() => handleNavigate("/Accounts")} >
             <ListItemButton>
               <ListItemIcon>
-              <FolderIcon />
+                <AccountCircleIcon />,
+              </ListItemIcon>
+              <ListItemText primary="Accounts" />
+            </ListItemButton>
+          </ListItem>}
+
+          <ListItem disablePadding key="Projects" button onClick={() => handleNavigate("/projects")} >
+            <ListItemButton>
+              <ListItemIcon>
+                <FolderIcon />
               </ListItemIcon>
               <ListItemText primary="Projects" />
             </ListItemButton>
           </ListItem>
-          
+
           {menuItems.map((item) => (
             <ListItem disablePadding key={item.title} button onClick={() => handleNavigate(item.path)} >
               <ListItemButton>

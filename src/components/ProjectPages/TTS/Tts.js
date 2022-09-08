@@ -359,17 +359,13 @@ const Tts = () => {
                             {/* <DocViewer pluginRenderers={()=>{
                                 DocViewerRenderers()
                             }} documents={[{uri:require('./Document.docx')}]} /> */}
-
-                            {(!selectedFile.annotationVocal && (userRole === "supervisor" || userRole === "annotator")) && <h3>Record the topic :</h3>}
-                            {selectedFile.annotationVocal && <React.Fragment>
-                                <h3>The topic : </h3>
-                                {console.log(selectedFile.annotationVocal)}
-                                {/* to show the record */}
-                                <SoundPrint url={selectedFile.annotationVocal}></SoundPrint>
-
-
-
-                            </React.Fragment>}
+                            <div>
+                                {(!selectedFile.annotationVocal && (userRole === "supervisor" || userRole === "annotator")) && <h3>Record the topic :</h3>}
+                                {selectedFile.annotationVocal && <>
+                                    <h3>The topic : </h3>
+                                    <SoundPrint url={selectedFile.annotationVocal} />
+                                </>}
+                            </div>
                             {(!selectedFile.annotationVocal && (userRole === "supervisor" || userRole === "annotator")) && <React.Fragment>
                                 <Recorder
                                     record={true}
@@ -420,12 +416,13 @@ const Tts = () => {
                                 validateProject();
                             }}>Validate</Button>
                         </div>}
+                        <div>
+                            {selectedFile?.validationVocal && selectedFile?.annotationVocal && <>
+                                <b style={{ color: 'green' }}>Correction : </b>
+                                <SoundPrint url={selectedFile.validationVocal}></SoundPrint>
 
-                        {selectedFile?.validationVocal && selectedFile?.annotationVocal && <div>
-                            <b style={{ color: 'green' }}>Correction : </b>
-                            <SoundPrint url={selectedFile.validationVocal}></SoundPrint>
-
-                        </div>}
+                            </>}
+                        </div>
                     </Paper>
                 </Grid>
 
