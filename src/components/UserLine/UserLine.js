@@ -12,6 +12,7 @@ import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
 import useAuth from '../../hooks/useAuth';
+import { List } from '@mui/material';
 
 
 
@@ -76,8 +77,27 @@ export default function UserLine(props) {
                 const response = await axiosPrivate.get("/users", {
                     signal: controller.signal
                 });
-
-                isMounted && setUsers(response.data);
+                let usersToSet=response.data;
+                // console.log('usersToIgnore',props.usersToIgnore)
+                if(props.usersToIgnore)
+                {
+                    usersToSet=usersToSet.filter(function(user){
+                        let exist=false;
+                        // console.log('user to test in',user);
+                        props.usersToIgnore.forEach(element => {
+                            // console.log('user to ignore : ',element);
+                            if(element.user._id===user._id)
+                            {
+                                exist=true;
+                                
+                            }
+                            
+                        });
+                        
+                        return !exist;
+                    })
+                }
+                isMounted && setUsers(usersToSet);
 
                 // setUsersOptionsList(response.data.map((user) => user.username));
 

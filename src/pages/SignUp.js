@@ -72,15 +72,12 @@ const SignUp = (props) => {
 
   useEffect(() => {
     const result = USER_REGEX.test(user);
-    console.log(result);
-    console.log(user);
     setValidName(result);
   }, [user]);
 
   useEffect(() => {
     const result = PWD_REGEX.test(pwd);
-    console.log(result);
-    console.log(pwd);
+   
     setValidPwd(result);
     const match = pwd === matchPwd;
     setValidMatch(match);
@@ -99,7 +96,7 @@ const SignUp = (props) => {
       return;
     }
     try {
-      console.log("hi");
+      
       /*the stringify object is like that because the key in the backend and the variable in the front end have the same name {user: user, pwd: pwd}*/
       const response = await axios.post(
         REGISTER_URL,
@@ -109,11 +106,7 @@ const SignUp = (props) => {
           withCredentials: true
         }
       )
-      console.log(response.data);
-      console.log(response.accessToken);
-
-      // console.log(JSON.stringify(response));
-      console.log(props.success)
+     
       props.setSuccess(true);
       props.setOpen(false);
     } catch (error) {

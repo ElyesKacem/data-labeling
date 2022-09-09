@@ -22,10 +22,10 @@ const App = () => {
 		<Routes>
 			<Route path="/" element={<Layout />}>
 				{/* public routes */}
-				<Route element={<Navbar />}>
+				{/* <Route element={<Navbar />}> */}
 					<Route path="login" element={<SignInSide />} />
 					<Route path="register" element={<SignUp />} />
-				</Route>
+				{/* </Route> */}
 
 				{/* protected routes */}
 				<Route element={<PersistantAuth />}>

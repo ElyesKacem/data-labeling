@@ -26,12 +26,13 @@ const ProjectsList = () => {
     const [loading, setLoading] = React.useState(true);
     const { auth } = useAuth();
     const [projectIdToDelete, setProjectIdToDelete] = React.useState();
-    console.log("auth in projectslist", auth);
+    
+    
     const id = auth.id
-    console.log("id", id);
+    
 
     const PROJECTS_URL = `users/${id}/projects`;
-    console.log("PROJECTS_URL", PROJECTS_URL);
+    
 
     const [projects, setProjects] = React.useState();
     const axiosPrivate = useAxiosPrivate();

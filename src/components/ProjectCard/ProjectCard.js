@@ -39,6 +39,9 @@ export default function ProjectCard(props) {
     const [projectFiles, setProjectFiles] = React.useState([]);
     const [users, setUsers] = React.useState();
     const axiosPrivate = useAxiosPrivate();
+    const [selectedUsers, setSelectedUsers] = React.useState([{ id: '', username: '', role: 'Annotator' }]);
+
+
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -92,7 +95,7 @@ export default function ProjectCard(props) {
     const [addingFilesState, setAddingFilesState] = React.useState(false);
     const [open, setOpen] = React.useState(false);
     const [openDialog, setOpenDialog] = React.useState(false);
-    const [selectedUsers, setSelectedUsers] = React.useState([])
+    
     const anchorRef = React.useRef(null);
 
     const handleMenuItemClickFiles = (event, projectId) => {
@@ -158,6 +161,28 @@ export default function ProjectCard(props) {
         setOpen(false);
     };
 
+    const addNewCollabs = async () => {
+        
+        
+        const controller = new AbortController();
+        try {
+          const response = await axiosPrivate.put('project/addcollabs',
+            JSON.stringify({
+                collabs:selectedUsers.filter((line) => line.username !== ''),
+                projectId:props.projectId
+            }),
+            {
+              headers: { "content-type": "application/json" },
+              withCrendentials: true,
+              signal: controller.signal
+            });
+          handleCloseDialog();
+        } catch (error) {
+          console.error(error);
+          navigate('/login', { state: { from: location }, replace: true })
+        }
+      }
+
     return (
         <>
             <Dialog open={openDialog} onClick={(e) => {
@@ -208,11 +233,11 @@ export default function ProjectCard(props) {
                             <DialogContentText>
                                 Please select users to add :
                             </DialogContentText>
-                            <UserLine selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers} />
+                            <UserLine selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers} usersToIgnore={users} />
                         </DialogContent>
                         <DialogActions>
                             <Button onClick={handleCloseDialog}>Cancel</Button>
-                            <Button onClick={handleCloseDialog}>Add</Button>
+                            <Button onClick={addNewCollabs}>Add collabs</Button>
                         </DialogActions>
                     </React.Fragment>}
             </Dialog>
@@ -331,7 +356,7 @@ export default function ProjectCard(props) {
                                 ? (
                                     users.map((user, index) => <Avatar key={index} sx={{ width: 28, height: 28, fontSize: 15, backgroundColor: '#f5f5f5', color: '#a7a7a7', fontWeight: 'bold' }}>{user.user.firstName[0].toUpperCase()}{user.user.lastName[0].toUpperCase()}</Avatar>)
                                 ) :
-                                <p>There are users.</p>
+                                <p>Downloading...</p>
                             }
 
                         </AvatarGroup>
