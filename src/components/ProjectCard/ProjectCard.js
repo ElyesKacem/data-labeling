@@ -90,9 +90,32 @@ export default function ProjectCard(props) {
         console.info(`You clicked ${options[selectedIndex]}`);
     };
 
-    const handleMenuItemClick = (event, index) => {
+
+
+    const PROJECT_DELTE_URL = "/project"
+    const DeleteProject = (event, index) => {
+        event.preventDefault();
+        const controller = new AbortController();
+        const getProjects = async () => {
+            try {
+                const response = await axiosPrivate.delete(PROJECT_DELTE_URL, {
+                    params: { projectID: props.projectId },
+                    signal: controller.signal
+                });
+                console.log('delete project response', response.data);
+                setLoading(false);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        getProjects();
+
         setSelectedIndex(index);
         setOpen(false);
+    };
+
+    const handleMenuItemClick = (event, index) => {
+        console.log("whaaaaaaaaaaaaaat");
     };
 
     const handleToggle = (event) => {
@@ -160,6 +183,11 @@ export default function ProjectCard(props) {
                                                             {option}
                                                         </MenuItem>
                                                     ))}
+                                                    <MenuItem
+                                                        onClick={(event) => DeleteProject(event)}
+                                                    >
+                                                        Remove
+                                                    </MenuItem>
                                                 </MenuList>
                                             </ClickAwayListener>
                                         </Paper>
