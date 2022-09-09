@@ -55,29 +55,11 @@ export default function HorizontalLinearStepper() {
   console.log(auth);
   console.log("auth in stepepr", auth.user);
 
-  const [defaultf, setDefaultf] = React.useState();
+  // const [defaultf, setDefaultf] = React.useState();
   const handleFilesChange = async (files) => {
-    setDefaultf(prevState => {
-      return { ...prevState, files }
-    })
+    
     setProjectFiles(files);
-    console.log("tesssssssssssssssst", defaultf);
-    // console.log("json files:",JSON.stringify(files));
-    // const response = await axiosPrivate.post(
-    //   UPLOAD_URL,
-    //   JSON.stringify({
-
-    //     files: files,
-    //     projectTitle:projectTitle,
-    //     projectType:projectType,
-    //     projectUsers:projectUsers
-
-    //   }),
-    //   {
-    //     headers: { 'content-type': 'application/json' },
-    //     withCredentials: true
-    //   });
-    //   console.log(response);
+    // console.log("tesssssssssssssssst", defaultf);
   }
 
   const isStepOptional = (step) => {
@@ -228,7 +210,7 @@ export default function HorizontalLinearStepper() {
             rightLabel="to select files"
             buttonLabel="click here"
             buttonRemoveLabel="Remove all"
-            defaultFiles={defaultf}
+            // // defaultFiles={defaultf}
             // maxFileSize={50}
             maxUploadFiles={0}
             // maxFilesContainerHeight={357}
