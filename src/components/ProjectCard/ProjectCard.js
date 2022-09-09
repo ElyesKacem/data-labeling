@@ -193,7 +193,7 @@ export default function ProjectCard(props) {
                                     ml: 1
                                 }} />
                                 <Typography variant="body2" component="div">
-                                    {props.data.project.files.length}
+                                    {props.data.project.nf}
                                 </Typography>&nbsp; <InsertDriveFileIcon style={{ width: 20, height: 20, color: '#005ce5' }} />
                             </div>
                         </div>
