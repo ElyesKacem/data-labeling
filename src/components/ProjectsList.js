@@ -25,6 +25,7 @@ const ProjectsList = () => {
     const [openP, setOpenP] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
     const { auth } = useAuth();
+    const [projectIdToDelete, setProjectIdToDelete] = React.useState();
     console.log("auth in projectslist", auth);
     const id = auth.id
     console.log("id", id);
@@ -67,6 +68,19 @@ const ProjectsList = () => {
             controller.abort();
         }
     }, [])
+
+    React.useEffect(() => {
+      //filter
+      if(projectIdToDelete){
+
+          setProjects(projects.filter((line)=>
+            line.project._id!==projectIdToDelete
+          ));
+      }
+    
+        
+    }, [projectIdToDelete])
+    
     return (
         <>
             {(auth.supervisor || auth.admin) && <div>
@@ -108,7 +122,7 @@ const ProjectsList = () => {
                     ? (
                         projects.map((data, index) => (
                             <Grid key={index} item >
-                                <ProjectCard data={data} project={data.project} projectTitle={data.project.title} role={data.role} projectId={data.project._id} />
+                                <ProjectCard data={data} project={data.project} projectTitle={data.project.title} role={data.role} projectId={data.project._id} setProjectIdToDelete={setProjectIdToDelete} />
                             </Grid>
                         ))
                     ) :

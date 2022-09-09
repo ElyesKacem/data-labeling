@@ -33,15 +33,6 @@ import UserLine from '../UserLine/UserLine';
 import FileUpload from 'react-mui-fileuploader';
 import { FormControl } from '@mui/material';
 
-const bull = (
-    <Box
-        component="span"
-        sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-    >
-        •
-    </Box>
-);
-
 export default function ProjectCard(props) {
 
     const [loading, setLoading] = React.useState(true);
@@ -50,6 +41,8 @@ export default function ProjectCard(props) {
     const axiosPrivate = useAxiosPrivate();
     const navigate = useNavigate();
     const location = useLocation();
+
+
     React.useEffect(() => {
         let isMounted = true;
         const controller = new AbortController();
@@ -74,23 +67,27 @@ export default function ProjectCard(props) {
             controller.abort();
         }
     }, []);
-    const exportfiles = () => {
-        const exportProject = async () => {
-            const controller = new AbortController();
-            try {
-                const response = await axiosPrivate.get("/project/export", {
-                    params: { projecID: props.projectId },
-                    signal: controller.signal
-                });
-                console.log('get all projects response testtttttttttttttttttttttttt', response.data);
-                setLoading(false);
-            } catch (error) {
-                console.error(error);
-                navigate('/login', { state: { from: location }, replace: true })
-            }
+
+
+    const handleAddFiles = async () => {
+        console.log(projectFiles)
+        //save data
+        const controller = new AbortController();
+        try {
+          const response = await axiosPrivate.put('project/addfiles',
+            JSON.stringify({projectId:props.projectId,files:projectFiles}),
+            {
+              headers: { "content-type": "application/json" },
+              withCrendentials: true,
+              signal: controller.signal
+            });
+          handleCloseDialog();
+        } catch (error) {
+          console.error(error);
+          navigate('/login', { state: { from: location }, replace: true })
         }
-        exportProject();
-    }
+      }
+
     const [addingCollabsState, setAddingCollabsState] = React.useState(false);
     const [addingFilesState, setAddingFilesState] = React.useState(false);
     const [open, setOpen] = React.useState(false);
@@ -139,6 +136,8 @@ export default function ProjectCard(props) {
 
     }
     const PROJECT_DELTE_URL = "/project"
+
+
     const DeleteProject = (event, index) => {
         event.preventDefault();
         const controller = new AbortController();
@@ -154,6 +153,7 @@ export default function ProjectCard(props) {
                 console.error(error);
             }
         }
+        props.setProjectIdToDelete(props.projectId);
         deleteproject();
         setOpen(false);
     };
@@ -196,7 +196,7 @@ export default function ProjectCard(props) {
                         </DialogContent>
                         <DialogActions>
                             <Button onClick={handleCloseDialog}>Cancel</Button>
-                            <Button onClick={handleCloseDialog}>Add</Button>
+                            <Button onClick={handleAddFiles}>Add files</Button>
                         </DialogActions>
                     </React.Fragment>}
 
