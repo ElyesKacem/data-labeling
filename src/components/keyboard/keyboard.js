@@ -19,7 +19,6 @@ const Keyboard = () => {
         <button
 
 onClick={(e) => {
-  // console.log("hi");
   setInputedText('done');
   var txt2 = InputedText.slice(0, cursor) + "َ" + InputedText.slice(cursor);
   setInputedText(txt2);
@@ -29,11 +28,6 @@ onClick={(e) => {
 
   setSelection({ start: start + 2, end: end + 2 });
   setCursor(cursor+2)
-
-
-  // console.log(inputReference.current.setSelectionRange(2, 4));
-
-
 }}
 
 
@@ -48,7 +42,6 @@ style={{ textAlign: 'right' }}
 
 
 onClick={(e) => {
-  console.log(e.target.selectionStart)
   setCursor(e.target.selectionStart);
   // this.focus();
 
@@ -57,7 +50,6 @@ onClick={(e) => {
 onChange={
   (e) => {
     setInputedText(e.target.value);
-    console.log("changed");
   }
 }
 />

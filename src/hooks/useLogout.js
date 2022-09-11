@@ -1,6 +1,5 @@
 import axios from "../api/axios";
 import useAuth from "./useAuth";
-import React from 'react'
 
 const useLogout = () => {
     const { setAuth } = useAuth();

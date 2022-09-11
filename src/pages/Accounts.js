@@ -1,6 +1,5 @@
 import React from 'react'
 import { useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
 import AccountsCard from '../components/AccountsCard/AccountsCard'
 import AddAccountButton from '../components/AddAccountButton/AddAccountButton'
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
@@ -12,8 +11,6 @@ const Accounts = () => {
 
   const [users, setUsers] = React.useState([]);
   const axiosPrivate = useAxiosPrivate();
-  const navigate = useNavigate();
-  const location = useLocation();
   const USERS_URL = "/users"
 
   useEffect(() => {

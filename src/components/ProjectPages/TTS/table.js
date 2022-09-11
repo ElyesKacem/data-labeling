@@ -10,9 +10,7 @@ import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { IconButton } from '@mui/material';
 import './style.css'
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-}
+
 
 export default function BasicTable(props) {
     const [rows, setRows] = React.useState([]);
@@ -22,16 +20,11 @@ export default function BasicTable(props) {
     React.useEffect(() => {
         var data = [];
         props.data.map((line) => {
-            // console.log('line : ',line)
             data.push({ ...line, 'completed': '-', 'annotated': 'felten' });
-            const { _id, name } = line;
-            // console.log(_id);
-            // console.log(name);
-            // console.log({ _id, name });
+            
 
         });
 
-        console.log(data);
         setRows(data);
 
         return () => {
@@ -61,7 +54,6 @@ export default function BasicTable(props) {
                             className="clicked-row"
                             onClick={() => {
                                 props.setSelectedFile(line);
-                                console.log('selected line : ', line);
                             }}
                         >
 

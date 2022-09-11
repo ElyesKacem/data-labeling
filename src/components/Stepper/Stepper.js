@@ -52,14 +52,11 @@ export default function HorizontalLinearStepper() {
   const [formErrorMessageState, setFormErrorMessageState] = React.useState(false);
 
   // const {auth}=useAuth();
-  console.log(auth);
-  console.log("auth in stepepr", auth.user);
 
   // const [defaultf, setDefaultf] = React.useState();
   const handleFilesChange = async (files) => {
     
     setProjectFiles(files);
-    // console.log("tesssssssssssssssst", defaultf);
   }
 
   const isStepOptional = (step) => {
@@ -75,7 +72,6 @@ export default function HorizontalLinearStepper() {
   const location = useLocation();
 
   const handleSubmit = async (data) => {
-    console.log(data)
     //save data
     const controller = new AbortController();
     try {
@@ -128,7 +124,6 @@ export default function HorizontalLinearStepper() {
         files: projectFiles,
         collabs: selectedUsers.filter((line) => line.username !== '')
       }
-      console.log('data : ', data);
       return data;
     }
     else {

@@ -1,7 +1,6 @@
 import React from 'react'
 import { useEffect } from 'react';
 import { Container, Grid } from '@mui/material';
-import MediaCard from './media cards/mediacard';
 import Button from '@mui/material/Button';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import Dialog from '@mui/material/Dialog';
@@ -10,14 +9,13 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import HorizontalLinearStepper from './Stepper/Stepper';
-import { styled, useTheme } from '@mui/material/styles';
+import {  useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { useNavigate, useLocation } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import CircularProgress from '@mui/material/CircularProgress';
 import ProjectCard from './ProjectCard/ProjectCard';
-import { Link } from 'react-router-dom';
 
 const ProjectsList = () => {
     const theme = useTheme();
@@ -54,7 +52,7 @@ const ProjectsList = () => {
                 const response = await axiosPrivate.get(PROJECTS_URL, {
                     signal: controller.signal
                 });
-                console.log('get all projects response', response.data);
+                
                 isMounted && setProjects(response.data);
                 setLoading(false);
             } catch (error) {

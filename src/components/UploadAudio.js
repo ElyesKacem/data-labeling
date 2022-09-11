@@ -18,7 +18,6 @@ const UploadAudio = ({ history }) => {
 	};
 
 	const handleFileUpload = (e) => {
-		// console.log(file);
 		setFile(URL.createObjectURL(e.target.files[0]));
 	};
 

@@ -12,15 +12,12 @@ import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
 import useAuth from '../../hooks/useAuth';
-import { List } from '@mui/material';
-
 
 
 export default function UserLine(props) {
     const {auth}=useAuth();
     const [users, setUsers] = React.useState([]);
 
-    const [role, setRole] = React.useState('Annotator');
     const [options, setOptions] = React.useState(['first', 'second']);
     // const [selectedUsers, setSelectedUsers] = React.useState([ { id: '', username: '', role: 'Annotator' }]);
 
@@ -41,7 +38,6 @@ export default function UserLine(props) {
         const id=users.filter((user)=>user.username===value)[0]._id;
         data[index].id=id
         props.setSelectedUsers(data);
-        // console.log(data);
     }
 
     const handleFormChangeRole = (index,value)=>{
@@ -78,14 +74,11 @@ export default function UserLine(props) {
                     signal: controller.signal
                 });
                 let usersToSet=response.data;
-                // console.log('usersToIgnore',props.usersToIgnore)
                 if(props.usersToIgnore)
                 {
                     usersToSet=usersToSet.filter(function(user){
                         let exist=false;
-                        // console.log('user to test in',user);
                         props.usersToIgnore.forEach(element => {
-                            // console.log('user to ignore : ',element);
                             if(element.user._id===user._id)
                             {
                                 exist=true;
@@ -117,14 +110,9 @@ export default function UserLine(props) {
 
 
     React.useEffect(() => {
-        //   console.log(...users);
         let newList=users.map((user) => user.username);
-        console.log('auth.username',auth.user);
-        console.log('newList',newList);
-        console.log('auth',auth);
         ;
         setOptions(newList.filter((username)=>username!==auth.user).sort());
-        console.log('users',users);
     }, [users]);
 
 
@@ -175,7 +163,6 @@ export default function UserLine(props) {
                             </FormControl>
 
                             <IconButton onClick={()=>{
-                                console.log('hi');
                                 handleDeleteCollab(index);
                             }} aria-label="delete">
                                 <DeleteIcon />

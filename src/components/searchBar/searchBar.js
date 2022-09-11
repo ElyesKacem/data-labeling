@@ -25,13 +25,9 @@ export default function SearchBar(props) {
       user: username,
       role: userToUpdate[0].role,
     }
-    //   console.log('user to add update : ',userLine);
     const finalProjectList = props.projectUsers.filter((user) => user.id !== id);
-    //   console.log('user before the update : ',finalProjectList);
     finalProjectList.push(userLine);
-    //   console.log('user after the update : ',finalProjectList);
     props.setProjectUsers(finalProjectList);
-    console.log('finalProjectList', finalProjectList);
   }
 
   return (
@@ -68,7 +64,6 @@ export default function SearchBar(props) {
               id: props.id,
               user: newInputValue
             });
-            console.log(inputValue);
             const aux = props.hiddenCollab.filter(user => user.user !== inputValue);
             props.setHiddenCollab(aux);
 
@@ -90,7 +85,6 @@ export default function SearchBar(props) {
           label="Role"
           onChange={(e) => {
             setRoleValue(e.target.value);
-            console.log(e.target.value);
           }}
         >
           <MenuItem value={'annotator'}>Annotator</MenuItem>

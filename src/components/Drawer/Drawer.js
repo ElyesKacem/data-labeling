@@ -16,32 +16,21 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import { Container, Grid } from '@mui/material';
-import MediaCard from '../media cards/mediacard';
 import Button from '@mui/material/Button';
-import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import HorizontalLinearStepper from '../Stepper/Stepper';
-import { Navigate, Outlet, useNavigate } from 'react-router-dom';
-import { createContext, useState } from 'react';
-import ProjectsList from '../ProjectsList';
+import { Outlet, useNavigate } from 'react-router-dom';
 import FolderIcon from '@mui/icons-material/Folder';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-
-import Notification from '../Notification/Notification';
 import useLogout from '../../hooks/useLogout';
-import WorkIcon from '@mui/icons-material/Work';
 import useAuth from '../../hooks/useAuth';
+import SwapVertIcon from '@mui/icons-material/SwapVert';
 
 
 
@@ -116,9 +105,7 @@ export default function PersistentDrawerLeft() {
 
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-  const handleClickOpen = () => {
-    setOpenP(true);
-  };
+  
 
   const handleClose = () => {
     setOpenP(false);
@@ -131,21 +118,7 @@ export default function PersistentDrawerLeft() {
   }
 
   const menuItems = [
-    /*{
-      title: 'Projects',
-      icon: <FolderIcon />,
-      path: '/projects'
-    },*/
-    /*{
-      title: 'Organization',
-      icon: <AccountCircleIcon />,
-      path: '/Organization'
-    },
-    {
-      title: 'Accounts',
-      icon: <WorkIcon />,
-      path: '/Accounts'
-    },*/
+
     {
       title: 'Settings (work in progress)',
       icon: <SettingsIcon />,
@@ -171,19 +144,19 @@ export default function PersistentDrawerLeft() {
             </IconButton>
             <Typography variant="h6" noWrap component="div">
               Labeling project
-            </Typography>
-
+            </Typography> 
+          
           </span>
+<div>
 
+          <Button startIcon={<SwapVertIcon />} variant="contained" style={{textTransform:'none',backgroundColor:'#0e4d8b'}} onClick={()=>{
+            window.location.reload(false);
+           }}>Update</Button>&nbsp;&nbsp;&nbsp;
           <IconButton >
             <NotificationsIcon style={{ color: 'white' }} />
           </IconButton>
+</div>
 
-          {/* <Notification icon={} /> */}
-
-          {/* <Button variant="outlined" onClick={handleClickOpen}>
-        Open responsive dialog
-      </Button> */}
           <Dialog
             fullScreen={fullScreen}
             open={openP}
@@ -195,20 +168,10 @@ export default function PersistentDrawerLeft() {
               {"Create a new project"}
             </DialogTitle>
             <DialogContent >
-              {/* <DialogContentText>
-            Let Google help apps determine location. This means sending anonymous
-            location data to Google, even when no apps are running.
-          </DialogContentText> */}
+             
               <HorizontalLinearStepper />
             </DialogContent>
-            {/* <DialogActions>
-          <Button autoFocus onClick={handleClose}>
-            Disagree
-          </Button>
-          <Button onClick={handleClose} autoFocus>
-            Agree
-          </Button>
-        </DialogActions> */}
+          
           </Dialog>
         </Toolbar>
       </AppBar>
@@ -274,41 +237,10 @@ export default function PersistentDrawerLeft() {
               <ListItemText primary="Logout" />
             </ListItemButton>
           </ListItem>
-          {/* <ListItem disablePadding button onClick={handleNavigate} >
-            <ListItemButton>
-              <ListItemIcon>
-                <InboxIcon />
-              </ListItemIcon>
-              <ListItemText primary={"Organization"} />
-            </ListItemButton>
-          </ListItem><ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <InboxIcon />
-              </ListItemIcon>
-              <ListItemText primary={"Projects"} />
-            </ListItemButton>
-          </ListItem> */}
+          
         </List>
         <Divider />
-        {/* <List>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <InboxIcon />
-              </ListItemIcon>
-              <ListItemText primary={"settings"} />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <InboxIcon />
-              </ListItemIcon>
-              <ListItemText primary={"Logout"} />
-            </ListItemButton>
-          </ListItem>
-        </List> */}
+      
       </Drawer>
       <Main open={open}>
         <DrawerHeader />

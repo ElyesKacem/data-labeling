@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import AudioPlayer from '../../AudioPlayer/AudioPlayer'
 
 import { green } from '@mui/material/colors';
 import TextField from '@mui/material/TextField';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
-import Waveform from "../Waveform";
 import SoundPrint from './soundPrint';
 import BasicTable from './table'; import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
@@ -24,10 +22,6 @@ const Stt = () => {
   const { userRole } = useParams();
 
   const [files, setFiles] = useState([]);
-
-  // const [userRole, setUserRole] = useState();
-
-  // alert settings
   const [open, setOpen] = React.useState(false);
 
   const { auth } = useAuth();
@@ -63,8 +57,6 @@ const Stt = () => {
             {
               signal: controller.signal
             });
-          console.log(response.data);
-          console.log(response.data.state);
           if (response.data.state === 'success') {
 
 
@@ -166,7 +158,6 @@ const Stt = () => {
   }
 
   useEffect(() => {
-    console.log("user role : ", userRole);
     let isMounted = true;
     const controller = new AbortController();
     const getUsers = async () => {
@@ -175,7 +166,6 @@ const Stt = () => {
           params: { id: projectId },
           signal: controller.signal
         });
-        console.log('get project response', response.data);
         isMounted && setFiles(response.data.files);
       } catch (error) {
         console.error(error);
@@ -198,7 +188,6 @@ const Stt = () => {
           params: { projecID: projectId },
           signal: controller.signal
         });
-        console.log('get all projects response testtttttttttttttttttttttttt', response.data);
         return response.data;
       } catch (error) {
         console.error(error);

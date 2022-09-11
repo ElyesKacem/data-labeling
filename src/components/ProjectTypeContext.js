@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import useAuth from '../hooks/useAuth';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import Stt from './ProjectPages/STT/Stt';
 import Tts from './ProjectPages/TTS/Tts';
 const PROJECT_URL = "/project"
 
 const ProjectTypeContext = () => {
-    console.log("im here");
     const { projectId } = useParams();
     const [type, setType] = useState();
     const navigate = useNavigate();
@@ -23,7 +21,6 @@ const ProjectTypeContext = () => {
               params: { id: projectId },
               signal: controller.signal
             });
-            console.log('get project response', response.data);
             isMounted && setType(response.data.type);
           } catch (error) {
             console.error(error);

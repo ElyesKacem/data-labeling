@@ -27,7 +27,6 @@ const UsersList = () => {
         const response = await axiosPrivate.get(USERS_URL, {
           signal: controller.signal
         });
-        console.log('get all users response', response.data);
         isMounted && setUsers(response.data);
       } catch (error) {
         console.error(error);

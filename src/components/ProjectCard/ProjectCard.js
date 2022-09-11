@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -8,11 +7,9 @@ import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import Button from '@mui/material/Button';
-
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
@@ -23,7 +20,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
-import Tooltip from '@mui/material/Tooltip';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -35,7 +31,7 @@ import { FormControl } from '@mui/material';
 
 export default function ProjectCard(props) {
 
-    const [loading, setLoading] = React.useState(true);
+    // const [loading, setLoading] = React.useState(true);
     const [projectFiles, setProjectFiles] = React.useState([]);
     const [users, setUsers] = React.useState();
     const axiosPrivate = useAxiosPrivate();
@@ -57,7 +53,7 @@ export default function ProjectCard(props) {
                 });
                 // console.log('get all projects response testtttttttttttttttttttttttt', response.data.collabs);
                 isMounted && setUsers(response.data.collabs);
-                setLoading(false);
+                // setLoading(false);
             } catch (error) {
                 console.error(error);
                 navigate('/login', { state: { from: location }, replace: true })
@@ -151,7 +147,7 @@ export default function ProjectCard(props) {
                     signal: controller.signal
                 });
                 console.log('delete project response', response.data);
-                setLoading(false);
+                // setLoading(false);
             } catch (error) {
                 console.error(error);
             }

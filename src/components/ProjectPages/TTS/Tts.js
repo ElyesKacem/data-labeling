@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import AudioPlayer from '../../AudioPlayer/AudioPlayer'
 import { Recorder } from 'react-voice-recorder'
 import 'react-voice-recorder/dist/index.css'
-import TextField from '@mui/material/TextField';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
 import BasicTable from './table'; import Grid from '@mui/material/Grid';
@@ -44,13 +42,11 @@ const Tts = () => {
 
 
     const annotateProject = () => {
-        // console.log('annotationVocal hereeeeeeeeeeeeee',annotationVocal);
         if (!annotationVocal) {
             setOpen(true);
         }
         else {
             setOpen(false);
-            // console.log('annotationVocal',annotationVocal);
 
             const controller = new AbortController();
             const annotateFile = async () => {
@@ -66,8 +62,6 @@ const Tts = () => {
                         {
                             signal: controller.signal
                         });
-                    console.log('response.data', response.data);
-                    console.log(response.data.state);
                     if (response.data.state === 'success') {
                         setSelectedFile({
                             ...selectedFile, annotationVocal: annotationVocal,
@@ -85,7 +79,6 @@ const Tts = () => {
                             }
 
                         });
-                        console.log("annotationVocal //////////////////////////", annotationVocal);
                         const obj = {
                             ...selectedFile, annotationVocal: annotationVocal,
                             annotatedBy: auth.user,
@@ -172,7 +165,6 @@ const Tts = () => {
     }
 
     useEffect(() => {
-        console.log("user role : ", userRole);
         let isMounted = true;
         const controller = new AbortController();
         const getUsers = async () => {
@@ -181,7 +173,6 @@ const Tts = () => {
                     params: { id: projectId },
                     signal: controller.signal
                 });
-                console.log('get project response', response.data);
                 isMounted && setFiles(response.data.files);
             } catch (error) {
                 console.error(error);
@@ -207,29 +198,23 @@ const Tts = () => {
     })
 
     const handleAudioStop = async (data) => {
-        console.log('data', data)
         setAudioDetails(data);
         getBase64(data.blob).then(result => {
-            // console.log('result',result);
             setAnnotationVocal(result);
         })
     }
 
     const handleAudioStopCorrection = async (data) => {
-        console.log('data', data)
         setAudioDetails(data);
         getBase64(data.blob).then(result => {
-            // console.log('result',result);
             setCorrectingAnnotationVocal(result);
         })
     }
 
     const handleAudioUpload = (file) => {
-        console.log(file);
     }
 
     const handleCountDown = (data) => {
-        // console.log(data);
     }
 
     const handleReset = () => {
@@ -245,27 +230,23 @@ const Tts = () => {
         };
         setAudioDetails(reset);
     }
-    // console.log(audioDetails);
     const [text, setText] = useState();
 
-    const getText = (path) => {
-        var formatPath = path.split(',')[1];
-        var textValue = atob(formatPath);
-        return textValue
-    }
+    // const getText = (path) => {
+    //     var formatPath = path.split(',')[1];
+    //     var textValue = atob(formatPath);
+    //     return textValue
+    // }
 
     useEffect(() => {
-        console.log(selectedFile);
         if (selectedFile?.contentType === 'text/plain') {
 
             var content = selectedFile.path.split(',')[1];
-            // console.log(atob(content))
             setText(atob(content));
         }
     }, [selectedFile])
 
     const getBase64 = (file) => {
-        console.log('file', file);
         return new Promise(resolve => {
 
             // Make new FileReader
@@ -277,9 +258,7 @@ const Tts = () => {
             // on reader load somthing...
             reader.onload = () => {
                 // Make a fileInfo Object
-                // console.log("Called", reader);
                 let baseURL = reader.result;
-                // console.log('baseURL',baseURL);
                 resolve(baseURL);
             };
 
@@ -295,7 +274,6 @@ const Tts = () => {
                     params: { projecID: projectId },
                     signal: controller.signal
                 });
-                console.log('get all projects response testtttttttttttttttttttttttt', response.data);
                 return response.data;
             } catch (error) {
                 console.error(error);
@@ -348,9 +326,7 @@ const Tts = () => {
                         {selectedFile && <>
                             <h3>File name :</h3> {selectedFile.name}  <br />
                             {/* <button onClick={()=>{
-                                console.log("annotationVocal",annotationVocal)
                                getBase64(annotationVocal).then(result =>{
-                                console.log('result',result);
                                })
                             }}>click me</button> */}
                             <h3>Content :</h3>

@@ -1,5 +1,4 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import SignInSide from './components/authentification/login';
 import PersistentDrawerLeft from './components/Drawer/Drawer';
 import SignUp from './pages/SignUp';
@@ -10,10 +9,7 @@ import ProjectsList from './components/ProjectsList';
 import Organization from './pages/Organization';
 import { Settings } from './pages/Settings';
 import { Logout } from './pages/Logout';
-import Navbar from './components/Navbar';
 import Accounts from './pages/Accounts';
-import AudioPlayer from './components/AudioPlayer/AudioPlayer';
-import Stt from './components/ProjectPages/STT/Stt';
 import ProjectTypeContext from './components/ProjectTypeContext';
 // import Stt from './components/ProjectPages/STT/Stt';
 
