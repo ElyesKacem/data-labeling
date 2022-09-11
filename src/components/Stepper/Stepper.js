@@ -21,12 +21,10 @@ import TextField from '@mui/material/TextField';
 import Alert from '@mui/material/Alert';
 import useAuth from '../../hooks/useAuth';
 import UserLine from '../UserLine/UserLine';
-import { Navigate, location, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
 const steps = ['Description', 'Upload files', 'Collaborating'];
-const UPLOAD_URL = '/upload';
-const USERS_URL = "/users";
 
 export default function HorizontalLinearStepper() {
   // const [isParentData, setIsParentData] = React.useState("true");
