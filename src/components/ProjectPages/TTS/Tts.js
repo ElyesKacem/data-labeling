@@ -11,8 +11,8 @@ import useAuth from '../../../hooks/useAuth';
 import FileViewer from "react-file-viewer";
 import { green } from '@mui/material/colors';
 import { Fab } from '@mui/material';
-import SoundPrintValidation from '../STT/soundPrintValidation';
-import SoundPrintAnnotation from '../STT/soundPrintAnnotation';
+import SoundPrintValidation from './soundPrintValidation';
+import SoundPrintAnnotation from './soundPrintAnnotation';
 
 
 

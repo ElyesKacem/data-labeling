@@ -4,7 +4,7 @@ import { green } from '@mui/material/colors';
 import TextField from '@mui/material/TextField';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import useAxiosPrivate from '../../../hooks/useAxiosPrivate';
-import SoundPrint from './soundPrintAnnotation';
+import SoundPrint from '../STT/soundPrint';
 import BasicTable from './table'; import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
