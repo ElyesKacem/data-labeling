@@ -22,8 +22,8 @@ function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://www.icompass.tn/">
-        iCompass
+      <Link color="inherit" href="#">
+        all rights to developpers
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -151,10 +151,6 @@ const SignInSide = () => {
                 onChange={(e) => setPwd(e.target.value)}
                 value={pwd}
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
               <Button
                 type="submit"
                 fullWidth
@@ -164,18 +160,6 @@ const SignInSide = () => {
               >
                 Sign In
               </Button>
-              {/* <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid> */}
               <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>

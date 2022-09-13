@@ -9,9 +9,10 @@ import Paper from '@mui/material/Paper';
 import Alert from '@mui/material/Alert';
 import useAuth from '../../../hooks/useAuth';
 import FileViewer from "react-file-viewer";
-import SoundPrint from '../STT/soundPrint';
 import { green } from '@mui/material/colors';
 import { Fab } from '@mui/material';
+import SoundPrintValidation from '../STT/soundPrintValidation';
+import SoundPrintAnnotation from '../STT/soundPrintAnnotation';
 
 
 
@@ -315,93 +316,96 @@ const Tts = () => {
                 </Grid>
                 <Grid item xs={6}>
                     <Paper style={{ padding: 20, paddingTop: 1 }}>
-                        {!selectedFile && <>
+                        {!selectedFile &&
+                            <>
+                                <div>
+                                    <h1>Please select the text file to work in</h1>
+                                </div>
+                            </>
+                        }
 
-                            <div>
-                                <h1>Please select the text file to work in</h1>
-
-                            </div>
-                        </>}
-
-                        {selectedFile && <>
-                            <h3>File name :</h3> {selectedFile.name}  <br />
-                            {/* <button onClick={()=>{
-                               getBase64(annotationVocal).then(result =>{
-                               })
-                            }}>click me</button> */}
-                            <h3>Content :</h3>
-                            {selectedFile.contentType !== "text/plain" && <FileViewer fileType={selectedFile.contentType} filePath={selectedFile.path} />}
-                            {selectedFile.contentType === "text/plain" && <p>{text}</p>}
-                            {/* <DocViewer pluginRenderers={()=>{
-                                DocViewerRenderers()
-                            }} documents={[{uri:require('./Document.docx')}]} /> */}
-                            <div>
-                                {(!selectedFile.annotationVocal && (userRole === "supervisor" || userRole === "annotator")) && <h3>Record the topic :</h3>}
-                                {selectedFile.annotationVocal && <>
-                                    <h3>The topic : </h3>
-                                    <SoundPrint url={selectedFile.annotationVocal} />
-                                </>}
-                            </div>
-                            {(!selectedFile.annotationVocal && (userRole === "supervisor" || userRole === "annotator")) && <React.Fragment>
-                                <Recorder
-                                    record={true}
-                                    title={"New recording"}
-                                    audioURL={audioDetails.url}
-                                    showUIAudio
-                                    handleAudioStop={data => handleAudioStop(data)}
-                                    handleAudioUpload={data => handleAudioUpload(data)}
-                                    handleCountDown={data => handleCountDown(data)}
-                                    handleReset={() => handleReset()}
-                                    mimeTypeToUseWhenRecording={`audio/webm`} // For specific mimetype.
-                                />                                <br />
+                        {selectedFile &&
+                            <>
+                                {/* file info ///////////////////////////////////////// */}
+                                <h3>File name :</h3>
+                                {selectedFile.name}
                                 <br />
-                                {open && <Alert severity="error" onClose={() => { setOpen(false) }}> <b>You didn't record the topic !</b> </Alert>}
-                                <br />
+                                <h3>Content :</h3>
+                                {selectedFile.contentType !== "text/plain" && <FileViewer fileType={selectedFile.contentType} filePath={selectedFile.path} />}
+                                {selectedFile.contentType === "text/plain" && <p>{text}</p>}
+
+                                {/* annotation ///////////////////////////////////////// */}
+                                {(!selectedFile.annotationVocal && (userRole === "supervisor" || userRole === "annotator")) &&
+                                    <>
+                                        <div>
+                                            <h3>Record the topic :</h3>
+                                            <Recorder
+                                                record={true}
+                                                title={"New recording"}
+                                                audioURL={audioDetails.url}
+                                                showUIAudio
+                                                handleAudioStop={data => handleAudioStop(data)}
+                                                handleAudioUpload={data => handleAudioUpload(data)}
+                                                handleCountDown={data => handleCountDown(data)}
+                                                handleReset={() => handleReset()}
+                                                mimeTypeToUseWhenRecording={`audio/webm`} // For specific mimetype.
+                                            />                                <br />
+                                            <br />
+                                            {open && <Alert severity="error" onClose={() => { setOpen(false) }}> <b>You didn't record the topic !</b> </Alert>}
+                                            <br />
+                                            <Button
+                                                variant="contained"
+                                                onClick={() => { annotateProject(); }}
+                                            >
+                                                Submit
+                                            </Button>
+                                        </div>
+                                    </>
+                                }
+                                <div>
+                                    {selectedFile.annotationVocal &&
+                                        <div>
+                                            <h3>The topic : </h3>
+                                            <SoundPrintAnnotation url={selectedFile.annotationVocal} />
+                                        </div>
+                                    }
+                                </div>
 
 
-                                <Button variant="contained" onClick={() => { annotateProject(); }}
-                                >Submit</Button>
+                                {/* validation ///////////////////////////////////////// */}
+                                {(selectedFile?.annotationVocal && !selectedFile?.validationVocal && (userRole === "supervisor" || userRole === "validator")) &&
+                                    <React.Fragment>
+                                        {/* record again for correction */}
+                                        <Recorder
+                                            record={true}
+                                            title={"New recording"}
+                                            audioURL={audioDetails.url}
+                                            showUIAudio
+                                            handleAudioStop={data => handleAudioStopCorrection(data)}
+                                            handleAudioUpload={data => handleAudioUpload(data)}
+                                            handleCountDown={data => handleCountDown(data)}
+                                            handleReset={() => handleReset()}
+                                            mimeTypeToUseWhenRecording={`audio/webm`} // For specific mimetype.
+                                        />
 
-                            </React.Fragment>
-
-
-                            }
-                        </>}
-
-                        {(selectedFile?.annotationVocal && !selectedFile?.validationVocal && (userRole === "supervisor" || userRole === "validator")) && <div>
-
-                            {/* record again for correction */}
-
-
-                            <Recorder
-                                record={true}
-                                title={"New recording"}
-                                audioURL={audioDetails.url}
-                                showUIAudio
-                                handleAudioStop={data => handleAudioStopCorrection(data)}
-                                handleAudioUpload={data => handleAudioUpload(data)}
-                                handleCountDown={data => handleCountDown(data)}
-                                handleReset={() => handleReset()}
-                                mimeTypeToUseWhenRecording={`audio/webm`} // For specific mimetype.
-                            />
-                            {/* <TextField fullWidth multiline label="Correct if it's false" variant="outlined" onChange={(e) => { setCorrectingAnnotationVocal(e.target.value) }} /> <br /> <br /> */}
-
-
-
-                            <Button variant="contained" color="success" onClick={() => {
-                                validateProject();
-                            }}>Validate</Button>
-                        </div>}
-                        <div>
-                            {selectedFile?.validationVocal && selectedFile?.annotationVocal && <>
-                                <b style={{ color: 'green' }}>Correction : </b>
-                                <SoundPrint url={selectedFile.validationVocal}></SoundPrint>
-
-                            </>}
-                        </div>
+                                        {/* <TextField fullWidth multiline label="Correct if it's false" variant="outlined" onChange={(e) => { setCorrectingAnnotationVocal(e.target.value) }} /> <br /> <br /> */}
+                                        <Button variant="contained" color="success" onClick={() => {
+                                            validateProject();
+                                        }}>Validate</Button>
+                                    </React.Fragment>
+                                }
+                                <div>
+                                    {(selectedFile?.validationVocal && selectedFile?.annotationVocal) &&
+                                        <div>
+                                            <b style={{ color: 'green' }}>Correction : </b>
+                                            <SoundPrintValidation url={selectedFile.validationVocal}></SoundPrintValidation>
+                                        </div>
+                                    }
+                                </div>
+                            </>
+                        }
                     </Paper>
                 </Grid>
-
             </Grid>
         </div>
     )

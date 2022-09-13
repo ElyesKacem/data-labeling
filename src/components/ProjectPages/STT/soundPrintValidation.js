@@ -1,17 +1,20 @@
 import Wavesurfer from "wavesurfer.js";
 import { useEffect, useRef } from "react";
 
+import Button from '@mui/material/Button';
 
-const SoundPrint = ({ url }) => {
-  const waveform = useRef(null);
+
+
+const SoundPrintValidation = ({ url }) => {
+  const waveformValidation = useRef(null);
 
   useEffect(() => {
     // Check if wavesurfer object is already created.
-    if (!waveform.current) {
+    if (!waveformValidation.current) {
       // Create a wavesurfer object
       // More info about options here https://wavesurfer-js.org/docs/options.html
-      waveform.current = Wavesurfer.create({
-        container: "#waveform",
+      waveformValidation.current = Wavesurfer.create({
+        container: "#waveformValidation",
         waveColor: "#567FFF",
         barGap: 2,
         barWidth: 3,
@@ -29,7 +32,7 @@ const SoundPrint = ({ url }) => {
     }
   }, []);
   useEffect(() => {
-    waveform.current.load(url)
+    waveformValidation.current.load(url)
   
     return () => {
       
@@ -39,26 +42,24 @@ const SoundPrint = ({ url }) => {
 
   const playAudio = () => {
     // Check if the audio is already playing
-    if (waveform.current.isPlaying()) {
-      waveform.current.pause();
+    if (waveformValidation.current.isPlaying()) {
+      waveformValidation.current.pause();
     } else {
-      waveform.current.play();
+      waveformValidation.current.play();
     }
   };
 
   return (
     <div style={{display:'flex',flexDirection:'column',width:'100%'}}>
-      <div id="waveform" />
+      <div id="waveformValidation" />
       <div style={{display:'flex',flexDirection:'row',justifyContent:'center'}} 
       // divDirection="row"
       //  justifyContent="center"
        >
-        <button m="4" onClick={playAudio}>
-          Play / Pause
-        </button>
+        <Button variant="outlined" onClick={playAudio}>Play / Pause</Button>
       </div>
     </div>
   );
 };
 
-export default SoundPrint;
+export default SoundPrintValidation;
