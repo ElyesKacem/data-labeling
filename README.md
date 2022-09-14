@@ -10,7 +10,7 @@ Data Labeling front-end
 <img src='https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square' alt='maintained'>
 </p>
 	
-</h1>
+
 
 ## Steps to get started
 -   Make sure that you have installed [NodeJs](https://nodejs.org/en/download/) to run the project and to run : back-end server + mongoDB.
