@@ -1,10 +1,6 @@
 <h1 align="center">
 Data Labeling front-end
-<p align='center'>
-<img src='https://img.shields.io/netlify/69141fdb-6979-491a-af61-1852fe23b2b1?style=flat-square' alt='build'>
-<img src='https://img.shields.io/github/license/Rajatm544/react-audio-editor?style=flat-square' alt='license'>
-<img src='https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square' alt='maintained'>
-</p>
+
 </h1>
 
 
