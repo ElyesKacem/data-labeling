@@ -14,7 +14,9 @@ Data Labeling front-end
 -   `npm install` all dependencies
 -   `npm start` to run the react app locally
 
-
+## Before starting projects
+  You must create the first admin account : navigate to /register , then create a user ( you will find server error message, it's a bug that isn't fixed yet, you can verify if the account have been created at DB ).
+  
 
 ## Tools used for this project
 
