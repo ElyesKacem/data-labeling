@@ -46,4 +46,4 @@ Data Labeling
 
 -   [React.js](https://reactjs.org/): A popular JS library for building user interfaces
 -   [wavesurfer.js](https://wavesurfer-js.org/): A customizable audio waveform visualization, built on top of Web Audio API and HTML5 Canvas.
--   [Materialize CSS](https://materializecss.com/): A modern frontend framework, here it is used for the icons
+-   [React MUI](https://materializecss.com/): A modern frontend framework, here it is used for the design.
