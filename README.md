@@ -27,11 +27,10 @@ Data Labeling
 -   The app is deployed to [Netlify](https://www.netlify.com/) using continuous integration from the Github repo
 
 ## Steps to get started
-
+-   Make sure that you have installed [NodeJs](https://nodejs.org/en/download/) to run the project and to run : back-end server + mongoDB.
 -   Fork and clone this repo using `git clone https://github.com/ElyesKacem/data-labeling.git`
 -   `npm install` all dependencies
 -   `npm start` to run the react app locally
--   Refer the wavesurfer.js docs to add new features!
 
 ## Deployment steps
 
@@ -46,4 +45,4 @@ Data Labeling
 
 -   [React.js](https://reactjs.org/): A popular JS library for building user interfaces
 -   [wavesurfer.js](https://wavesurfer-js.org/): A customizable audio waveform visualization, built on top of Web Audio API and HTML5 Canvas.
--   [React MUI](https://materializecss.com/): A modern frontend framework, here it is used for the design.
+-   [React MUI](https://mui.com/): A modern frontend framework, here it is used for the design.
