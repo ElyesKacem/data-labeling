@@ -25,7 +25,7 @@ Audio Editor
 
 ## Steps to get started
 
--   Fork and clone this repo using `git clone https://github.com/Rajatm544/react-audio-editor.git`
+-   Fork and clone this repo using `git clone https://github.com/ElyesKacem/data-labeling.git`
 -   `npm install` all dependencies
 -   `npm start` to run the react app locally
 -   Refer the wavesurfer.js docs to add new features!
@@ -44,4 +44,3 @@ Audio Editor
 -   [React.js](https://reactjs.org/): A popular JS library for building user interfaces
 -   [wavesurfer.js](https://wavesurfer-js.org/): A customizable audio waveform visualization, built on top of Web Audio API and HTML5 Canvas.
 -   [Materialize CSS](https://materializecss.com/): A modern frontend framework, here it is used for the icons
--   [Netlify](https://www.netlify.com/): A platform to deploy web projects with easy-to-use CI tools.
