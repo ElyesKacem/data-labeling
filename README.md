@@ -18,14 +18,7 @@ Data Labeling front-end
 -   `npm install` all dependencies
 -   `npm start` to run the react app locally
 
-## Deployment steps
 
--   Push all the code to this repo
--   Create a new site on Netlify, choose the correct repository
--   Set the `Build command` to be `CI= npm run build`
--   Set the `Publish directory`option to be `/build`
--   Choose a unique site name
--   Start deployment
 
 ## Tools used for this project
 
